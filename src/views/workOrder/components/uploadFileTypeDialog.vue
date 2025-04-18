@@ -9,14 +9,13 @@
 						@change="codeChanged"></el-cascader>
 				</el-form-item>
 				<el-form-item label="文件" prop="attachmentList">
-					<FileUpload @fileDatas="jayjFileList" :fileSizes="100" :limit="5" :isShowTip="false" />
+					<FileUpload @fileDatas="jayjFileList" :fileSizes="100" :limit="5" :isShowTip="true"
+						tips="*如需，可上传还款协议、以物抵债等附件，支持图片、文档、压缩包格式文件，文件不大于 100M。" />
 					<el-table v-if="form.attachmentList.length > 0" :data="form.attachmentList" size="mini"
 						:show-header="false" style="margin-top: 10px;">
 						<el-table-column prop="fileName" label="文件名称"></el-table-column>
 						<el-table-column label="操作" width="240px" align="center">
 							<template slot-scope="{row, $index}">
-								<el-button @click="handleDownload(row)" type="primary" plain size="mini"
-									style="font-size: 14px;">下载</el-button>
 								<el-button @click="handlePreview(row)" type="primary" plain size="mini"
 									style="font-size: 14px;">预览</el-button>
 								<el-button @click="handleRemoveFile($index,1)" type="primary" plain size="mini"
@@ -34,7 +33,8 @@
 			</div>
 		</el-dialog>
 
-		<previewDialog  v-if="previewDialog.visible":visible.sync="previewDialog.visible" :filePath="previewDialog.fileURL" width="900px">
+		<previewDialog v-if="previewDialog.visible" :visible.sync="previewDialog.visible"
+			:filePath="previewDialog.fileURL" width="900px">
 		</previewDialog>
 
 

@@ -21,8 +21,6 @@
 						<el-table-column prop="fileName" label="文件名称"></el-table-column>
 						<el-table-column label="操作" width="240px" align="center">
 							<template slot-scope="{row, $index}">
-								<el-button @click="handleDownload(row)" type="primary" plain size="mini"
-									style="font-size: 14px;">下载</el-button>
 								<el-button @click="handlePreview(row)" type="primary" plain size="mini"
 									style="font-size: 14px;">预览</el-button>
 								<el-button @click="handleRemoveFile($index,3)" type="primary" plain size="mini"
