@@ -6,18 +6,8 @@ import axios from '@/utils/axios'
 
 const baseURL = (gdosComplainDfs.indexOf('http') > -1 ? gdosComplainDfs : (`${window.location.protocol}//${window.location.host}${window.gdosComplainDfs}`))
 
-export const upload = (data, params) => axios({
-  url:  `${baseURL}/fileUpload/upload`,
-  method: 'POST',
-  headers: {
-    'Content-Type': 'multipart/form-data'
-  },
-  data,
-  params
-})
-
 // export const upload = (data, params) => axios({
-//   url:  `http://222.143.33.224:8091/complain-manage-inside/complain-manage-dfs/fileUpload/upload`,
+//   url:  `${baseURL}/fileUpload/upload`,
 //   method: 'POST',
 //   headers: {
 //     'Content-Type': 'multipart/form-data'
@@ -25,6 +15,16 @@ export const upload = (data, params) => axios({
 //   data,
 //   params
 // })
+
+export const upload = (data, params) => axios({
+  url:  `http://222.143.33.224:8091/complain-manage-inside/complain-manage-dfs/fileUpload/upload`,
+  method: 'POST',
+  headers: {
+    'Content-Type': 'multipart/form-data'
+  },
+  data,
+  params
+})
 
 
 export const download = (params, autoOpen = true) => {

@@ -107,9 +107,8 @@
 					</el-table-column>
 					<el-table-column label="阶段时限" prop="age" width="110px" header-align="left" align="left">
 						<template slot-scope="scope">
-							<span
-								v-if="scope.row.status=='4' || scope.row.status=='15'"
-								:style="{color:filterTimer((scope.row.status=='4' || scope.row.status=='15')?scope.row.finishStepDeadline :scope.row.currentStepDeadline,scope.row.status,1)}">{{timeDifference('',(scope.row.status=='4' || scope.row.status=='15')?scope.row.finishStepDeadline :scope.row.currentStepDeadline).days +'天'+timeDifference('',(scope.row.status=='4' || scope.row.status=='15')?scope.row.finishStepDeadline :scope.row.currentStepDeadline).hours+'小时'}}</span>
+							<span v-if="scope.row.status=='4' || scope.row.status=='15'"
+								:style="{color:filterTimer(scope.row.finishStepDeadline,scope.row.status,1)}">{{timeDifference('',scope.row.finishStepDeadline).days +'天'+timeDifference('',scope.row.finishStepDeadline).hours+'小时'}}</span>
 						</template>
 					</el-table-column>
 					<el-table-column label="企业名称" prop="companyName" show-overflow-tooltip width="240px"

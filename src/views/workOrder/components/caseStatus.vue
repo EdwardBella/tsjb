@@ -121,7 +121,7 @@
 			};
 		},
 		computed: {
-			...mapState(['userRoles']),
+			...mapState(['userRoles','userInfo']),
 		},
 		watch: {
 			detailsInfo: {
@@ -155,10 +155,13 @@
 					} else {
 						if (this.detailsInfo.status != '21' && this.detailsInfo.status != '8' && this.detailsInfo.status !=
 							'5') {
-							targetDate = this.detailsInfo.currentStepDeadline
+							if (this.detailsInfo.status == 0 && this.sameCurrentRole(this.detailsInfo.pushDepartmentList)) {
+								targetDate = this.detailsInfo.previewFeedbackDeadline
+							} else {
+								targetDate = this.detailsInfo.currentStepDeadline
+							}
 						}
 					}
-
 				}
 				if (targetDate == '') {
 					this.isOverTime = false
@@ -197,6 +200,16 @@
 					const seconds = Math.floor((distance % (1000 * 60)) / 1000);
 					this.times = days + '天' + hours + '小时' + minutes + '分钟' + seconds + '秒'
 				}
+			},
+			sameCurrentRole(deptList) {
+				if (deptList.length == 0) {
+					return false
+				}
+				let obj = deptList.find(item => item.departmentCode == this.userInfo.orgCode)
+				if (obj == undefined) {
+					return false
+				}
+				return true
 			},
 			confirm(message) {
 				return this.$confirm(message, "提示", {

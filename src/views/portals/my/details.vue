@@ -258,10 +258,10 @@
 								<el-table-column prop="fileName" label="文件名称"></el-table-column>
 								<el-table-column label="操作" align="left">
 									<template slot-scope="{row}">
-										<span style="font-size: 14px;color: #2b65da; cursor: pointer;"
-											@click="handleDownload(row)">下载</span>
-										<span style="font-size: 14px;color: #2b65da;margin-left: 5px; cursor: pointer;"
-											@click="handlePreview(row)">预览</span>
+										<el-button @click="handleDownload(row)" type="primary" plain
+											size="mini">下载</el-button>
+										<el-button @click="handlePreview(row)" type="primary" plain
+											size="mini">预览</el-button>
 									</template>
 								</el-table-column>
 							</el-table>
@@ -270,15 +270,16 @@
 					</el-col>
 					<el-col :span="24">
 						<el-form-item label="授权委托书">
-							<el-table v-if="details.attachmentList && details.attachmentList.length"
-								:data="details.attachmentList" size="mini" :show-header="false">
+							<el-table
+								v-if="details.complainPersonMainInfo.attachmentList && details.complainPersonMainInfo.attachmentList.length"
+								:data="details.complainPersonMainInfo.attachmentList" size="mini" :show-header="false">
 								<el-table-column prop="fileName" label="文件名称"></el-table-column>
 								<el-table-column label="操作" align="left">
 									<template slot-scope="{row}">
-										<span style="font-size: 14px;color: #2b65da; cursor: pointer;"
-											@click="handleDownload(row)">下载</span>
-										<span style="font-size: 14px;color: #2b65da;margin-left: 5px; cursor: pointer;"
-											@click="handlePreview(row)">预览</span>
+										<el-button @click="handleDownload(row)" type="primary" plain
+											size="mini">下载</el-button>
+										<el-button @click="handlePreview(row)" type="primary" plain
+											size="mini">预览</el-button>
 									</template>
 								</el-table-column>
 							</el-table>
@@ -403,11 +404,10 @@
 					<el-col :span="8">
 						<el-form-item label="案件归属地">{{details.belongingPlace || ''}}</el-form-item>
 					</el-col>
-					<el-col :span="24">
+					<el-col :span="24"
+						v-if="details.workOrderHandleInfo.acceptAttachmentList && details.workOrderHandleInfo.acceptAttachmentList.length">
 						<el-form-item label="受理通知书">
-							<el-table
-								v-if="details.workOrderHandleInfo.acceptAttachmentList && details.workOrderHandleInfo.acceptAttachmentList.length"
-								:data="details.workOrderHandleInfo.acceptAttachmentList" size="mini"
+							<el-table :data="details.workOrderHandleInfo.acceptAttachmentList" size="mini"
 								:show-header="false">
 								<el-table-column prop="fileName" label="文件名称"></el-table-column>
 								<el-table-column label="操作" align="left">
@@ -441,15 +441,14 @@
 					<el-col :span="24">
 						<el-form-item label="终止审批单">
 							<el-table v-if="details.overWorkOrderVo.completeFinishFile != ''"
-								:data="[details.overWorkOrderVo.completeFinishFile]" size="mini"
-								:show-header="false">
+								:data="[details.overWorkOrderVo.completeFinishFile]" size="mini" :show-header="false">
 								<el-table-column prop="fileName" label="文件名称"></el-table-column>
 								<el-table-column label="操作" align="left">
 									<template slot-scope="{row}">
-										<span style="font-size: 14px;color: #2b65da; cursor: pointer;"
-											@click="handleDownload(row)">下载</span>
-										<span style="font-size: 14px;color: #2b65da;margin-left: 5px; cursor: pointer;"
-											@click="handlePreview(row)">预览</span>
+										<el-button @click="handleDownload(row)" type="primary" plain
+											size="mini">下载</el-button>
+										<el-button @click="handlePreview(row)" type="primary" plain
+											size="mini">预览</el-button>
 									</template>
 								</el-table-column>
 							</el-table>
@@ -566,6 +565,16 @@
 								</el-table-column>
 							</el-table>
 						</el-form-item>
+					</el-col>
+				</el-row>
+				<el-row v-if="details.rejectReview == 'Y'">
+					<el-col :span="24">
+						<el-form-item label="申请复核理由">{{details.repeatCheckReason || ''}}</el-form-item>
+					</el-col>
+				</el-row>
+				<el-row>
+					<el-col :span="24">
+						<el-form-item label="驳回意见">{{''}}</el-form-item>
 					</el-col>
 				</el-row>
 			</el-form>

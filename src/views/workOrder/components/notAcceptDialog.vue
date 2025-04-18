@@ -13,10 +13,11 @@
 					<el-input v-model="form.comment" show-word-limit maxlength="300" placeholder="请输入详细描述"
 						type="textarea" style="width: 100%; height: 150px"></el-input>
 				</el-form-item>
-				<el-form-item label="通知书" prop="rejectAttachments">
-					<FileUpload @fileDatas="zzclFileList" :fileSizes="100" :isShowTip="false" />
-					<el-table v-if="form.rejectAttachments.length > 0" :data="form.rejectAttachments" size="mini" :show-header="false"
-						style="margin-top: 10px;">
+				<el-form-item label="不受理通知书" prop="rejectAttachments">
+					<FileUpload @fileDatas="zzclFileList" :fileSizes="100" :isShowTip="true"
+						tips="*如需，可上传还款协议、以物抵债等附件，支持图片、文档、压缩包格式文件，文件不大于 100M。" />
+					<el-table v-if="form.rejectAttachments.length > 0" :data="form.rejectAttachments" size="mini"
+						:show-header="false" style="margin-top: 10px;">
 						<el-table-column prop="fileName" label="文件名称"></el-table-column>
 						<el-table-column label="操作" width="240px" align="center">
 							<template slot-scope="{row, $index}">
@@ -40,7 +41,8 @@
 			</div>
 		</el-dialog>
 
-		<previewDialog v-if="previewDialog.visible" :visible.sync="previewDialog.visible" :filePath="previewDialog.fileURL" width="900px">
+		<previewDialog v-if="previewDialog.visible" :visible.sync="previewDialog.visible"
+			:filePath="previewDialog.fileURL" width="900px">
 		</previewDialog>
 	</div>
 </template>

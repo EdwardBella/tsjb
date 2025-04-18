@@ -1,6 +1,6 @@
 <template>
 	<el-dialog append-to-body title="案件推送" width="680px" :visible="visible" @close="handleClose">
-		<el-form ref="form" :model="form" :rules="rules" class="white-card" label-width="110px">
+		<el-form ref="form" :model="form" :rules="rules" class="white-card" label-width="130px">
 			<el-form-item label="案件推送：" prop="addressDepartmentCode" :show-message="false">
 				<div style="display: flex;align-items: center;">
 					<el-cascader v-model="form.complainAddressId" :show-all-levels="false" ref="complainAddressId"
@@ -49,7 +49,7 @@
 	export default {
 		name: 'cluePushDialog',
 		mixins: [mixins.dialog, mixins.form],
-		props: ['visible', 'workOrderNo','pushDepartmentList'],
+		props: ['visible', 'workOrderNo', 'pushDepartmentList'],
 		data() {
 			return {
 				areas: [],
@@ -75,7 +75,7 @@
 		watch: {
 			pushDepartmentList: {
 				handler(val) {
-					this.form.departmentDtoList = val || []
+					// this.form.departmentDtoList = val || []
 				},
 				deep: true,
 				immediate: true
@@ -85,8 +85,8 @@
 			this.getArea()
 		},
 		methods: {
-			delTag(index){
-				this.form.departmentDtoList.splice(index,1)
+			delTag(index) {
+				this.form.departmentDtoList.splice(index, 1)
 			},
 			addDepartment() {
 				if (this.form.addressDepartmentCode == '') {
@@ -97,12 +97,17 @@
 					return this.$modal.msgError('所选部门已添加')
 				} else {
 					let obj = this.departmentTree.find(item => item.code == this.form.addressDepartmentCode)
+					let departmentname = obj.label
+					if (obj.label.substr(0, 1) == '*') {
+						departmentname = obj.label.substring(1, (obj.label.length))
+					}
 					let tableItem = {
-						departmentName: obj.label,
+						departmentName: departmentname,
 						departmentCode: this.form.addressDepartmentCode,
 					}
 					this.form.departmentDtoList.push(tableItem)
 				}
+				
 
 			},
 			complainAddressIdChanged(value) {

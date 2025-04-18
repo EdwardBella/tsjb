@@ -124,15 +124,16 @@
 		<el-form class="key-value" label-width="130px" label-suffix="：">
 			<el-row>
 				<el-col :span="24">
-					<el-form-item label="反映事项">{{detailsInfo.itemDetailName || ''}}</el-form-item>
-				</el-col>
-				<el-col :span="24">
 					<el-form-item label="案件名称">{{detailsInfo.title || ''}}
 						<span v-if="detailsInfo.title && userRoles.isLeaderDepartment"
 							style="margin-left: 10px;color: #0c60d5;font-size: 16px;cursor: pointer;"
 							@click="editTitle">修改</span>
 					</el-form-item>
 				</el-col>
+				<el-col :span="24">
+					<el-form-item label="反映事项">{{detailsInfo.itemDetailName || ''}}</el-form-item>
+				</el-col>
+				
 				<el-col :span="24">
 					<el-form-item label="系统领域">{{detailsInfo.systemDomain || ''}}</el-form-item>
 				</el-col>
@@ -183,6 +184,9 @@
 						</el-table>
 
 					</el-form-item>
+				</el-col>
+				<el-col :span="24">
+					<el-form-item label="反应渠道">{{detailsInfo.hasComplain || ''}}</el-form-item>
 				</el-col>
 
 			</el-row>

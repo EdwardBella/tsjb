@@ -474,7 +474,7 @@
 				rules: {
 					itemSource: [{
 						required: true,
-						message: "请填选择"
+						message: "请选择案件来源"
 					}],
 					createUsername: [{
 						required: true,

@@ -94,6 +94,24 @@
 				<el-col v-if="detailsInfo.workOrderAudit.type == '03'" :span="24">
 					<el-form-item label="不受理备注">{{detailsInfo.workOrderAudit.applyComment || ''}}</el-form-item>
 				</el-col>
+				<el-col v-if="detailsInfo.workOrderAudit.type == '03'" :span="24">
+					<el-form-item label="不受理通知书">
+						<el-table
+							v-if="detailsInfo.workOrderAudit.rejectFile != ''"
+							:data="[detailsInfo.workOrderAudit.rejectFile]" size="mini" :show-header="false">
+							<el-table-column prop="fileName" label="文件名称"></el-table-column>
+							<el-table-column label="操作" align="left">
+								<template slot-scope="{row}">
+									<span style="font-size: 14px;color: #2b65da; cursor: pointer;"
+										@click="handleDownload(row)">下载</span>
+									<span style="font-size: 14px;color: #2b65da;margin-left: 5px; cursor: pointer;"
+										@click="handlePreview(row)">预览</span>
+								</template>
+							</el-table-column>
+						</el-table>
+				
+					</el-form-item>
+				</el-col>
 
 				<el-col v-if="detailsInfo.workOrderAudit.type == '07'" :span="24">
 					<el-form-item label="办结类型">{{detailsInfo.workOrderAudit.applyReason || ''}}</el-form-item>

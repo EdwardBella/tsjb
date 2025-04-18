@@ -203,7 +203,7 @@
 					let obj = this.departmentTree.find(item => item.code == this.addressDepartmentCode)
 					let departmentname = obj.label
 					if(obj.label.substr(0,1) == '*'){
-						departmentname = obj.label.substring(1,(obj.label.length - 1))
+						departmentname = obj.label.substring(1,(obj.label.length))
 					}
 					let tableItem = {
 						departmentName: departmentname,
@@ -323,19 +323,19 @@
 						if (this.form.type == 1) {
 							let obj = this.departmentTree3.find(item => item.code == this.form.processDepartmentCode)
 							if(obj.label.substr(0,1) == '*'){
-								this.form.processDepartmentName = obj.label.substring(1,(obj.label.length - 1))
+								this.form.processDepartmentName = obj.label.substring(1,(obj.label.length))
 							}
 						}
 						if (this.form.type == 2) {
 							let obj = this.departmentTree2.find(item => item.code == this.form.processDepartmentCode)
 							if(obj.label.substr(0,1) == '*'){
-								this.form.processDepartmentName = obj.label.substring(1,(obj.label.length - 1))
+								this.form.processDepartmentName = obj.label.substring(1,(obj.label.length))
 							}
 						}
 						if (this.form.type == 3) {
 							let obj = this.departmentTree4.find(item => item.code == this.form.processDepartmentCode)
 							if(obj.label.substr(0,1) == '*'){
-								this.form.processDepartmentName = obj.label.substring(1,(obj.label.length - 1))
+								this.form.processDepartmentName = obj.label.substring(1,(obj.label.length))
 							}
 						}
 						return workOrderApi.distribute.acceptance({

@@ -325,8 +325,8 @@
 					</el-col>
 					<el-col :span="12">
 						<el-form-item label="签订时间" prop="signTime">
-							<el-date-picker v-model="form.signTime" value-format="yyyy-MM-dd" type="date"
-								placeholder="请填写签订时间" style="width: 100%;">
+							<el-date-picker v-model="form.signTime" :picker-options="pickerOptions"
+								value-format="yyyy-MM-dd" type="date" placeholder="请填写签订时间" style="width: 100%;">
 							</el-date-picker>
 						</el-form-item>
 					</el-col>
@@ -384,7 +384,8 @@
 					@click="$router.replace(backPath || ($route.query.workOrderId ? '/portals/my/list' : '/portals/index'))">关闭</el-button>
 			</span>
 		</el-dialog>
-		<previewDialog v-if="previewDialog.visible" :visible.sync="previewDialog.visible" :filePath="previewDialog.fileURL" width="1200px">
+		<previewDialog v-if="previewDialog.visible" :visible.sync="previewDialog.visible"
+			:filePath="previewDialog.fileURL" width="1200px">
 		</previewDialog>
 	</div>
 </template>
@@ -646,7 +647,12 @@
 					fileURL: '',
 					visible: false
 				},
-				loading: false
+				loading: false,
+				pickerOptions: {
+					disabledDate(time) {
+						return time.getTime() > new Date().getTime()
+					}
+				},
 			};
 		},
 		computed: {
@@ -837,7 +843,7 @@
 								id
 							)
 							.then(r => {
-								this.departmentTree = removeEmptyWithTree(r.result,false)
+								this.departmentTree = removeEmptyWithTree(r.result, false)
 							})
 							.finally(() => this.departmentTreeLoading = false)
 					})
@@ -849,7 +855,7 @@
 						id
 					)
 					.then(r => {
-						this.departmentTree = removeEmptyWithTree(r.result,false)
+						this.departmentTree = removeEmptyWithTree(r.result, false)
 						this.$nextTick(() => {
 							this.form.addressDepartmentCode = addressDepartmentCode
 						})

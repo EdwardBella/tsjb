@@ -3,7 +3,7 @@
 <template>
 	<div>
 		<el-dialog append-to-body title="案件受理" width="750px" :visible="visible" @close="handleClose">
-			<el-form ref="form" :model="form" :rules="rules" label-width="110px" class="white-card">
+			<el-form ref="form" :model="form" :rules="rules" label-width="130px" class="white-card">
 				<el-form-item label="案件名称" prop="title">
 					<el-input v-model="form.title" placeholder="请输入" style="width: 100%" show-word-limit maxlength="40">
 					</el-input>

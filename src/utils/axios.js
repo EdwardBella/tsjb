@@ -32,8 +32,8 @@ const codeMessage = {
 };
 
 var instance = axios.create({
-	baseURL: baseUrl.gdosComplainServer,
-	// baseURL: '/dev-api',
+	// baseURL: baseUrl.gdosComplainServer,
+	baseURL: '/dev-api',
 	timeout: 180000,
 	paramsSerializer: function(params) {
 		return qs.stringify(params, {

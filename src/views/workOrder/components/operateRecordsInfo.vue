@@ -1,5 +1,5 @@
 <template>
-	<div>
+	<div style="width: 100%;">
 		<div class="module-head" style="margin-top: 10px;">
 			<img src="@/assets/images/title-arrow.png" style="height: 20px;margin-right: 10px;" />
 			<span style="font-size: 18px;">操作记录</span>
