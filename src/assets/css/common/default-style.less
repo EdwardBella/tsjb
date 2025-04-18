@@ -1,0 +1,82 @@
+.beautify-scroll .is-scrolling-right,
+.beautify-scroll .is-scrolling-middle,
+.beautify-scroll .is-scrolling-left,
+.beautify-scroll {
+  overflow: auto;
+
+  &.mini {
+    &::-webkit-scrollbar {
+      width: 10px !important;
+      height: 10px !important;
+    }
+
+    &::-webkit-scrollbar-thumb:vertical {
+      border: 3px solid rgba(0, 0, 0, 0) !important;
+    }
+  }
+
+
+  &::-webkit-scrollbar {
+    width: 20px !important;
+    height: 20px !important;
+  }
+
+
+  &::-webkit-scrollbar-thumb:vertical {
+    border-radius: 12px !important;
+    border: 6px solid rgba(0, 0, 0, 0) !important;
+    box-shadow: 8px 0 0 #ccc inset !important;
+  }
+
+  &::-webkit-scrollbar-thumb:horizontal {
+    border-radius: 12px !important;
+    border: 6px solid rgba(0, 0, 0, 0) !important;
+    box-shadow: 8px 8px 8px #ccc inset !important;
+  }
+
+  &::-webkit-scrollbar-thumb:hover {
+    box-shadow: 8px 8px 8px #8E8E8E inset !important;
+  }
+
+  &::-webkit-scrollbar-button {
+    display: none
+  }
+
+  &::-webkit-scrollbar-corner {
+    background: transparent;
+  }
+}
+
+.portals.el-message {
+  top: 48% !important;
+}
+
+.line-chart-tooltip {
+  background: linear-gradient(322deg, #FDFEFF 0%, #F4F7FC 100%) !important;
+  border-radius: 6px !important;
+  padding: 8px !important;
+  border: none !important;
+
+  .title {
+    font-family: Source Han Sans CN-Medium, Source Han Sans CN;
+    font-weight: 500;
+    color: #666666;
+    line-height: 20px;
+    margin-bottom: 8px;
+  }
+
+  .content {
+    background: rgba(255, 255, 255, 0.8);
+    box-shadow: 6px 0px 20px 0px rgba(34, 87, 188, 0.1);
+    border-radius: 4px 4px 4px 4px;
+    padding: 8px;
+  }
+}
+
+.dot {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 8px;
+  background-color: @color-primary
+}

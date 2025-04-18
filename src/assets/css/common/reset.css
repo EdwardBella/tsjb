@@ -1,0 +1,65 @@
+body, ul, ol, li, p, h1, h2, h3, h4, h5, h6, form, fieldset, table, td, img, div {
+    margin: 0;
+    padding: 0;
+    border: 0;
+}
+
+body {
+    font-family: Avenir, Helvetica, Arial, sans-serif;
+    height: 100vh;
+    overflow: hidden;
+}
+
+ul, ol {
+    list-style-type: none;
+}
+
+select, input, img, select {
+    vertical-align: middle;
+}
+
+a:hover,
+a:active,
+a:focus,
+a {
+    text-decoration: none;
+}
+
+br {
+    height: 0;
+}
+
+/*!*滚动条整体样式*!*/
+/*::-webkit-scrollbar {*/
+/*    width: 20px !important;*/
+/*    height: 20px !important;*/
+/*}*/
+
+/*.el-scrollbar__bar.is-vertical {*/
+/*    opacity: 0 !important;*/
+/*    width: 0 !important;*/
+/*}*/
+
+/*!*滚动条里面小方块*!*/
+/*::-webkit-scrollbar-thumb:vertical {*/
+/*    border-radius: 12px !important;*/
+/*    border: 6px solid rgba(0, 0, 0, 0) !important;*/
+/*    box-shadow: 8px 0 0 #ccc inset !important;*/
+/*}*/
+
+/*::-webkit-scrollbar-thumb:horizontal {*/
+/*    border-radius: 12px !important;*/
+/*    border: 6px solid rgba(0, 0, 0, 0) !important;*/
+/*    box-shadow: 8px 8px 8px #ccc inset !important;*/
+/*}*/
+/*::-webkit-scrollbar-thumb:hover {*/
+/*    box-shadow: 8px 8px 8px #8E8E8E inset !important;*/
+/*}*/
+/*!* 滚动条两边按钮 *!*/
+/*::-webkit-scrollbar-button{*/
+/*    display: none*/
+/*}*/
+/*!* 边角 *!*/
+/*::-webkit-scrollbar-corner {*/
+/*    background: transparent;*/
+/*}*/

@@ -1,0 +1,52 @@
+.el-table {
+  width: 99.9% !important;
+}
+
+.el-table--border, .el-table--group {
+  border: none !important;
+}
+
+.el-table__header-wrapper .has-gutter th, .el-table th {
+  border-right: none;
+  background-color: #EBF3FE !important;
+  font-size: 14px;
+  font-family: Microsoft YaHei;
+  font-weight: 400;
+  color: #666666;
+  line-height: 24px;
+  font-weight: 600;
+}
+
+.el-table--border td:nth-last-of-type(1) {
+  border-right: none;
+}
+
+.el-table--border td {
+  font-size: 14px;
+  font-family: Microsoft YaHei;
+  font-weight: 400;
+  color: rgba(94, 101, 114, 1);
+  height: 50px;
+}
+
+.el-table--border::after, .el-table--group::after {
+  width: 0;
+}
+
+.el-tooltip__popper {
+  font-size: 14px;
+  max-width: 50%;
+}
+
+.el-table .el-table__header-wrapper .el-table__header {
+  height: 60px;
+}
+.el-table .el-table__body-wrapper .el-table__row {
+  height: 50px;
+}
+
+/*设置显示隐藏部分内容，按50%显示*/
+.el-tooltip__popper{
+  font-size: 14px; 
+  max-width:30% 
+}

@@ -1,0 +1,143 @@
+.el-input__inner {
+	height: 42px !important;
+	font-size: 16px !important;
+}
+
+.el-form-item__label {
+	font-size: 18px;
+}
+
+.el-checkbox__label {
+	font-size: 18px;
+}
+
+.el-checkbox__inner {
+	border: 1px solid #333 !important;
+}
+
+.el-checkbox__inner::after {
+	top: 2px !important;
+	left: 2px !important;
+}
+
+.el-input-group__append,
+.el-input-group__prepend {
+	color: #333;
+	font-size: 18px;
+}
+
+.el-textarea__inner {
+	font-size: 16px;
+}
+
+.el-radio__inner {
+	width: 16px !important;
+	height: 16px !important;
+	border: 1px solid #666 !important;
+	background: #fff !important;
+	border-radius: 2px !important;
+}
+
+/* .el-cascader-node .el-radio__inner::after {
+	width: 10px !important;
+	height: 10px !important;
+	background: #666;
+	border-radius: 2px !important;
+} */
+
+.el-radio__input.is-checked .el-radio__inner::after {
+	position: absolute;
+	top: 2px;
+	left: 2px;
+	content: "";
+	display: block;
+	width: 10px;
+	height: 10px;
+	background: #666;
+	border-radius: 2px;
+	transform: none;
+}
+
+
+.el-radio__label {
+	font-size: 18px;
+	color: #606266 !important;
+}
+
+.is-plain {
+	border-color: #1b5284;
+	color: #1b5284;
+	background-color: #fff;
+	box-shadow: 0 2px 4px 0 rgba(9, 78, 197, .3);
+}
+
+.el-table .el-table__header-wrapper .cell {
+	font-size: 16px;
+}
+
+.el-range-editor .el-range-separator {
+	line-height: 33px;
+}
+
+.el-table th.el-table__cell {
+	background-color: #f0f0f0;
+}
+
+.el-table .el-table__header-wrapper th.el-table__cell {
+	background-color: #f0f0f0;
+}
+
+.el-table--striped .el-table__body tr.el-table__row--striped td.el-table__cell {
+	background-color: #f5f5f5;
+}
+
+.el-table .el-table__body-wrapper .el-table__body tr.el-table__row--striped td.el-table__cell {
+	background-color: #f5f5f5;
+}
+
+.el-date-editor .el-range-input {
+	font-size: 16px;
+}
+
+.search-content .el-form-item__label {
+	line-height: 42px;
+}
+
+.dialog-footer-btn {
+	.el-button {
+		height: 40px;
+		min-width: 150px;
+		font-size: 18px;
+		font-weight: bold;
+	}
+
+	.el-button--primary {
+		background-color: #1b5284;
+	}
+
+	.el-button.el-button--primary.is-plain {
+		border-color: #1b5284;
+		color: #1b5284;
+	}
+}
+
+.el-dialog .el-dialog__body {
+	padding: 0px;
+}
+
+.el-button--primary {
+	background-color: #1b5284;
+
+}
+.el-button--primary i.img, .el-button--primary span{
+	vertical-align: bottom;
+}
+.el-dialog__body{
+	.el-form-item__label{
+		font-size: 16px;
+		line-height: 42px;
+	}
+	.el-input__inner{
+		font-size: 16px;
+	}
+}
