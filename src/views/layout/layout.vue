@@ -184,11 +184,17 @@
 			$route: function(newVal) {
 				let breadList = newVal.matched.filter((v, i) => i > 0)
 				console.log(this.breadcrumbList, '________________________&&&&&&&&&&&&&&&&&&&&&&&&&&&&')
-				if (breadList[0].name == breadList[1].name) {
-					this.breadcrumbList = [breadList[0]]
-				} else {
+				if(breadList.length == 1){
 					this.breadcrumbList = breadList
 				}
+				if(breadList.length == 2){
+					if (breadList[0].name == breadList[1].name) {
+						this.breadcrumbList = [breadList[0]]
+					} else {
+						this.breadcrumbList = breadList
+					}
+				}
+				
 			},
 		},
 
@@ -240,11 +246,17 @@
 			},
 			getRouter() {
 				let breadList = this.$route.matched.filter((v, i) => i > 0);
-				if (breadList[0].name == breadList[1].name) {
-					this.breadcrumbList = [breadList[0]]
-				} else {
+				if(breadList.length == 1){
 					this.breadcrumbList = breadList
 				}
+				if(breadList.length == 2){
+					if (breadList[0].name == breadList[1].name) {
+						this.breadcrumbList = [breadList[0]]
+					} else {
+						this.breadcrumbList = breadList
+					}
+				}
+				
 			},
 			loginout() {
 				this.$store.dispatch("LogOut").then(() => {

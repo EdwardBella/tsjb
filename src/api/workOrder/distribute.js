@@ -167,7 +167,7 @@ export const list = (params) =>
 	export const allList = (params) =>
 		axios({
 			url: "/api/v1/workOrder/all/list",
-			method: "GET",
+			method: "get",
 			params,
 		});
 // 编辑

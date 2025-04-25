@@ -564,7 +564,7 @@ export function forEachTree(tree, callback, options = {
 //正则手机验证
 export function checkPhone(val) {
 	var pattern =
-		/^(13[0-9]|14[5|7]|15[0|1|2|3|4|5|6|7|8|9]|16[0|1|2|3|4|5|6|7|8|9]|17[0|1|2|3|4|5|6|7|8|9]|18[0|1|2|3|5|6|7|8|9]|19[0|1|2|3|4|5|6|7|8|9])\d{8}$/;
+		/^(13[0-9]|14[5|7]|15[0|1|2|3|4|5|6|7|8|9]|16[0|1|2|3|4|5|6|7|8|9]|17[0|1|2|3|4|5|6|7|8|9]|18[0|1|2|3|4|5|6|7|8|9]|19[0|1|2|3|4|5|6|7|8|9])\d{8}$/;
 	if (pattern.test(val)) {
 		return true;
 	}
@@ -693,46 +693,46 @@ export const splxDict = [{
 	label: '全部'
 }, {
 	value: '10',
-	label: '指定办理审批'
+	label: '指定办理'
 }, {
 	value: '11',
-	label: '转办审批'
+	label: '转办'
 }, {
 	value: '12',
-	label: '交办审批'
+	label: '交办'
 }, {
 	value: '21',
-	label: '退回修改或补正审批'
+	label: '退回修改或补正'
 }, {
 	value: '22',
-	label: '放弃投诉举报审批'
+	label: '放弃投诉举报'
 }, {
 	value: '23',
-	label: '不受理复核审批'
+	label: '不受理复核'
 }, {
 	value: '24',
-	label: '申请复核审批'
+	label: '承办复核'
 }, {
 	value: '25',
-	label: '终止审批'
+	label: '申请终止'
 }, {
 	value: '26',
-	label: '继续办理审批'
+	label: '继续办理'
 }, {
 	value: '27',
-	label: '待终止退回重办审批'
+	label: '待终止退回重办'
 }, {
 	value: '28',
-	label: '待办结退回重办审批'
+	label: '待办结退回重办'
 }, {
 	value: '29',
-	label: '预审确认审批'
+	label: '预审确认'
 }, {
 	value: '30',
-	label: '案件受理审批'
+	label: '案件受理'
 }, {
 	value: '31',
-	label: '确认退回审批'
+	label: '确认退回'
 }, {
 	value: '32',
 	label: '解除跟踪'
@@ -741,31 +741,31 @@ export const splxDict = [{
 	label: '解除异常'
 }, {
 	value: '34',
-	label: '撤回投诉举报案件审批'
+	label: '撤回投诉举报案件'
 }, {
 	value: '00',
-	label: '延期审批'
+	label: '申请延期'
 }, {
 	value: '01',
-	label: '中止审批'
+	label: '申请中止'
 }, {
 	value: '02',
-	label: '确认终止审批'
+	label: '确认终止'
 }, {
 	value: '03',
-	label: '不受理审批'
+	label: '不受理'
 }, {
 	value: '04',
-	label: '移交审批'
+	label: '移交'
 }, {
 	value: '06',
-	label: '确认办结审批'
+	label: '确认办结'
 }, {
 	value: '07',
-	label: '办结审批'
+	label: '申请办结'
 }, {
 	value: '09',
-	label: '直办审批'
+	label: '直办'
 }]
 
 export function returnExamine(status) {
@@ -852,6 +852,7 @@ export function timeDifference(start, end, type = 1) {
 	let old_date = new Date(end ? end : ''); //设置过去的一个时间点，"yyyy-MM-dd HH:mm:ss"格式化日期
 
 	let difftime = (old_date - new_date) / 1000; //计算时间差,并把毫秒转换成秒
+	
 
 	let days = parseInt(difftime / 86400); // 天  24*60*60*1000 
 	let hours = parseInt(difftime / 3600) - 24 * days; // 小时 60*60 总小时数-过去的小时数=现在的小时数 

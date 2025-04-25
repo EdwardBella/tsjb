@@ -186,8 +186,9 @@
 
 			</div>
 			<div class="right">
-				<el-scrollbar wrap-style="overflow-x:hidden;"
+				<el-scrollbar class="el-scrollbar-cn" wrap-style="overflow-x:hidden;"
 					:style="{height:(details.appraiseStatus == 'N' && (details.status == 5 || details.status == 8) && basicType == 'appraise')?'calc(100vh - 335px)':'calc(100vh - 135px)'}">
+
 					<caseBasicApprove v-if="basicType == 'approve' || (basicType == 'todo' && isAudit)"
 						:detailsInfo="details" :auditDatas="auditDatas" :surpriseStatusInfo="surpriseStatusInfo"
 						:listReviewFeedBack="listReviewFeedBack" @success="successBack()" />
@@ -319,12 +320,14 @@
 						<template v-else>
 							<el-button v-if="details.status == 0 && sameCurrentRole(details.pushDepartmentList)"
 								type="primary" @click="preReviewFeedbackButton">预审反馈</el-button>
-							<el-button
-								v-if="surpriseStatusInfo.id != '' && surpriseStatusInfo.superviseStatus == '0' && userRoles.isLeaderDepartment"
-								type="primary" @click="superviseAndHandleButton">发起督办</el-button>
-							<el-button
-								v-if="surpriseStatusInfo.id != '' && surpriseStatusInfo.superviseStatus == '1' && userRoles.isLeaderDepartment"
-								type="primary" @click="liftSuperviseAndHandleButton">解除督办</el-button>
+							<template
+								v-if="[2,3,4,15,5,8].includes(details.status) && userRoles.isLeaderDepartment">
+								<el-button v-if="surpriseStatusInfo.superviseStatus == '0'" type="primary"
+									@click="superviseAndHandleButton">发起督办</el-button>
+								<el-button v-if="surpriseStatusInfo.superviseStatus == '1'" type="primary"
+									@click="liftSuperviseAndHandleButton">解除督办</el-button>
+							</template>
+
 						</template>
 
 
@@ -344,7 +347,8 @@
 								@click="simpleButton(6)">解除异常</el-button>
 						</template>
 						<!-- 承办部门 -->
-						<template v-if="(details.status == 5 || details.status == 8) && !userRoles.isLeaderDepartment">
+						<template
+							v-if="(details.status == 5 || details.status == 8) && userInfo.orgCode == details.processDepartmentCode">
 							<el-button type="primary" v-if="(details.supervisionTag == '1')"
 								@click="simpleButton(7)">申请解除跟踪</el-button>
 							<el-button type="primary" v-if="(details.exceptionTag == '1')"
@@ -360,66 +364,70 @@
 			</div>
 		</div>
 		<!-- 文书/文件上传-->
-		<uploadFileTypeDialog :visible.sync="isVisible" v-dialogDrags :workOrderId="details.id" @success="changeModel">
+		<uploadFileTypeDialog v-if="isVisible" :visible.sync="isVisible" v-dialogDrags :workOrderId="details.id"
+			@success="changeModel">
 		</uploadFileTypeDialog>
 
 		<!-- 预审反馈 -->
-		<preReviewFeedbackDialog :visible.sync="preReviewFeedbackDialog.visible" v-dialogDrags :id="id"
-			:workOrderNo="details.workOrderNo" @success="preReviewFeedbackSuccess">
+		<preReviewFeedbackDialog v-if="preReviewFeedbackDialog.visible" :visible.sync="preReviewFeedbackDialog.visible"
+			v-dialogDrags :id="id" :workOrderNo="details.workOrderNo" @success="preReviewFeedbackSuccess">
 		</preReviewFeedbackDialog>
 
 		<!-- 案件受理 -->
-		<acceptAndTransferDialog :visible.sync="acceptDialog.visible" v-dialogDrags :title="details.title"
-			:workOrderNo="details.workOrderNo" @success="successBack">
+		<acceptAndTransferDialog v-if="acceptDialog.visible" :visible.sync="acceptDialog.visible" v-dialogDrags
+			:title="details.title" :workOrderNo="details.workOrderNo" @success="successBack">
 		</acceptAndTransferDialog>
 		<!-- 不受理 -->
-		<notAcceptDialog :visible.sync="notAcceptDialog.visible" v-dialogDrags :workOrderNo="details.workOrderNo"
-			@success="notAcceptLoadData"></notAcceptDialog>
+		<notAcceptDialog v-if="notAcceptDialog.visible" :visible.sync="notAcceptDialog.visible" v-dialogDrags
+			:workOrderNo="details.workOrderNo" @success="notAcceptLoadData"></notAcceptDialog>
 		<!-- 发起材料补正 -->
 		<replenishDialog :visible.sync="replenishDialog.visible" v-dialogDrags :workOrderNo="details.workOrderNo"
 			@success="successBack">
 		</replenishDialog>
 		<!-- 撤回与放弃 -->
-		<giveUpDialog :visible.sync="giveUpDialog.visible" v-dialogDrags :workOrderNo="details.workOrderNo" @success="giveUpSuccess">
+		<giveUpDialog :visible.sync="giveUpDialog.visible" v-dialogDrags :workOrderNo="details.workOrderNo"
+			@success="giveUpSuccess">
 		</giveUpDialog>
 
 		<!-- 案件派发 -->
-		<distributionDialog :visible.sync="distributionDialog.visible" v-dialogDrags :workOrderNo="details.workOrderNo"
-			@success="successBack">
+		<distributionDialog v-if="distributionDialog.visible" :visible.sync="distributionDialog.visible" v-dialogDrags
+			:workOrderNo="details.workOrderNo" @success="successBack">
 		</distributionDialog>
 
 		<!-- 线索推送 -->
-		<cluePushDialog :visible.sync="cluePushDialog.visible" v-dialogDrags :pushDepartmentList="details.pushDepartmentList"
-			:workOrderNo="details.workOrderNo" @success="successBack">
+		<cluePushDialog :visible.sync="cluePushDialog.visible" v-dialogDrags
+			:pushDepartmentList="details.pushDepartmentList" :workOrderNo="details.workOrderNo" @success="successBack">
 		</cluePushDialog>
 
 		<!-- 申请复核 -->
-		<reconsiderationDialog :visible.sync="reconsiderationDialog.visible" v-dialogDrags :workOrderNo="details.workOrderNo"
-			@success="successBack">
+		<reconsiderationDialog v-if="reconsiderationDialog.visible" :visible.sync="reconsiderationDialog.visible"
+			v-dialogDrags :workOrderNo="details.workOrderNo" @success="successBack">
 		</reconsiderationDialog>
 
 
 		<!-- 撤回 -->
-		<backDialog :visible.sync="backDialog.visible" v-dialogDrags :workOrderNo="details.workOrderNo" @success="successBack">
+		<backDialog v-if="backDialog.visible" :visible.sync="backDialog.visible" v-dialogDrags
+			:workOrderNo="details.workOrderNo" @success="successBack">
 		</backDialog>
 
 		<!-- 驳回 -->
-		<rebutDialog :visible.sync="rebutDialog.visible" v-dialogDrags :type="details.workOrderAudit.type" :id="id"
-			@success="rebutLoadData"></rebutDialog>
+		<rebutDialog v-if="rebutDialog.visible" :visible.sync="rebutDialog.visible" v-dialogDrags
+			:type="details.workOrderAudit.type" :id="id" @success="rebutLoadData"></rebutDialog>
 		<!-- 通过 -->
-		<throughDialog :visible.sync="throughDialog.visible" v-dialogDrags :type="details.workOrderAudit.type" :id="id"
-			@success="throughLoadData"></throughDialog>
+		<throughDialog v-if="throughDialog.visible" :visible.sync="throughDialog.visible" v-dialogDrags
+			:type="details.workOrderAudit.type" :id="id" @success="throughLoadData"></throughDialog>
 
 
 
 
 		<!-- 中止 -->
-		<discontinueDialog :visible.sync="discontinueDialog.visible" v-dialogDrags :workOrderNo="details.workOrderNo"
-			:hasDebtAmount="details.questionMainInfo.isArrear" @success="successBack"></discontinueDialog>
+		<discontinueDialog v-if="discontinueDialog.visible" :visible.sync="discontinueDialog.visible" v-dialogDrags
+			:workOrderNo="details.workOrderNo" :hasDebtAmount="details.questionMainInfo.isArrear"
+			@success="successBack"></discontinueDialog>
 
 		<!-- 延期 -->
-		<postponeDialog :visible.sync="postponeDialog.visible" v-dialogDrags :workOrderNo="details.workOrderNo"
-			:addTimeNum="details.addTimeNum" @success="successBack"></postponeDialog>
+		<postponeDialog v-if="postponeDialog.visible" :visible.sync="postponeDialog.visible" v-dialogDrags
+			:workOrderNo="details.workOrderNo" :addTimeNum="details.addTimeNum" @success="successBack"></postponeDialog>
 
 
 		<!-- 发起举证材料 -->
@@ -427,22 +435,24 @@
 			@success="successBack"></adduceEvidenceDialog>
 
 		<!-- 退回重办 -->
-		<returnDialog :visible.sync="returnDialog.visible" v-dialogDrags :workOrderNo="details.workOrderNo" @success="successBack">
+		<returnDialog :visible.sync="returnDialog.visible" v-dialogDrags :workOrderNo="details.workOrderNo"
+			@success="successBack">
 		</returnDialog>
 
 
 		<!-- 提交办结 -->
-		<completeDialog :visible.sync="completeDialog.visible" v-dialogDrags :workOrderId="details.id"
-			:workOrderNo="details.workOrderNo" :hasDebtAmount="details.questionMainInfo.isArrear"
-			@success="successBack"></completeDialog>
+		<completeDialog v-if="completeDialog.visible" :visible.sync="completeDialog.visible"
+			:workOrderId="details.id" :workOrderNo="details.workOrderNo"
+			:hasDebtAmount="details.questionMainInfo.isArrear" @success="successBack"></completeDialog>
 
 		<!-- 提交终止 -->
-		<overDialog :visible.sync="overDialog.visible" v-dialogDrags :workOrderId="details.id" :workOrderNo="details.workOrderNo"
-			:isDebt="details.questionMainInfo.isArrear" @success="successBack">
+		<overDialog v-if="overDialog.visible" :visible.sync="overDialog.visible" v-dialogDrags :workOrderId="details.id"
+			:workOrderNo="details.workOrderNo" :isDebt="details.questionMainInfo.isArrear" @success="successBack">
 		</overDialog>
 
 		<!-- 确认办结 -->
-		<finallyDialog :visible.sync="finallyDialog.visible" v-dialogDrags :workOrderNo="details.workOrderNo" @success="successBack">
+		<finallyDialog :visible.sync="finallyDialog.visible" v-dialogDrags :workOrderNo="details.workOrderNo"
+			@success="successBack">
 		</finallyDialog>
 
 		<!-- 确认终止 -->
@@ -457,8 +467,8 @@
 
 
 		<!-- 修改结案状态 -->
-		<editOverTitleStatusDialog :visible.sync="editOverTitleStatusDialog.visible" v-dialogDrags :workOrderNo="details.workOrderNo"
-			@success="successBack">
+		<editOverTitleStatusDialog :visible.sync="editOverTitleStatusDialog.visible" v-dialogDrags
+			:workOrderNo="details.workOrderNo" @success="successBack">
 		</editOverTitleStatusDialog>
 
 		<!-- 跟踪，异常 -->
@@ -468,14 +478,15 @@
 
 
 		<!-- 发起督办 -->
-		<superviseAndHandleDialog :visible.sync="superviseAndHandleDialog.visible" v-dialogDrags :workOrderNo="details.workOrderNo"
-			@success="superviseAndHandleSuccess">
+		<superviseAndHandleDialog :visible.sync="superviseAndHandleDialog.visible" v-dialogDrags
+			:workOrderNo="details.workOrderNo" @success="superviseAndHandleSuccess">
 		</superviseAndHandleDialog>
 
 
 
 		<!-- 预览 -->
-		<previewDialog v-if="previewDialog.visible" :visible.sync="previewDialog.visible" v-dialogDrags :filePath="previewDialog.fileURL" width="900px">
+		<previewDialog v-if="previewDialog.visible" :visible.sync="previewDialog.visible" v-dialogDrags
+			:filePath="previewDialog.fileURL" width="900px">
 		</previewDialog>
 
 	</div>
@@ -715,6 +726,8 @@
 						if (res.result.workOrderAudit) {
 							this.getAuditList(res.result.workOrderAudit.actionTypeNumber)
 						}
+						/* 获取督办信息 */
+						this.getSurpriseStatus()
 					}).finally(() => this.loading = false);
 
 			},
@@ -938,7 +951,6 @@
 			},
 			superviseAndHandleSuccess(res) {
 				this.init()
-				this.getSurpriseStatus()
 			},
 			closeDrawer() {
 				this.$emit('closeDrawer')
@@ -1012,7 +1024,6 @@
 					}))
 					.then(() => {
 						this.init()
-						this.getSurpriseStatus()
 						this.$emit("success");
 					});
 			},
@@ -1141,9 +1152,11 @@
 
 	.caseDetails {
 		width: 100%;
-
+        display: flex;
+		flex-direction: column;
 		.content {
 			display: flex;
+			align-items: center;
 			padding: 10px 10px 0px;
 
 			.left {

@@ -34,16 +34,16 @@
 				<span style="margin: 0px;">异常</span>
 			</div>
 			<span class="lb">{{detailsInfo.workOrderNumber || ''}}</span>
-			<template v-if="audit || detailsInfo.auditFlag == 'Y'">
-				<div class="time-cn" v-if="isOverTime">
+			<template v-if="(audit || detailsInfo.auditFlag == 'Y') && isOverTime">
+				<div class="time-cn">
 					<i class="el-icon-time" style="font-weight: bold;margin-right: 8px;color: #138a43;"></i>
 					<p style="font-size: 18px;color: #138a43;">审批剩余时限：<span
 							:style="{color:times == '0天0小时0分钟0秒'?'#e44831':'#138a43'}">{{times}}</span></p>
 				</div>
 			</template>
-			<template v-else-if="detailsInfo.status == '4' || detailsInfo.status == '15'">
+			<template v-else-if="(detailsInfo.status == '4' || detailsInfo.status == '15') && isOverTime">
 				<!-- 待办结&待终止展示倒计时 -->
-				<div class="time-cn" v-if="isOverTime">
+				<div class="time-cn">
 					<i class="el-icon-time" style="font-weight: bold;margin-right: 8px;"></i>
 					<p style="font-size: 18px;color: #2b65da;">处理剩余时限：<span
 							:style="{color:times == '0天0小时0分钟0秒'?'#e44831':'#2b65da'}">{{times}}</span></p>
@@ -121,13 +121,14 @@
 			};
 		},
 		computed: {
-			...mapState(['userRoles','userInfo']),
+			...mapState(['userRoles', 'userInfo']),
 		},
 		watch: {
 			detailsInfo: {
 				handler(val) {
 					if (val != null) {
 						this.init()
+
 					}
 				},
 				deep: true,
@@ -155,7 +156,8 @@
 					} else {
 						if (this.detailsInfo.status != '21' && this.detailsInfo.status != '8' && this.detailsInfo.status !=
 							'5') {
-							if (this.detailsInfo.status == 0 && this.sameCurrentRole(this.detailsInfo.pushDepartmentList)) {
+							if (this.detailsInfo.status == 0 && this.sameCurrentRole(this.detailsInfo
+								.pushDepartmentList)) {
 								targetDate = this.detailsInfo.previewFeedbackDeadline
 							} else {
 								targetDate = this.detailsInfo.currentStepDeadline
@@ -163,6 +165,7 @@
 						}
 					}
 				}
+
 				if (targetDate == '') {
 					this.isOverTime = false
 				} else {

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <card >
+    <!-- <card >
       <template v-slot:headerRight>
         <el-button :loading="exporting" @click="handleExport" v-if="isShowExportBtn" type="primary">导出为Excel文件</el-button>
       </template>
@@ -15,7 +15,7 @@
           </div>
         </div>
       </div>
-    </card>
+    </card> -->
 
     <router-view></router-view>
   </div>

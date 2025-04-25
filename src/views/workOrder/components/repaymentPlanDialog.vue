@@ -28,6 +28,7 @@
 </template>
 
 <script>
+	import * as fileApi from '@/api/file'
 	import * as workOrderApi from "@/api/workOrder/index";
 	import * as mixins from "@/utils/mixins";
 	import previewDialog from "@/views/workOrder/components/previewDialog";

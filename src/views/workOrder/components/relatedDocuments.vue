@@ -87,10 +87,10 @@ export default {
           label:'结案附件',
           value: 27,
         },{
-          label:'受理通知书',
+          label:'受理告知书',
           value: 31,
         },{
-          label:'不受理通知书',
+          label:'不受理告知书',
           value: 32,
         },{
           label:'结案通知书',

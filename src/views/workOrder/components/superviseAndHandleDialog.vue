@@ -1,13 +1,13 @@
 <template>
 	<el-dialog append-to-body title="发起督办" width="750px" :visible="visible" @close="handleClose">
-		<el-form ref="form" :model="form" :rules="rules" class="white-card" label-width="120px">
-			<el-form-item label="督办类型：" prop="superviseType">
+		<el-form ref="form" :model="form" :rules="rules" class="white-card" label-width="140px">
+			<el-form-item label="督办类型:" prop="superviseType">
 				<el-radio-group v-model="form.superviseType">
 					<el-radio label="全程督办">全程督办</el-radio>
 					<el-radio label="重点督办">重点督办</el-radio>
 				</el-radio-group>
 			</el-form-item>
-			<el-form-item label="督办内容：" prop="content">
+			<el-form-item label="督办内容:" prop="content">
 				<el-input v-model="form.content" show-word-limit maxlength="300" placeholder="请输入" type="textarea"
 					style="width: 100%; height: 100px"></el-input>
 			</el-form-item>

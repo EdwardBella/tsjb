@@ -1,7 +1,7 @@
 <template>
 	<div class="caseBasic">
 		<!-- 状态 -->
-		<caseStatus :detailsInfo="detailsInfo" :surpriseStatusInfo="surpriseStatusInfo" :audit="true" />
+		<caseStatus v-if="isShow" :detailsInfo="detailsInfo" :surpriseStatusInfo="surpriseStatusInfo" :audit="true" />
 
 		<!-- 督办内容-->
 		<superviseAndHandleInfo v-if="surpriseStatusInfo.id != '' && surpriseStatusInfo.superviseStatus == '1'"
@@ -127,7 +127,7 @@
 		</div>
 		<el-form class="key-value" label-width="130px" label-suffix="：">
 			<el-row>
-				
+
 				<el-col :span="24">
 					<el-form-item label="案件名称">{{detailsInfo.title || ''}}
 						<span v-if="detailsInfo.title && userRoles.isLeaderDepartment"
@@ -215,7 +215,7 @@
 				</el-col>
 				<el-col :span="8">
 					<el-form-item
-						label="案件状态">{{detailsInfo.status == 0?'待受理':returnStatus(detailsInfo.status,'99999')}}</el-form-item>
+						label="案件状态">{{returnStatus(detailsInfo.status,detailsInfo.subStatus)}}</el-form-item>
 				</el-col>
 				<el-col :span="8">
 					<el-form-item label="案件来源">{{itemResourceTrans[detailsInfo.itemSource]}}</el-form-item>
@@ -223,7 +223,8 @@
 			</el-row>
 			<el-row>
 				<el-col :span="8">
-					<el-form-item label="受理单位">{{detailsInfo.workOrderHandleInfo.acceptDepartmentName || ''}}</el-form-item>
+					<el-form-item
+						label="受理单位">{{detailsInfo.workOrderHandleInfo.acceptDepartmentName || ''}}</el-form-item>
 				</el-col>
 				<el-col :span="8">
 					<el-form-item label="承办单位">{{detailsInfo.processDepartment || ''}}</el-form-item>
@@ -271,7 +272,7 @@
 			:detailsInfo="detailsInfo" />
 
 		<!-- 终止信息-->
-		<terminationInfo v-if="detailsInfo.status == '8'" :detailsInfo="detailsInfo" />
+		<terminationInfo v-if="detailsInfo.status == '8' || detailsInfo.status == '15'" :detailsInfo="detailsInfo" />
 
 		<!-- 结案信息-->
 		<closeaCaseInfo v-if="detailsInfo.status == '5' || detailsInfo.status == '4'" :detailsInfo="detailsInfo" />
@@ -291,10 +292,12 @@
 
 
 		<!-- 预览 -->
-		<previewDialog v-if="previewDialog.visible" :visible.sync="previewDialog.visible" :filePath="previewDialog.fileURL" width="900px">
+		<previewDialog v-if="previewDialog.visible" :visible.sync="previewDialog.visible"
+			:filePath="previewDialog.fileURL" width="900px">
 		</previewDialog>
 		<!-- 修改案件名称 -->
-		<caseTitleDialog :visible.sync="caseTitleDialog.visible" @success="caseTitleSuccess">
+		<caseTitleDialog :visible.sync="caseTitleDialog.visible" :workOrderId="detailsInfo.id"
+			:title="detailsInfo.title" @success="caseTitleSuccess">
 		</caseTitleDialog>
 
 	</div>
@@ -378,6 +381,7 @@
 				times: "",
 				isOverTime: false,
 				itemResourceTrans: workOrderEventSourceDict,
+				isShow: false,
 			};
 		},
 		computed: {
@@ -387,7 +391,10 @@
 			detailsInfo: {
 				handler(val) {
 					if (val != null) {
-
+						this.isShow = false
+						this.$nextTick(() => {
+							this.isShow = true
+						})
 					}
 				},
 				deep: true,

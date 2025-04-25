@@ -1,7 +1,7 @@
 <template>
 	<el-dialog append-to-body title="添加还款记录" width="640px" top="20px" :visible="visible" @close="handleClose">
-		<el-form :model="form" :rules="rules" label-suffix="：" ref="form" class="white-card">
-			<el-form-item label="实际还款时间" prop="actualPayTime">
+		<el-form :model="form" :rules="rules" label-suffix="：" ref="form" label-width="140px" class="white-card">
+			<el-form-item label="实际还款时间:" prop="actualPayTime">
 				<el-date-picker style="width: 100%;" v-model="form.actualPayTime" value-format="yyyy-MM-dd" type="date"
 					placeholder="请选择还款日期">
 				</el-date-picker>

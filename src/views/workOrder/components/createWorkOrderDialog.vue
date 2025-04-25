@@ -109,19 +109,19 @@
 					<el-row v-if="form.auth">
 						<el-col :span="24">
 							<el-form-item label="身份证" prop="clientIdCardList">
-								<FileUpload @fileDatas="sfzFileList" :fileSizes="20"
+								<FileUpload @fileDatas="sfzFileList" :datas="clientIdCardDatas" :fileSizes="20"
 									tips="委托人身份证人像面和国徽面，上传的附件大小不能超过20M。" />
 								<el-table v-if="form.clientIdCardList.length > 0" :data="form.clientIdCardList"
 									size="mini" :show-header="false" style="margin-top: 10px">
 									<el-table-column prop="fileName" label="文件名称"></el-table-column>
 									<el-table-column label="操作" align="left">
 										<template slot-scope="{row, $index}">
-											<el-button type="primary" plain size="mini"
+											<el-button @click="handleDownload(row)" type="primary" plain size="mini"
 												style="font-size: 14px;">下载</el-button>
-											<el-button type="primary" plain size="mini"
+											<el-button @click="handlePreview(row)" type="primary" plain size="mini"
 												style="font-size: 14px;">预览</el-button>
-											<el-button type="primary" plain size="mini"
-												style="font-size: 14px;">删除</el-button>
+											<el-button @click="handleRemoveFile($index,1)" type="primary" plain
+												size="mini" style="font-size: 14px;">删除</el-button>
 										</template>
 									</el-table-column>
 								</el-table>
@@ -131,7 +131,7 @@
 					<el-row v-if="form.auth">
 						<el-col :span="24">
 							<el-form-item label="授权委托书" prop="attachmentList">
-								<FileUpload @fileDatas="sqwtsFileList" :fileSizes="50"
+								<FileUpload @fileDatas="sqwtsFileList" :datas="attachmentDatas" :fileSizes="50"
 									tips="请按照填报要求提供签字盖章的授权委托书资料，上传的附件大小不能超过50M，附件类型支持图片，视频，文档，压缩包等格式文件。" />
 								<el-table v-if="form.attachmentList.length > 0" :data="form.attachmentList" size="mini"
 									:show-header="false"
@@ -139,12 +139,12 @@
 									<el-table-column prop="fileName" label="文件名称"></el-table-column>
 									<el-table-column label="操作" align="left">
 										<template slot-scope="{row, $index}">
-											<el-button type="primary" plain size="mini"
+											<el-button @click="handleDownload(row)" type="primary" plain size="mini"
 												style="font-size: 14px;">下载</el-button>
-											<el-button type="primary" plain size="mini"
+											<el-button @click="handlePreview(row)" type="primary" plain size="mini"
 												style="font-size: 14px;">预览</el-button>
-											<el-button type="primary" plain size="mini"
-												style="font-size: 14px;">删除</el-button>
+											<el-button @click="handleRemoveFile($index,2)" type="primary" plain
+												size="mini" style="font-size: 14px;">删除</el-button>
 										</template>
 									</el-table-column>
 								</el-table>
@@ -173,8 +173,8 @@
 										:props="{ checkStrictly: true , expandTrigger: 'hover',emitPath: false,value:'id',label:'name',children:'subList'}"
 										clearable @change="complainAddressIdChanged"></el-cascader>
 
-									<el-select v-model="form.addressDepartmentCode" filterable ref="addressDepartmentCode"
-										style="flex: 1;" placeholder="请选择部门">
+									<el-select v-model="form.addressDepartmentCode" filterable
+										ref="addressDepartmentCode" style="flex: 1;" placeholder="请选择部门">
 										<el-option v-for="item in departmentTree" :key="item.code" :label="item.label"
 											:value="item.code">
 										</el-option>
@@ -246,7 +246,7 @@
 					<el-row>
 						<el-col :span="24">
 							<el-form-item label="佐证材料" prop="supportAttachmentList">
-								<FileUpload @fileDatas="zzclFileList" :fileSizes="100"
+								<FileUpload @fileDatas="zzclFileList" :datas="supportAttachmentDatas" :fileSizes="100"
 									tips="请按照填报要求提供与投诉举报事项相关的资料，上传的附件大小不能超过100M，附件类型支持图片，视频，文档，压缩包等格式文件。" />
 								<el-table v-if="form.supportAttachmentList.length > 0"
 									:data="form.supportAttachmentList" size="mini" :show-header="false"
@@ -254,12 +254,12 @@
 									<el-table-column prop="fileName" label="文件名称"></el-table-column>
 									<el-table-column label="操作" align="left">
 										<template slot-scope="{row, $index}">
-											<el-button type="primary" plain size="mini"
+											<el-button @click="handleDownload(row)" type="primary" plain size="mini"
 												style="font-size: 14px;">下载</el-button>
-											<el-button type="primary" plain size="mini"
+											<el-button @click="handlePreview(row)" type="primary" plain size="mini"
 												style="font-size: 14px;">预览</el-button>
-											<el-button type="primary" plain size="mini"
-												style="font-size: 14px;">删除</el-button>
+											<el-button @click="handleRemoveFile($index,3)" type="primary" plain
+												size="mini" style="font-size: 14px;">删除</el-button>
 										</template>
 									</el-table-column>
 								</el-table>
@@ -300,8 +300,8 @@
 						</el-col>
 						<el-col :span="12">
 							<el-form-item label="签订时间" prop="signTime">
-								<el-date-picker v-model="form.signTime" value-format="yyyy-MM-dd" type="date"
-									placeholder="请填写签订时间" style="width: 100%;">
+								<el-date-picker v-model="form.signTime" :picker-options="pickerOptions"
+									value-format="yyyy-MM-dd" type="date" placeholder="请填写签订时间" style="width: 100%;">
 								</el-date-picker>
 							</el-form-item>
 						</el-col>
@@ -338,12 +338,13 @@
 				<div class="dialog-footer-btn">
 					<el-button @click="handleClose" plain>关闭</el-button>
 					<el-button @click="handleSave" :loading="submitting" type="primary">保存</el-button>
-					<el-button @click="handleSubmit" :loading="submitting2" type="primary">确定</el-button>
+					<el-button @click="handleSubmit" :loading="submitting2" type="primary">提交</el-button>
 				</div>
 			</el-scrollbar>
 		</el-dialog>
 		<!-- 预览-->
-		<previewDialog v-if="previewDialog.visible" :visible.sync="previewDialog.visible" :filePath="previewDialog.fileURL"></previewDialog>
+		<previewDialog v-if="previewDialog.visible" :visible.sync="previewDialog.visible"
+			:filePath="previewDialog.fileURL"></previewDialog>
 	</div>
 
 </template>
@@ -460,6 +461,9 @@
 					attachmentList: [], //委托书附件
 					supportAttachmentList: [], //佐证材料
 				},
+				clientIdCardDatas: [],
+				attachmentDatas: [],
+				supportAttachmentDatas: [],
 				departmentTree: [],
 				itemDetailIdTree: [],
 				areas: [],
@@ -618,7 +622,12 @@
 				previewDialog: {
 					fileURL: '',
 					visible: false
-				}
+				},
+				pickerOptions: {
+					disabledDate(time) {
+						return time.getTime() > new Date().getTime()
+					}
+				},
 			};
 		},
 		watch: {
@@ -643,7 +652,7 @@
 								id
 							)
 							.then(r => {
-								this.departmentTree = removeEmptyWithTree(r.result,false)
+								this.departmentTree = removeEmptyWithTree(r.result, false)
 							})
 							.finally(() => this.departmentTreeLoading = false)
 					})
@@ -689,10 +698,9 @@
 				vueDebounce(this.debounceForm, 500);
 			},
 			debounceForm() {
-				this.validateAndConfirm('form', "确定提交吗？",true)
+				this.validateAndConfirm('form', "确定要保存已填写数据吗？", true)
 					.then(() => {
 						const form = this.generateFormData()
-						console.log(form, "[[[[[[[[[[[[[[[[[[]]]]]]]]]]]]]]]]]]")
 						this.submitting = true
 						return workOrderApi.distribute.temporaryStorage(form)
 					})
@@ -775,7 +783,7 @@
 					})
 			},
 			handleSubmit() {
-				this.validateAndConfirm('form', '请您核实填写信息是否准确，点击“确认”将无法修改信息内容，是否确认提交？')
+				this.validateAndConfirm('form', '请您核实填写信息是否准确，点击“确定”将无法修改信息内容，是否确认提交？')
 					.then(() => {
 						const form = this.generateFormData()
 						this.submitting2 = true

@@ -1,13 +1,13 @@
 <template>
 	<div>
 		<el-dialog append-to-body :title="title" width="750px" :visible="visible" @close="handleClose" :destroy-on-close="true">
-			<el-form ref="form" :model="form" :rules="rules" class="white-card" label-width="140px">
-				<el-form-item label="实际还款日期：" prop="actualPayTime">
+			<el-form ref="form" :model="form" :rules="rules" class="white-card" label-width="150px">
+				<el-form-item label="实际还款日期:" prop="actualPayTime">
 					<el-date-picker v-model="form.actualPayTime" value-format="yyyy-MM-dd" type="date"
 						placeholder="还款日期" style="width: 100%;">
 					</el-date-picker>
 				</el-form-item>
-				<el-form-item label="附件：" prop="content">
+				<el-form-item label="附件:" prop="content">
 					<FileUpload @fileDatas="jaspdFileList" :datas="attachmentFile" :fileSizes="100" :limit="10" :isShowTip="true"
 						tips="*支持图片、文档、压缩包格式文件，文件不大于 100M。" />
 					<el-table v-if="form.attachmentFile.length > 0" :data="form.attachmentFile" size="mini"
@@ -25,7 +25,7 @@
 						</el-table-column>
 					</el-table>
 				</el-form-item>
-				<el-form-item label="" label-width="0px">
+				<el-form-item label="">
 					<span style="font-size: 14px;color: #E44831;">提交之后信息将无法修改，请仔细填写</span>
 				</el-form-item>
 			</el-form>
@@ -44,6 +44,7 @@
 </template>
 
 <script>
+	import * as fileApi from "@/api/file";
 	import FileUpload from "@/views/portals/components/fileUpload"
 	import previewDialog from "@/views/workOrder/components/previewDialog";
 	import * as mixins from '@/utils/mixins'

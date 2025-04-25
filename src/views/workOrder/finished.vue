@@ -74,9 +74,9 @@
 					<el-table-column label="案件名称" show-overflow-tooltip prop="title" min-width="500px"
 						header-align="left" align="left">
 						<template slot-scope="scope">
-							<span v-if="scope.row.supervisionTag == '1'" class="chong"
+							<span v-if="scope.row.supervisionTag == '1' || scope.row.supervisionTag == '3'" class="chong"
 								style="background-color: #e2a900;">跟踪</span>
-							<span v-if="scope.row.exceptionTag == '1'" class="chong">异常</span>
+							<span v-if="scope.row.exceptionTag == '1' || scope.row.exceptionTag == '3'" class="chong">异常</span>
 							<span v-if="scope.row.repeatCheck == 'Y'" class="chong">复</span>
 							<span v-if="scope.row.isDuplicated == 'Y'" class="chong"
 								style="background-color: #f55b23;">重</span>
@@ -387,6 +387,12 @@
 			background-color: #fff;
 			box-shadow: 0 2px 11px 0 hsla(0, 0%, 63.1%, .2);
 			overflow: hidden;
+			
+			::v-deep .el-icon-circle-close {
+				font-size: 22px;
+				color: #606266;
+			}
+			
 
 			.el-form {
 				margin: 6px 0px;

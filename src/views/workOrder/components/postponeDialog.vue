@@ -1,27 +1,27 @@
 <template>
 	<div>
 		<el-dialog append-to-body title="案件延期" width="680px" top="20px" :visible="visible" @close="handleClose">
-			<el-form :model="form" :rules="rules" ref="form" class="white-card" label-width="120px">
-				<el-form-item label="延期次数：">
+			<el-form :model="form" :rules="rules" ref="form" class="white-card" label-width="140px">
+				<el-form-item label="延期次数:">
 					<span style="font-size: 16px;line-height: 42px;">第{{(addTimeNum+1)}}次延期</span>
 				</el-form-item>
-				<el-form-item label="延期天数：" :prop="addTimeNum < 2?'days':''">
+				<el-form-item label="延期天数:" :prop="addTimeNum < 2?'days':''">
 					<el-input type="number" v-model.number="form.days"
 						:placeholder="addTimeNum < 2?'最多延期30个自然日':'请输入延期天数'"></el-input>
 				</el-form-item>
-				<el-form-item label="延期情形：" prop="reason">
+				<el-form-item label="延期情形:" prop="reason">
 					<el-select v-model="form.reason" placeholder="请选择" style="width: 100%">
 						<el-option v-for="item in optionList" :key="item.id" :label="item.name"
 							:value="item.name"></el-option>
 					</el-select>
 				</el-form-item>
-				<el-form-item label="延期理由：" prop="comment">
+				<el-form-item label="延期理由:" prop="comment">
 					<el-input v-model="form.comment" show-word-limit maxlength="300" placeholder="请输入详细描述"
 						type="textarea" style="width: 100%; height: 150px"></el-input>
 				</el-form-item>
-				<el-form-item label="附件：" prop="attachmentList">
+				<el-form-item label="附件:" prop="attachmentList">
 					<FileUpload @fileDatas="fjFileList" :fileSizes="100" :isShowTip="true"
-						tips="*如需，可上传还款协议、以物抵债等附件，支持图片、文档、压缩包格式文件，文件不大于 100M。" />
+						tips="*支持图片、文档、压缩包格式文件，文件不大于 100M。" />
 					<el-table v-if="form.attachmentList.length > 0" :data="form.attachmentList" size="mini"
 						:show-header="false" style="margin-top: 10px;">
 						<el-table-column prop="fileName" label="文件名称"></el-table-column>
@@ -115,7 +115,7 @@
 					}],
 					attachmentList: [{
 						required: true,
-						message: "请选择附件"
+						message: "请选择延期审批单"
 					}],
 				},
 				optionList: []

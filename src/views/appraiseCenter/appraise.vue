@@ -4,7 +4,7 @@
 		<div>
 			<div class="search-content" :style="{height:heightSize}">
 				<el-form :model="queryParams" :inline="true" label-position="left" ref="queryForm" label-width="100px">
-					<el-form-item label="提交时间:" prop="time">
+					<el-form-item label="创建时间:" prop="time">
 						<el-date-picker v-model="queryParams.time" type="daterange" range-separator="至"
 							start-placeholder="开始日期" end-placeholder="结束日期" value-format="yyyy-MM-dd"
 							style="width: 260px;" @change="handleQuery">
@@ -40,9 +40,9 @@
 					<el-table-column label="案件名称" show-overflow-tooltip prop="title" min-width="500px"
 						header-align="left" align="left">
 						<template slot-scope="scope">
-							<span v-if="scope.row.supervisionTag == '1'" class="chong"
+							<span v-if="scope.row.supervisionTag == '1' || scope.row.supervisionTag == '3'" class="chong"
 								style="background-color: #e2a900;">跟踪</span>
-							<span v-if="scope.row.exceptionTag == '1'" class="chong">异常</span>
+							<span v-if="scope.row.exceptionTag == '1' || scope.row.exceptionTag == '3'" class="chong">异常</span>
 							<span v-if="scope.row.repeatCheck == 'Y'" class="chong">复</span>
 							<span v-if="scope.row.isDuplicated == 'Y'" class="chong"
 								style="background-color: #f55b23;">重</span>
@@ -68,7 +68,11 @@
 							<span>{{scope.row.satisfactionLevel=='satisfaction'?'满意':scope.row.satisfactionLevel=='common'?'基本满意':scope.row.satisfactionLevel=='noSatisfaction'?'不满意':''}}</span>
 						</template>
 					</el-table-column>
-					<el-table-column label="评价得分" prop="satisfiedScore" width="90px" header-align="left" align="left" />
+					<el-table-column label="满意度" prop="satisfiedScore" width="90px" header-align="left" align="left">
+						<template slot-scope="scope">
+							<span>{{scope.row.satisfiedScore != ''?(scope.row.satisfiedScore + '星'):''}}</span>
+						</template>
+					</el-table-column>
 					<el-table-column label="评价状态" prop="appraiseStatus" width="90px" header-align="left" align="left">
 						<template slot-scope="scope">
 							<span>{{scope.row.appraiseStatus=='Y'?'已评价':scope.row.appraiseStatus=='N'?'未评价':''}}</span>

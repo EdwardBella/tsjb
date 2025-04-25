@@ -1,19 +1,19 @@
 <template>
 	<el-dialog append-to-body title="添加备注" width="640px" top="20px" :visible="visible" @close="handleClose">
-		<el-form :model="form" :rules="rules" ref="form" class="white-card">
-			<el-form-item v-if="userRoles.isTopAuthority" label="可见范围" prop="remarkVisibleRange">
+		<el-form :model="form" :rules="rules" ref="form" class="white-card" label-width="140px">
+			<el-form-item v-if="userRoles.isTopAuthority" label="可见范围:" prop="remarkVisibleRange">
 				<el-select v-model="form.remarkVisibleRange" style="width: 100%">
 					<el-option v-for="item in remarkVisibleRanges" :key="item.key" v-bind="item"></el-option>
 				</el-select>
 			</el-form-item>
-			<el-form-item label="备注类型" prop="remarkType">
+			<el-form-item label="备注类型:" prop="remarkType">
 				<el-select v-model="form.remarkType" style="width: 100%">
 					<template v-for="item in formRemarkTypes">
 						<el-option v-bind="item"></el-option>
 					</template>
 				</el-select>
 			</el-form-item>
-			<el-form-item label="备注类容" prop="content">
+			<el-form-item label="备注类容:" prop="content">
 				<el-input v-model.trim="form.content" type="textarea" :rows="4" maxlength="1000" show-word-limit
 					placeholder="请输入备注"></el-input>
 			</el-form-item>

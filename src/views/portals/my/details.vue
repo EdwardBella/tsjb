@@ -66,7 +66,7 @@
 							<div class="ls"></div>
 						</div>
 						<span class="ld"
-							style="background-color: #ff4d4f;">不受理{{details.rejectReview == 'Y'?('(已申请复核)'):''}}</span>
+							style="background-color: #ff4d4f;">不受理{{(details.rejectReview == 'Y' && details.workOrderAudit == '' && !processStatus(details))?('(已申请复核)'):''}}</span>
 						<div class="lj" style="border-left: 20px solid #ff4d4f;"></div>
 					</div>
 					<div v-else-if="details.status == 14" style="display: flex;align-items: center;width: 100%;">
@@ -205,7 +205,7 @@
 				<img src="@/assets/images/title-arrow.png" style="height: 20px;margin-right: 10px;" />
 				<span style="font-size: 18px;">投诉举报人基本信息</span>
 			</div>
-			<el-form class="key-value" label-width="130px" label-suffix="：">
+			<el-form class="key-value" label-width="150px" label-suffix="：">
 				<el-row>
 					<el-col :span="8">
 						<el-form-item label="联系人">{{details.createUsername || ''}}</el-form-item>
@@ -296,7 +296,7 @@
 				<img src="@/assets/images/title-arrow.png" style="height: 20px;margin-right: 10px;" />
 				<span style="font-size: 18px;">投诉对象基本信息</span>
 			</div>
-			<el-form class="key-value" label-width="130px" label-suffix="：">
+			<el-form class="key-value" label-width="150px" label-suffix="：">
 				<el-row>
 					<el-col :span="8">
 						<el-form-item label="投诉对象">{{details.complainant.addressDepartmentName || ''}}</el-form-item>
@@ -319,7 +319,7 @@
 				<img src="@/assets/images/title-arrow.png" style="height: 20px;margin-right: 10px;" />
 				<span style="font-size: 18px;">反映问题基本信息</span>
 			</div>
-			<el-form class="key-value" label-width="130px" label-suffix="：">
+			<el-form class="key-value" label-width="150px" label-suffix="：">
 				<el-row>
 					<el-col :span="24">
 						<el-form-item label="案件名称">{{details.title || ''}}</el-form-item>
@@ -335,11 +335,11 @@
 					</el-col>
 					<el-col :span="8" v-if="details.questionMainInfo.isArrear">
 						<el-form-item
-							label="欠款金额">{{details.questionMainInfo.govArrears.arrearsAmount || ''}}万元</el-form-item>
+							label="欠款金额">{{details.questionMainInfo.govArrears.arrearsAmount != '' ?(details.questionMainInfo.govArrears.arrearsAmount + '万元'):''}}</el-form-item>
 					</el-col>
 					<el-col :span="16" v-if="details.questionMainInfo.isArrear">
 						<el-form-item
-							label="合同金额">{{details.questionMainInfo.govArrears.contractAmount || ''}}万元</el-form-item>
+							label="合同金额">{{details.questionMainInfo.govArrears.contractAmount != '' ?(details.questionMainInfo.govArrears.contractAmount + '万元'):''}}</el-form-item>
 					</el-col>
 					<el-col :span="8" v-if="details.questionMainInfo.isArrear">
 						<el-form-item
@@ -381,7 +381,7 @@
 				<img src="@/assets/images/title-arrow.png" style="height: 20px;margin-right: 10px;" />
 				<span style="font-size: 18px;">案件办理信息</span>
 			</div>
-			<el-form class="key-value" label-width="130px" label-suffix="：">
+			<el-form class="key-value" label-width="150px" label-suffix="：">
 				<el-row>
 					<el-col :span="8">
 						<el-form-item label="案件编号">{{details.workOrderNumber || ''}}</el-form-item>
@@ -406,9 +406,23 @@
 					</el-col>
 					<el-col :span="24"
 						v-if="details.workOrderHandleInfo.acceptAttachmentList && details.workOrderHandleInfo.acceptAttachmentList.length">
-						<el-form-item label="受理通知书">
+						<el-form-item label="受理告知书">
 							<el-table :data="details.workOrderHandleInfo.acceptAttachmentList" size="mini"
 								:show-header="false">
+								<el-table-column prop="fileName" label="文件名称"></el-table-column>
+								<el-table-column label="操作" align="left">
+									<template slot-scope="{row}">
+										<el-button @click="handleDownload(row)" plain size="mini">下载</el-button>
+										<el-button @click="handlePreview(row)" plain size="mini">预览</el-button>
+									</template>
+								</el-table-column>
+							</el-table>
+
+						</el-form-item>
+					</el-col>
+					<el-col :span="24" v-if="details.stopAttachment && details.stopAttachment.length">
+						<el-form-item label="中止调查告知单">
+							<el-table :data="details.stopAttachment" size="mini" :show-header="false">
 								<el-table-column prop="fileName" label="文件名称"></el-table-column>
 								<el-table-column label="操作" align="left">
 									<template slot-scope="{row}">
@@ -423,38 +437,18 @@
 				</el-row>
 			</el-form>
 
-			<!-- 还款信息-->
-			<repaymentInfo v-if="[4,15,5,8].includes(details.status) && details.questionMainInfo.isArrear"
-				:detailsInfo="details" />
-
 			<!-- 终止信息-->
 			<div v-if="details.status == 8" class="module-head" style="margin-top: 10px;">
 				<img src="@/assets/images/title-arrow.png" style="height: 20px;margin-right: 10px;" />
 				<span style="font-size: 18px;">终止信息</span>
 			</div>
-			<el-form v-if="details.status == 8" class="key-value" label-width="130px" label-suffix="：">
+			<el-form v-if="details.status == 8" class="key-value" label-width="150px" label-suffix="：">
 				<!-- 确认退回审批，撤回投诉举报案件审批，移交审批 -->
 				<el-row>
 					<el-col :span="24">
 						<el-form-item label="终止类型">{{ details.overWorkOrderVo.reason || ''}}</el-form-item>
 					</el-col>
-					<el-col :span="24">
-						<el-form-item label="终止审批单">
-							<el-table v-if="details.overWorkOrderVo.completeFinishFile != ''"
-								:data="[details.overWorkOrderVo.completeFinishFile]" size="mini" :show-header="false">
-								<el-table-column prop="fileName" label="文件名称"></el-table-column>
-								<el-table-column label="操作" align="left">
-									<template slot-scope="{row}">
-										<el-button @click="handleDownload(row)" type="primary" plain
-											size="mini">下载</el-button>
-										<el-button @click="handlePreview(row)" type="primary" plain
-											size="mini">预览</el-button>
-									</template>
-								</el-table-column>
-							</el-table>
 
-						</el-form-item>
-					</el-col>
 					<el-col :span="24">
 						<el-form-item label="终止通知书">
 							<el-table
@@ -471,8 +465,7 @@
 
 						</el-form-item>
 					</el-col>
-
-
+					<!-- <repaymentInfo v-if="details.questionMainInfo.isArrear" :detailsInfo="details" /> -->
 				</el-row>
 			</el-form>
 
@@ -481,29 +474,11 @@
 				<img src="@/assets/images/title-arrow.png" style="height: 20px;margin-right: 10px;" />
 				<span style="font-size: 18px;">结案信息</span>
 			</div>
-			<el-form v-if="details.status == 5" class="key-value" label-width="130px" label-suffix="：">
+			<el-form v-if="details.status == 5" class="key-value" label-width="150px" label-suffix="：">
 				<el-row>
 					<el-col :span="24">
 						<el-form-item label="办结类型">{{ details.workOrderSubmitFinishResult.reason || ''}}</el-form-item>
 					</el-col>
-					<el-col :span="24">
-						<el-form-item label="结案审批单">
-							<el-table
-								v-if="details.workOrderSubmitFinishResult.completedFinishFile && details.workOrderSubmitFinishResult.completedFinishFile.length"
-								:data="details.workOrderSubmitFinishResult.completedFinishFile" size="mini"
-								:show-header="false">
-								<el-table-column prop="fileName" label="文件名称"></el-table-column>
-								<el-table-column label="操作" align="center">
-									<template slot-scope="{row}">
-										<el-button @click="handleDownload(row)" plain size="mini">下载</el-button>
-										<el-button @click="handlePreview(row)" plain size="mini">预览</el-button>
-									</template>
-								</el-table-column>
-							</el-table>
-
-						</el-form-item>
-					</el-col>
-
 					<el-col :span="24">
 						<el-form-item label="结案通知书">
 							<el-table
@@ -518,26 +493,21 @@
 									</template>
 								</el-table-column>
 							</el-table>
-
 						</el-form-item>
 					</el-col>
+					<!-- <repaymentInfo v-if="details.questionMainInfo.isArrear" :detailsInfo="details" /> -->
 
 				</el-row>
 			</el-form>
 
-
-
-
 			<!-- 经营主体评价-->
 			<appraiseInfo v-if="details.appraiseStatus == 'Y'" :detailsInfo="details" />
-
-
 
 			<div v-if="details.status == '6'" class="module-head" style="margin-top: 20px;">
 				<img src="@/assets/images/title-arrow.png" style="height: 20px;margin-right: 10px;" />
 				<span style="font-size: 18px;">不受理信息</span>
 			</div>
-			<el-form v-if="details.status == '6'" class="key-value" label-width="130px" label-suffix="：">
+			<el-form v-if="details.status == '6'" class="key-value" label-width="150px" label-suffix="：">
 				<el-row>
 					<el-col :span="24">
 						<el-form-item label="不受理原因">{{details.rejectWorkOrderDto.notAcceptReason || ''}}</el-form-item>
@@ -550,7 +520,7 @@
 				</el-row>
 				<el-row>
 					<el-col :span="24">
-						<el-form-item label="不予受理通知书" label-width="150px">
+						<el-form-item label="不受理告知书">
 							<el-table
 								v-if="details.rejectWorkOrderDto.rejectAttachments && details.rejectWorkOrderDto.rejectAttachments.length"
 								:data="details.rejectWorkOrderDto.rejectAttachments" size="mini" :show-header="false">
@@ -572,9 +542,9 @@
 						<el-form-item label="申请复核理由">{{details.repeatCheckReason || ''}}</el-form-item>
 					</el-col>
 				</el-row>
-				<el-row>
+				<el-row v-if="details.workOrderAudit != ''">
 					<el-col :span="24">
-						<el-form-item label="驳回意见">{{''}}</el-form-item>
+						<el-form-item label="复核意见">{{details.workOrderAudit.comment || ''}}</el-form-item>
 					</el-col>
 				</el-row>
 			</el-form>
@@ -593,7 +563,7 @@
 		</el-scrollbar>
 		<div v-if="(details.status == 5 ||  details.status == 8) && details.appraiseStatus == 'N'">
 			<div class="appraise-cn">
-				<el-form :model="formAppraise" ref="formAppraise" label-width="120px">
+				<el-form :model="formAppraise" ref="formAppraise" label-width="150px">
 					<el-form-item label="整体满意度" prop="satisfiedScore">
 						<el-rate v-model="formAppraise.satisfiedScore"></el-rate>
 					</el-form-item>
@@ -606,8 +576,6 @@
 			<div class="buttons-cn">
 				<el-button type="primary" @click="submitApprise">提交评价</el-button>
 			</div>
-
-
 		</div>
 		<!-- 复核 -->
 		<reconsiderationDialog :visible.sync="reconsiderationDialog.visible" :workOrderId="details.workOrderNo"
@@ -634,7 +602,7 @@
 	} from "@/utils/common";
 	import previewDialog from "@/views/workOrder/components/previewDialog";
 	import reconsiderationDialog from "@/views/portals/components/reconsiderationDialog";
-	import repaymentInfo from "@/views/workOrder/components/repaymentInfo";
+	import repaymentInfo from "@/views/workOrder/components/repaymentInfo2";
 	import terminationInfo from "@/views/workOrder/components/terminationInfo";
 	import closeaCaseInfo from "@/views/workOrder/components/closeaCaseInfo";
 	import appraiseInfo from "@/views/workOrder/components/appraiseInfo";
@@ -701,6 +669,17 @@
 			this.getDetails();
 		},
 		methods: {
+			processStatus(res) {
+				if (res.processList != '' && res.processList.length > 0) {
+					let bsl = res.processList.filter(item => item.operateType == '46')
+					if (bsl.length > 0) {
+						return true
+					}else{
+						return false
+					}
+				}
+				return false
+			},
 			/* 提交评价 */
 			submitApprise() {
 				this.confirm("确认评价吗？")

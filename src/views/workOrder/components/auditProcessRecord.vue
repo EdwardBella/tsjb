@@ -48,6 +48,7 @@
 </template>
 
 <script>
+	import * as fileApi from "@/api/file";
 	import {
 		txt2HTML,
 		workOrderProcessAuditStatus

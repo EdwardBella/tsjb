@@ -7,6 +7,131 @@
 					<el-form-item label="操作时间：">{{details.createTime}}</el-form-item>
 					<el-form-item label="操作名称：">{{details.operateName}}</el-form-item>
 					<el-form-item label="操作人：">{{details.processUser || '-'}}</el-form-item>
+					<template v-if="details.operateType === '21'">
+						<el-form-item label="整体满意度：">
+							<span>{{details.revokeType || '-'}}</span>
+						</el-form-item>
+						<el-form-item label="评价内容：">
+							<span>{{details.revokeType || '-'}}</span>
+						</el-form-item>
+						
+					</template>
+					<template v-if="details.operateType === '70'">
+						<el-form-item label="督办类型：">
+							<span>{{details.other || '-'}}</span>
+						</el-form-item>
+						<el-form-item label="督办内容：">
+							<span>{{details.comment || '-'}}</span>
+						</el-form-item>
+					</template>
+					<template v-if="details.operateType === '39'">
+						<el-form-item label="直办备注：">
+							<span>{{details.comment || '-'}}</span>
+						</el-form-item>
+						<el-form-item label="抄送部门：">
+							<span>{{details.copyDepartmentList && details.copyDepartmentList.length > 0 ?details.copyDepartmentList.toString():'' }}</span>
+						</el-form-item>
+					</template>
+					<template v-if="details.operateType === '40'">
+						<el-form-item label="转办备注：">
+							<span>{{details.comment || '-'}}</span>
+						</el-form-item>
+						<el-form-item label="转办部门：">
+							<span>{{details.processDepartment || '-'}}</span>
+						</el-form-item>
+						<el-form-item label="抄送部门：">
+							<span>{{details.copyDepartmentList && details.copyDepartmentList.length > 0 ?details.copyDepartmentList.toString():'' }}</span>
+						</el-form-item>
+					</template>
+					<template v-if="details.operateType === '41'">
+						<el-form-item label="交办备注：">
+							<span>{{details.comment || '-'}}</span>
+						</el-form-item>
+						<el-form-item label="交办部门：">
+							<span>{{details.processDepartment || '-'}}</span>
+						</el-form-item>
+						<el-form-item label="抄送部门：">
+							<span>{{details.copyDepartmentList && details.copyDepartmentList.length > 0 ?details.copyDepartmentList.toString():'' }}</span>
+						</el-form-item>
+					</template>
+					<template v-if="details.operateType === '47'">
+						<el-form-item label="指定办理备注：">
+							<span>{{details.comment || '-'}}</span>
+						</el-form-item>
+						<el-form-item label="指定办理部门：">
+							<span>{{details.processDepartment || '-'}}</span>
+						</el-form-item>
+						<el-form-item label="抄送部门：">
+							<span>{{details.copyDepartmentList && details.copyDepartmentList.length > 0 ?details.copyDepartmentList.toString():'' }}</span>
+						</el-form-item>
+					</template>
+					<template v-if="details.operateType === '55'">
+						<el-form-item label="案件名称：">
+							<span>{{details.title || '-'}}</span>
+						</el-form-item>
+						<el-form-item label="反映事项：">
+							<span>{{details.itemDetailName || '-'}}</span>
+						</el-form-item>
+						<el-form-item label="系统领域：">
+							<span>{{details.systemDomain || '-'}}</span>
+						</el-form-item>
+						<el-form-item label="部门归口：">
+							<span>{{details.belongType || '-'}}</span>
+						</el-form-item>
+						<el-form-item label="受理备注：">
+							<span>{{details.comment || '-'}}</span>
+						</el-form-item>
+						<el-form-item label="受理告知书">
+							<el-table v-if="details.receiveAttachmentList && details.receiveAttachmentList.length"
+								:data="details.receiveAttachmentList" size="mini" :show-header="false">
+								<el-table-column prop="fileName" label="文件名称"></el-table-column>
+								<el-table-column label="操作" align="left">
+									<template slot-scope="{row}">
+										<span style="font-size: 14px;color: #2b65da; cursor: pointer;"
+											@click="handleDownload(row)">下载</span>
+										<span style="font-size: 14px;color: #2b65da;margin-left: 5px; cursor: pointer;"
+											@click="handlePreview(row)">预览</span>
+									</template>
+								</el-table-column>
+							</el-table>
+						</el-form-item>
+					</template>
+					<template v-if="details.operateType === '60'">
+						<el-form-item label="举证时限：">
+							<span>{{details.limitDay}}天</span>
+						</el-form-item>
+						<el-form-item label="举证内容：">
+							<div v-html="txt2HTML(details.correctRequirement)"></div>
+						</el-form-item>
+					</template>
+					<template v-if="details.operateType === '51' || details.operateType === '53'">
+						<el-form-item label="申请理由：">
+							<div v-html="txt2HTML(details.reason)"></div>
+						</el-form-item>
+						<el-form-item label="申请备注：">
+							<div v-html="txt2HTML(details.comment)"></div>
+						</el-form-item>
+						<el-form-item label="审批单：">
+							<el-table
+								v-if="details.applyReviewAttachmentList && details.applyReviewAttachmentList.length"
+								:data="details.applyReviewAttachmentList" size="mini" :show-header="false">
+								<el-table-column prop="fileName" label="文件名称"></el-table-column>
+								<el-table-column label="操作" align="left">
+									<template slot-scope="{row}">
+										<span style="font-size: 14px;color: #2b65da; cursor: pointer;"
+											@click="handleDownload(row)">下载</span>
+										<span style="font-size: 14px;color: #2b65da;margin-left: 5px; cursor: pointer;"
+											@click="handlePreview(row)">预览</span>
+									</template>
+								</el-table-column>
+							</el-table>
+						</el-form-item>
+					</template>
+					<template v-if="details.operateType === '46'">
+						<el-form-item label="申请复核理由：">
+							<div v-html="txt2HTML(details.comment)"></div>
+						</el-form-item>
+					</template>
 					<template v-if="details.operateType === '44'">
 						<el-form-item label="补正时限：">
 							<div>{{details.other}}天</div>
@@ -60,9 +185,46 @@
 					</template>
 
 					<template v-if="details.operateType === '19'">
-						<el-form-item label="是否公开：">{{ details.other === "Y" ? "是" : "否" }}</el-form-item>
 						<el-form-item label="办结备注：">
 							<div v-html="txt2HTML(details.comment)"></div>
+						</el-form-item>
+						<el-form-item label="结案状态：">
+							<span>{{details.finishStatus || '-'}}</span>
+						</el-form-item>
+						<el-form-item label="案件类型：">
+							<span>{{details.workOrderType || '-'}}</span>
+						</el-form-item>
+					</template>
+					<template v-if="details.operateType === '76'">
+						<el-form-item label="反馈意见：">
+							<div v-html="txt2HTML(details.workOrderReviewFeedback.content)"></div>
+						</el-form-item>
+						<el-form-item label="反馈附件：">
+							<el-table
+								v-if="details.workOrderReviewFeedback.attachmentList && details.workOrderReviewFeedback.attachmentList.length"
+								:data="details.workOrderReviewFeedback.attachmentList" size="mini" :show-header="false">
+								<el-table-column prop="fileName" label="文件名称"></el-table-column>
+								<el-table-column label="操作" width="160px" align="center">
+									<template slot-scope="{row}">
+										<span style="font-size: 14px;color: #2b65da; cursor: pointer;"
+											@click="handleDownload(row)">下载</span>
+										<span style="font-size: 14px;color: #2b65da;margin-left: 5px; cursor: pointer;"
+											@click="handlePreview(row)">预览</span>
+									</template>
+								</el-table-column>
+							</el-table>
+
+						</el-form-item>
+					</template>
+					<template v-if="details.operateType === '49'">
+						<el-form-item label="终止备注：">
+							<div v-html="txt2HTML(details.comment)"></div>
+						</el-form-item>
+						<el-form-item label="结案状态：">
+							<span>{{details.finishStatus || '-'}}</span>
+						</el-form-item>
+						<el-form-item label="案件类型：">
+							<span>{{details.workOrderType || '-'}}</span>
 						</el-form-item>
 					</template>
 
@@ -79,10 +241,15 @@
 					</template>
 
 					<template v-if="details.operateType === '15'">
-						<el-form-item label="延期原因：">
-							<div v-html="txt2HTML(details.comment)"></div>
+						<el-form-item
+							label="延期天数：">{{details.other !== 'null' ? (details.other + '天') : '-'}}</el-form-item>
+						<el-form-item label="延期情形：">
+							<span>{{details.reason || '-'}}</span>
 						</el-form-item>
-						<el-form-item label="延期天数：">{{details.other !== 'null' ? details.other : 30}}天</el-form-item>
+						<el-form-item label="延期理由：">
+							<span>{{details.comment || '-'}}</span>
+						</el-form-item>
+
 						<el-form-item label="是否通过：">{{details.auditStatus | workOrderProcessAuditStatus}}</el-form-item>
 						<el-form-item label="附件：">
 							<el-table v-if="details.addTimeAttachment && details.addTimeAttachment.length"
@@ -97,7 +264,7 @@
 									</template>
 								</el-table-column>
 							</el-table>
-						
+
 						</el-form-item>
 					</template>
 
@@ -127,9 +294,9 @@
 									style="width: 100%;">
 									<el-table-column type="index" label="序号" width="60"
 										align="center"></el-table-column>
-									<el-table-column prop="actualPayTime" label="计划支付日期" width="170" align="center">
+									<el-table-column prop="planPayTime" label="计划支付日期" width="170" align="center">
 										<template slot-scope="{row}">
-											{{ row.actualPayTime || '-' }}
+											{{ row.planPayTime || '-' }}
 										</template>
 									</el-table-column>
 									<el-table-column prop="amount" label="支付金额(万元)" align="center">
@@ -141,7 +308,7 @@
 
 								</el-table>
 							</el-form-item>
-							<el-form-item label="计划还款：">{{planAllAmount}}万元</el-form-item>
+							<el-form-item label="计划还款：">{{planAllAmount != ''?(planAllAmount + '万元'):''}}</el-form-item>
 							<el-form-item
 								label="其他还款：">{{details.otherAmount?(details.otherAmount+'万元'):''}}</el-form-item>
 							<el-form-item label="其他还款计划：" v-if="details.otherAmount > 0 && details.payPlanOtherList">
@@ -163,7 +330,8 @@
 
 								</el-table>
 							</el-form-item>
-							<el-form-item label="其他计划还款：">{{otherPlanAllAmount}}万元</el-form-item>
+							<el-form-item
+								label="其他计划还款：">{{otherPlanAllAmount != ''?(otherPlanAllAmount + '万元'):''}}</el-form-item>
 							<el-form-item label="支付备注：">{{details.payNote || ''}}</el-form-item>
 
 						</template>
@@ -255,9 +423,9 @@
 									style="width: 100%;">
 									<el-table-column type="index" label="序号" width="60"
 										align="center"></el-table-column>
-									<el-table-column prop="actualPayTime" label="计划支付日期" width="170" align="center">
+									<el-table-column prop="planPayTime" label="计划支付日期" width="170" align="center">
 										<template slot-scope="{row}">
-											{{ row.actualPayTime || '-' }}
+											{{ row.planPayTime || '-' }}
 										</template>
 									</el-table-column>
 									<el-table-column prop="amount" label="支付金额(万元)" align="center">
@@ -269,7 +437,7 @@
 
 								</el-table>
 							</el-form-item>
-							<el-form-item label="计划还款：">{{planAllAmount}}万元</el-form-item>
+							<el-form-item label="计划还款：">{{planAllAmount !=''?(planAllAmount+'万元'):''}}</el-form-item>
 							<el-form-item
 								label="其他还款：">{{details.otherAmount?(details.otherAmount+'万元'):''}}</el-form-item>
 							<el-form-item label="其他还款计划：" v-if="details.otherAmount > 0 && details.payPlanOtherList">
@@ -289,7 +457,8 @@
 									</el-table-column>
 								</el-table>
 							</el-form-item>
-							<el-form-item label="其他计划还款：">{{otherPlanAllAmount}}万元</el-form-item>
+							<el-form-item
+								label="其他计划还款：">{{otherPlanAllAmount !=''?(otherPlanAllAmount+'万元'):''}}</el-form-item>
 							<el-form-item label="支付备注：">{{details.payNote || ''}}</el-form-item>
 						</template>
 
@@ -365,6 +534,18 @@
 						<el-form-item label="中止备注：">
 							<div v-html="txt2HTML(details.comment)"></div>
 						</el-form-item>
+						<el-form-item label="中止调查告知单：">
+							<el-table v-if="details.stopAttachment &&
+								details.stopAttachment.length" :data="details.stopAttachment" size="mini" :show-header="false">
+								<el-table-column prop="fileName" label="文件名称"></el-table-column>
+								<el-table-column label="操作" align="left">
+									<template slot-scope="{row}">
+										<el-button @click="handleDownload(row)" plain size="mini">下载</el-button>
+										<el-button @click="handlePreview(row)" plain size="mini">预览</el-button>
+									</template>
+								</el-table-column>
+							</el-table>
+						</el-form-item>
 						<el-form-item label="审批状态：">{{details.auditStatus | workOrderProcessAuditStatus}}</el-form-item>
 						<el-table v-if="details.attachmentFile && details.attachmentFile.length"
 							:data="details.attachmentFile" size="mini">
@@ -433,7 +614,8 @@
 			</div>
 		</el-dialog>
 		<!-- 预览 -->
-		<previewDialog v-if="previewDialog.visible" :visible.sync="previewDialog.visible" :filePath="previewDialog.fileURL" width="900px">
+		<previewDialog v-if="previewDialog.visible" :visible.sync="previewDialog.visible"
+			:filePath="previewDialog.fileURL" width="900px">
 		</previewDialog>
 	</div>
 
@@ -443,6 +625,7 @@
 	import previewDialog from "@/views/workOrder/components/previewDialog";
 	import * as mixins from "@/utils/mixins"
 	import * as workOrderApi from "@/api/workOrder/index";
+	import * as fileApi from '@/api/file'
 	import {
 		extensionName,
 		filename,
@@ -516,9 +699,13 @@
 						if (res.result.payPlanList && res.result.payPlanList.length > 0) {
 							let gentle = 0;
 							for (let i = 0; i < res.result.payPlanList.length; i++) {
-								if (res.result.payPlanList[i].status == 'PAYED') {
+								// if (res.result.payPlanList[i].status == 'PAYED') {
+									
+								// }
+								if (res.result.payPlanList[i].amount != '') {
 									gentle = add(gentle, Number(res.result.payPlanList[i].amount))
 								}
+								
 							}
 							this.planAllAmount = gentle
 						}

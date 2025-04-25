@@ -19,34 +19,31 @@ export const caseType = [{
 	value: '',
 	label: '全部'
 }, {
-	value: '1',
+	value: '行政审批类',
 	label: '行政审批类'
 }, {
-	value: '2',
+	value: '拖欠账款类',
 	label: '拖欠账款类'
 }, {
-	value: '3',
+	value: '涉法涉诉类',
 	label: '涉法涉诉类'
 }, {
-	value: '4',
+	value: '要素保障类',
 	label: '要素保障类'
 }, {
-	value: '5',
+	value: '执法监管类',
 	label: '执法监管类'
 }, {
-	value: '6',
+	value: '违规项目类',
 	label: '违规项目类'
 }, {
-	value: '7',
+	value: '其他',
 	label: '其他'
 }]
 
 
 /* 案件状态 */
 export const allStatusDict = Object.freeze([{
-	value: '',
-	label: "全部",
-}, {
 	value: '0',
 	label: "待受理",
 	children: [{
@@ -254,79 +251,79 @@ export const splxDict = [{
 	label: '全部'
 }, {
 	value: '10',
-	label: '指定办理审批'
+	label: '指定办理'
 }, {
 	value: '11',
-	label: '转办审批'
+	label: '转办'
 }, {
 	value: '12',
-	label: '交办审批'
+	label: '交办'
 }, {
 	value: '21',
-	label: '退回修改或补正审批'
+	label: '退回修改或补正'
 }, {
 	value: '22',
-	label: '放弃投诉举报审批'
+	label: '放弃投诉举报'
 }, {
 	value: '23',
-	label: '提出复核审批'
+	label: '提出复核'
 }, {
 	value: '24',
-	label: '申请复核审批'
+	label: '承办复核'
 }, {
 	value: '25',
-	label: '提交终止审批'
+	label: '申请终止'
 }, {
 	value: '26',
-	label: '继续办理审批'
+	label: '继续办理'
 }, {
 	value: '27',
-	label: '待终止退回重办审批'
+	label: '待终止退回重办'
 }, {
 	value: '28',
-	label: '待办结退回重办审批'
+	label: '待办结退回重办'
 }, {
 	value: '29',
-	label: '预审确认审批'
+	label: '预审确认'
 }, {
 	value: '30',
-	label: '案件受理审批'
+	label: '案件受理'
 }, {
 	value: '31',
-	label: '确认退回审批'
+	label: '确认退回'
 }, {
 	value: '32',
-	label: '申请解除跟踪审批'
+	label: '申请解除跟踪'
 }, {
 	value: '33',
-	label: '申请解除异常审批'
+	label: '申请解除异常'
 }, {
 	value: '34',
-	label: '撤回投诉举报案件审批'
+	label: '撤回投诉举报案件'
 }, {
 	value: '00',
-	label: '延期审批'
+	label: '申请延期'
 }, {
 	value: '01',
-	label: '中止审批'
+	label: '申请中止'
 }, {
 	value: '02',
-	label: '确认终止审批'
+	label: '确认终止'
 }, {
 	value: '03',
-	label: '不受理审批'
+	label: '不受理'
 }, {
 	value: '04',
-	label: '移交审批'
+	label: '移交'
 }, {
 	value: '06',
-	label: '确认办结审批'
+	label: '确认办结'
 }, {
 	value: '07',
-	label: '提交办结审批'
+	label: '申请办结'
 }, {
 	value: '09',
-	label: '直办审批'
+	label: '直办'
 }]
 
 

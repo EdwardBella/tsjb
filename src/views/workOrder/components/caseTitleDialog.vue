@@ -1,7 +1,7 @@
 <template>
 	<el-dialog append-to-body title="案件名称修改" width="560px" :visible="visible" @close="handleClose">
-		<el-form ref="form" :model="form" :rules="rules" class="white-card" label-width="120px">
-			<el-form-item label="案件名称：" prop="title">
+		<el-form ref="form" :model="form" :rules="rules" class="white-card" label-width="140px">
+			<el-form-item label="案件名称:" prop="title">
 				<el-input v-model="form.title" show-word-limit maxlength="40" placeholder="请输入" type="textarea"
 					style="width: 100%; height: 100px"></el-input>
 			</el-form-item>

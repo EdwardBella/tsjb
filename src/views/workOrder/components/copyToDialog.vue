@@ -2,7 +2,7 @@
 
 <template>
   <el-dialog append-to-body title="案件抄送" width="640px" :visible="visible" @close="handleClose">
-    <el-form ref="form" :model="form" :rules="rules" label-width="80px">
+    <el-form ref="form" :model="form" :rules="rules" label-width="140px">
       <el-form-item label="抄送部门" prop="departments">
         <div>
           <el-cascader

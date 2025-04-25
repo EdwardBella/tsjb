@@ -1,7 +1,7 @@
 <template>
 	<el-dialog append-to-body title="修改结案状态" width="550px" :visible="visible" @close="handleClose">
-		<el-form ref="form" :model="form" :rules="rules" class="white-card" label-width="120px">
-			<el-form-item label="结案状态：" prop="finishStatus">
+		<el-form ref="form" :model="form" :rules="rules" class="white-card" label-width="140px">
+			<el-form-item label="结案状态:" prop="finishStatus">
 				<el-select v-model="form.finishStatus" style="width: 100%;" placeholder="请选择部门" clearable>
 					<el-option v-for="item in optionList" :key="item.id" :label="item.name" :value="item.name">
 					</el-option>

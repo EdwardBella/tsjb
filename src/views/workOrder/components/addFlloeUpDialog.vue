@@ -1,6 +1,6 @@
 <template>
 	<el-dialog append-to-body title="添加回访记录" width="750px" :visible="visible" @close="handleClose">
-		<el-form ref="form" :model="form" :rules="rules" class="white-card" label-width="120px">
+		<el-form ref="form" :model="form" :rules="rules" class="white-card" label-width="140px">
 			<el-form-item label="回访日期：" prop="evaluateDate">
 				<el-date-picker v-model="form.evaluateDate" type="date" value-format="yyyy-MM-dd" placeholder="选择日期">
 				</el-date-picker>

@@ -12,12 +12,12 @@
 						<el-input v-model="queryParams.title" placeholder="请输入案件名称关键字" @keyup.enter.native="handleQuery"
 							style="width: 260px;"></el-input>
 					</el-form-item>
-					<el-form-item label="案件状态:" prop="status">
-						<el-cascader v-model="queryParams.status" ref="status" :options="statusArr"
-							:props="{ checkStrictly: true  ,expandTrigger: 'hover',emitPath: false,}" placeholder="请选择"
+					<el-form-item label="案件状态:" prop="allStatus">
+						<el-cascader v-model="queryParams.allStatus" ref="allStatus" :options="statusArr" collapse-tags
+							clearable :props="{ multiple: true,emitPath: false,}" placeholder="默认查全部"
 							style="width: 260px;" @change="statusChanged"></el-cascader>
 					</el-form-item>
-					<el-form-item label="提交时间:" prop="time">
+					<el-form-item label="创建时间:" prop="time">
 						<el-date-picker v-model="queryParams.time" type="daterange" range-separator="至"
 							start-placeholder="开始日期" end-placeholder="结束日期" value-format="yyyy-MM-dd"
 							style="width: 260px;" @change="handleQuery">
@@ -49,8 +49,8 @@
 							@keyup.enter.native="handleQuery"></el-input>
 					</el-form-item>
 					<el-form-item label="案件来源:" prop="itemSource">
-						<el-select v-model="queryParams.itemSource" filterable clearable placeholder="请选择"
-							style="width: 260px;" @change="handleQuery">
+						<el-select v-model="queryParams.itemSource" clearable multiple collapse-tags
+							placeholder="默认查询全部" style="width: 260px;" @change="statusChanged">
 							<el-option v-for="item in eventSourceArr" :key="item.code" :label="item.name"
 								:value="item.code"></el-option>
 						</el-select>
@@ -154,32 +154,30 @@
 							<el-option label="不满意" value="noSatisfaction"></el-option>
 						</el-select>
 					</el-form-item>
-					<el-form-item label="满意度:" prop="satisfiedScore">
-						<el-select v-model="queryParams.satisfiedScore" placeholder="请选择" style="width: 260px;"
-							@change="handleQuery">
-							<el-option label="全部" value=""></el-option>
+					<el-form-item label="满意度:" prop="allSatisfiedScore">
+						<el-select ref="allSatisfiedScore" v-model="queryParams.allSatisfiedScore" multiple
+							collapse-tags clearable placeholder="默认查询全部" style="width: 260px;" @change="statusChanged">
 							<el-option label="5星" value="5"></el-option>
 							<el-option label="4星" value="4"></el-option>
 							<el-option label="3星" value="3"></el-option>
 							<el-option label="2星" value="2"></el-option>
 							<el-option label="1星" value="1"></el-option>
-							<el-option label="未评价" value="0"></el-option>
 						</el-select>
 					</el-form-item>
 					<el-form-item label="跟踪状态:" prop="historyTrack">
 						<el-select v-model="queryParams.historyTrack" placeholder="请选择" style="width: 260px;"
 							@change="handleQuery">
 							<el-option label="全部" value=""></el-option>
-							<el-option label="跟踪" value="0"></el-option>
-							<el-option label="解除跟踪" value="1"></el-option>
+							<el-option label="跟踪" value="1"></el-option>
+							<el-option label="解除跟踪" value="0"></el-option>
 						</el-select>
 					</el-form-item>
 					<el-form-item label="异常状态:" prop="exceptionTag">
 						<el-select v-model="queryParams.exceptionTag" placeholder="请选择" style="width: 260px;"
 							@change="handleQuery">
 							<el-option label="全部" value=""></el-option>
-							<el-option label="异常" value="0"></el-option>
-							<el-option label="解除异常" value="1"></el-option>
+							<el-option label="异常" value="1"></el-option>
+							<el-option label="解除异常" value="0"></el-option>
 						</el-select>
 					</el-form-item>
 					<el-form-item label="办理时限:" prop="timeForProcess">
@@ -194,8 +192,8 @@
 					<el-form-item label="案件类型:" prop="workOrderType">
 						<el-select v-model="queryParams.workOrderType" placeholder="请选择" style="width: 260px;"
 							@change="handleQuery">
-							<el-option v-for="item in caseTypeArr" :key="item.value" :label="item.label"
-								:value="item.label"></el-option>
+							<el-option v-for="item in caseTypeArr" :key="item.label" :label="item.label"
+								:value="item.value"></el-option>
 						</el-select>
 					</el-form-item>
 
@@ -208,24 +206,24 @@
 					</el-form-item>
 
 					<el-form-item label="" label-width="10px">
-						<el-checkbox false-label="" :true-label="0" v-model="queryParams.thisDepartmentProcess"
-							label="本部门承办"></el-checkbox>
-						<el-checkbox false-label="" :true-label="0" v-model="queryParams.rejectReview"
-							label="不受理复核"></el-checkbox>
-						<el-checkbox false-label="" :true-label="0" v-model="queryParams.appeal"
-							label="承办复核"></el-checkbox>
-						<el-checkbox false-label="" :true-label="0" v-model="queryParams.back"
-							label="退回重办"></el-checkbox>
-						<el-checkbox false-label="" :true-label="0" v-model="queryParams.transferToOther"
-							label="转其他部门重办"></el-checkbox>
-						<el-checkbox false-label="" :true-label="0" v-model="queryParams.superviseStatus"
-							label="督办案件"></el-checkbox>
-						<el-checkbox false-label="" :true-label="0" v-model="queryParams.isArrear"
-							label="拖欠账款"></el-checkbox>
-						<el-checkbox false-label="" :true-label="0" v-model="queryParams.overdueForProcess"
-							label="承办超期"></el-checkbox>
-						<el-checkbox false-label="" :true-label="0" v-model="queryParams.overdueForFinish"
-							label="结案超期"></el-checkbox>
+						<el-checkbox false-label="" true-label="0" v-model="queryParams.thisDepartmentProcess"
+							label="本部门承办" @change="handleQuery"></el-checkbox>
+						<el-checkbox false-label="" true-label="0" v-model="queryParams.rejectReview"
+							label="不受理复核" @change="handleQuery"></el-checkbox>
+						<el-checkbox false-label="" true-label="0" v-model="queryParams.appeal"
+							label="承办复核" @change="handleQuery"></el-checkbox>
+						<el-checkbox false-label="" true-label="0" v-model="queryParams.back"
+							label="退回重办" @change="handleQuery"></el-checkbox>
+						<el-checkbox false-label="" true-label="0" v-model="queryParams.transferToOther"
+							label="转其他部门重办" @change="handleQuery"></el-checkbox>
+						<el-checkbox false-label="" true-label="0" v-model="queryParams.superviseStatus"
+							label="督办案件" @change="handleQuery"></el-checkbox>
+						<el-checkbox false-label="" true-label="0" v-model="queryParams.isArrear"
+							label="拖欠账款" @change="handleQuery"></el-checkbox>
+						<el-checkbox false-label="" true-label="0" v-model="queryParams.overdueForProcess"
+							label="承办超期" @change="handleQuery"></el-checkbox>
+						<el-checkbox false-label="" true-label="0" v-model="queryParams.overdueForFinish"
+							label="结案超期" @change="handleQuery"></el-checkbox>
 					</el-form-item>
 
 				</el-form>
@@ -250,9 +248,9 @@
 					<el-table-column label="案件名称" show-overflow-tooltip prop="title" min-width="500px"
 						header-align="left" align="left">
 						<template slot-scope="scope">
-							<span v-if="scope.row.supervisionTag == '1'" class="chong"
+							<span v-if="scope.row.supervisionTag == '1' || scope.row.supervisionTag == '3'" class="chong"
 								style="background-color: #e2a900;">跟踪</span>
-							<span v-if="scope.row.exceptionTag == '1'" class="chong">异常</span>
+							<span v-if="scope.row.exceptionTag == '1' || scope.row.exceptionTag == '3'" class="chong">异常</span>
 							<span v-if="scope.row.repeatCheck == 'Y'" class="chong">复</span>
 							<span v-if="scope.row.isDuplicated == 'Y'" class="chong"
 								style="background-color: #f55b23;">重</span>
@@ -273,7 +271,7 @@
 						</template>
 
 					</el-table-column>
-					<el-table-column label="案件类型" prop="workOrderType" width="120px" show-overflow-tooltip
+					<el-table-column label="反映事项" prop="itemDetailName" width="220px" show-overflow-tooltip
 						header-align="left">
 					</el-table-column>
 					<el-table-column label="状态" prop="sex" width="120px" show-overflow-tooltip header-align="left"
@@ -296,7 +294,7 @@
 					<el-table-column label="手机号码" prop="mobile" width="120px" header-align="left" align="left" />
 					<el-table-column label="承办单位" prop="processDepartment" show-overflow-tooltip min-width="240px"
 						header-align="left" align="left" />
-					<el-table-column label="提交时间" prop="createTime" width="170px" header-align="left" align="left" />
+					<el-table-column label="创建时间" prop="createTime" width="170px" header-align="left" align="left" />
 					<el-table-column label="受理时间" prop="filingTime" width="170px" header-align="left" align="left" />
 					<el-table-column label="结案时间" prop="finishTime" width="170px" header-align="left" align="left" />
 					<el-table-column label="结案回访" prop="evaluateResult" width="120px" show-overflow-tooltip
@@ -304,8 +302,12 @@
 						<template slot-scope="scope">
 							<span>{{scope.row.evaluateResult == 'common'?'基本满意':scope.row.evaluateResult == 'satisfaction'?'满意':scope.row.evaluateResult == 'noSatisfaction'?'不满意':''}}</span>
 						</template>
-					</el-table-column>>
-					<el-table-column label="满意度" prop="satisfiedScore" width="80px" header-align="left" align="left" />
+					</el-table-column>
+					<el-table-column label="满意度" prop="satisfiedScore" width="80px" header-align="left" align="left">
+						<template slot-scope="scope">
+							<span>{{scope.row.satisfiedScore != ''?(scope.row.satisfiedScore + '星'):''}}</span>
+						</template>
+					</el-table-column>
 					<el-table-column label="案件来源" prop="itemSource" width="120px" header-align="left" align="left">
 						<template slot-scope="scope">
 							<span>{{itemResourceTrans[scope.row.itemSource]}}</span>
@@ -379,11 +381,11 @@
 					time: [],
 					time2: [],
 					time3: [],
-					status: '',
+					allStatus: [],
 					companyName: '',
 					createUsername: "",
 					mobile: "",
-					itemSource: "",
+					itemSource: [],
 					addressId: "",
 					addressDepartmentCode: '',
 					systemDomain: "",
@@ -394,7 +396,7 @@
 					extensionTimes: "",
 					satisfactionLevel: "",
 					evaluate: "",
-					satisfiedScore: "",
+					allSatisfiedScore: [],
 					historyTrack: "",
 					exceptionTag: "",
 					timeForProcess: "",
@@ -429,7 +431,6 @@
 		created() {
 			this.getBasicData()
 			this.getList()
-			console.log(this.timeDifference('', ''), '============================')
 		},
 		methods: {
 			returnStatus,
@@ -445,7 +446,7 @@
 					'addressId',
 					'addressDepartmentCode', 'systemDomain',
 					'belongType', 'itemDetailId', 'processType', 'processDepartmentCode', 'extensionTimes',
-					'satisfactionLevel', 'evaluate', 'satisfiedScore',
+					'satisfactionLevel', 'evaluate', 'allSatisfiedScore',
 					'historyTrack', 'exceptionTag', 'timeForProcess', 'workOrderType', 'finishStatus',
 					'thisDepartmentProcess', 'rejectReview',
 					'appeal', 'back', 'transferToOther', 'superviseStatus', 'isArrear', 'overdueForProcess',
@@ -453,9 +454,15 @@
 				]
 
 				for (let i = 0; i < keys.length; i++) {
-					if (this.queryParams[keys[i]] != '') {
-						params[keys[i]] = this.queryParams[keys[i]]
+					if ((keys[i] == 'itemSource' && this.queryParams.itemSource.length > 0) || (keys[i] ==
+							'allSatisfiedScore' && this.queryParams.allSatisfiedScore.length > 0)) {
+						params[keys[i]] = this.queryParams[keys[i]].join(',')
+					} else {
+						if (this.queryParams[keys[i]] != '') {
+							params[keys[i]] = this.queryParams[keys[i]]
+						}
 					}
+
 				}
 				if (this.queryParams.time && this.queryParams.time.length != 0) {
 					params.createTimeStart = this.queryParams.time[0]
@@ -469,32 +476,32 @@
 					params.finishTime = this.queryParams.time3[0]
 					params.finishTimeEnd = this.queryParams.time3[1]
 				}
-				if (this.queryParams.status.split(',').length > 2 || this.queryParams.status.split(',').length == 1) {
-					params.status = this.queryParams.status
-					params.subStatus = ''
+				if (this.queryParams.allStatus.length > 0) {
+					params.allStatus = this.queryParams.allStatus.join('-')
 				}
-				if (this.queryParams.status.split(',').length == 2) {
-					params.status = this.queryParams.status.split(',')[0]
-					params.subStatus = this.queryParams.status.split(',')[1]
-				}
+
 				this.tableData.loading = true
 				workOrderApi.distribute.allList(params).then(res => {
 					const result = res.result;
 					this.tableData.data = result.records;
 					this.tableData.total = Number(result.total);
-				}).finally(() => this.tableData.loading = false);;
+				}).finally(() => this.tableData.loading = false);
 			},
 			resetQuery() {
+				this.complainAddressId = ""
+				this.complainAddressId2 = ""
+				this.processDepartmentArr = []
+				this.processDepartmentArr2 = []
 				this.queryParams.workOrderNumber = ''
 				this.queryParams.title = ''
 				this.queryParams.time = []
 				this.queryParams.time2 = []
 				this.queryParams.time3 = []
-				this.queryParams.status = ''
+				this.queryParams.allStatus = []
 				this.queryParams.companyName = ''
 				this.queryParams.createUsername = ''
 				this.queryParams.mobile = ''
-				this.queryParams.itemSource = ''
+				this.queryParams.itemSource = []
 				this.queryParams.addressId = ''
 				this.queryParams.addressDepartmentCode = ''
 				this.queryParams.systemDomain = ''
@@ -505,7 +512,7 @@
 				this.queryParams.extensionTimes = ''
 				this.queryParams.satisfactionLevel = ''
 				this.queryParams.evaluate = ''
-				this.queryParams.satisfiedScore = ''
+				this.queryParams.allSatisfiedScore = []
 				this.queryParams.historyTrack = ''
 				this.queryParams.exceptionTag = ''
 				this.queryParams.timeForProcess = ''
@@ -548,17 +555,43 @@
 						parentCode: "1009"
 					})
 					.then(res => {
-						this.finishStatusArr = res.result
+						let lists = res.result.map((item)=>{
+							item.id = item.name
+							return item
+						})
+						lists.unshift({
+							id: '',
+							name: '全部'
+						})
+						this.finishStatusArr = lists
 					});
 				dictApi.belongType()
 					.then(res => {
-						this.belongTypeArr = res.result
+						let lists = res.result.map((item)=>{
+							item.code = item.name
+							return item
+						})
+						lists.unshift({
+							code: '',
+							name: '全部'
+						})
+						this.belongTypeArr = lists
 					});
 				dictApi.list({
 						parentCode: '1011'
 					})
 					.then(res => {
-						this.systemArear = res.result
+						let lists = res.result.map((item)=>{
+							item.id = item.name
+							return item
+						})
+						console.log(lists,'))))))))))))+++++++')
+						lists.unshift({
+							id: '',
+							name: '全部'
+						})
+						
+						this.systemArear = lists
 					})
 			},
 			coverItemdetailDataTopickData(data) {
@@ -585,8 +618,10 @@
 				this.drawer = true
 			},
 			statusChanged(value) {
-				this.$refs.status.dropDownVisible = false
-				this.handleQuery()
+				if (value.length == 0) {
+					this.$refs.allStatus.dropDownVisible = false
+					this.handleQuery()
+				}
 			},
 			complainAddressIdChanged(value) {
 				this.$refs.complainAddressId.dropDownVisible = false
@@ -614,7 +649,7 @@
 					this.queryParams.processDepartmentCode = ''
 				} else {
 					this.processDepartmentArr2 = []
-					this.queryParams.addressDepartmentCode = ''
+					this.queryParams.processDepartmentCode = ''
 					this.$nextTick(() => {
 						let id = value
 						portalsApi.workOrder.departByAddress(
@@ -689,6 +724,11 @@
 			background-color: #fff;
 			box-shadow: 0 2px 11px 0 hsla(0, 0%, 63.1%, .2);
 			overflow: hidden;
+			
+			::v-deep .el-icon-circle-close {
+				font-size: 22px;
+				color: #606266;
+			}
 
 			.el-form {
 				margin: 6px 0px;

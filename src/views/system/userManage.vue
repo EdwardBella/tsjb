@@ -4,7 +4,7 @@
 		<div>
 			<div class="search-content">
 				<el-form :model="queryParams" :inline="true" ref="queryForm" label-width="100px">
-					<el-form-item label="部门:" prop="status">
+					<el-form-item label="所属组织:" prop="status">
 						<el-cascader ref="cascader" style="width: 100%" v-model="queryParams.orgCode"
 							:props="{ children: 'children', label: 'name', value: 'deptCode', expandTrigger: 'hover', emitPath: false, checkStrictly: true}"
 							:options="departmentTree" :show-all-levels="false" placeholder="请选择部门"
@@ -29,16 +29,16 @@
 			<div class="table-cn">
 				<el-table v-loading="tableData.loading" element-loading-text="拼命加载中" border stripe style="width: 100%"
 					:data="tableData.data" :header-row-style="{'height':'60px',}">
-					<el-table-column label="登录名" prop="accountName" header-align="left" align="left" />
-					<el-table-column label="别名" prop="name" header-align="left" align="left" />
+					<el-table-column label="用户名" prop="accountName" header-align="left" align="left" />
+					<el-table-column label="姓名" prop="name" header-align="left" align="left" />
 					<el-table-column prop="orgName" label="部门角色" show-overflow-tooltip>
 						<template slot-scope="scope">
 							{{ scope.row.roleNames }}
 						</template>
 					</el-table-column>
-					<el-table-column label="电话" prop="telephone" header-align="left" align="left" />
+					<el-table-column label="手机号" prop="telephone" header-align="left" align="left" />
 					<el-table-column label="邮箱" prop="email" header-align="left" align="left" />
-					<el-table-column label="操作" align="center" width="260" fixed="right">
+					<el-table-column label="操作" align="left" width="260" fixed="right">
 						<template slot-scope="scope">
 							<el-button type="primary" :disabled="loading" @click="editUserInfo(scope.row)" plain
 								size="mini">编辑</el-button>

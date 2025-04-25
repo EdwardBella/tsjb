@@ -1,18 +1,18 @@
 <template>
 	<el-dialog append-to-body title="发起材料补正" width="750px" :visible="visible" @close="handleClose">
-		<el-form ref="form" :model="form" :rules="rules" class="white-card" label-width="120px">
-			<el-form-item label="补正时限：" prop="limitDay">
+		<el-form ref="form" :model="form" :rules="rules" class="white-card" label-width="140px">
+			<el-form-item label="补正时限:" prop="limitDay">
 				<div style="display: flex;align-items: center;">
 					<el-input type="number" placeholder="最大时限不超过30日" v-model="form.limitDay"></el-input>
 					<span style="font-size: 16px;color: #323232;">日</span>
 				</div>
 
 			</el-form-item>
-			<el-form-item label="修改内容：" prop="modifyComment">
+			<el-form-item label="修改内容:" prop="modifyComment">
 				<el-input v-model="form.modifyComment" show-word-limit maxlength="300" placeholder="请输入修改内容"
 					type="textarea" style="width: 100%; height: 100px"></el-input>
 			</el-form-item>
-			<el-form-item label="补正内容：" prop="correctionComment">
+			<el-form-item label="补正内容:" prop="correctionComment">
 				<el-input v-model="form.correctionComment" show-word-limit maxlength="300" placeholder="请输入补正内容"
 					type="textarea" style="width: 100%; height: 100px"></el-input>
 			</el-form-item>

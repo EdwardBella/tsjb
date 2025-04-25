@@ -42,10 +42,14 @@
 					<span v-if="row.status === 3">调查处理中</span>
 					<span v-if="row.status === 5 && row.appraiseStatus == 'Y'">已评价</span>
 					<span v-if="row.status === 5 && row.appraiseStatus == 'N'">待评价</span>
-					<span v-if="row.status === 6">不受理</span>
-					<span v-if="row.status === 8">不受理</span> -->
-					<span>{{returnStatus(row.status,row.subStatus)}}</span>
-					
+					<span v-if="row.status === 6">不受理</span>-->
+					<template v-if="row.status === 6">
+						<span
+							v-if="row.rejectReview == 'Y' && row.workOrderAudit == '' && (row.workOrderProcess == null || row.workOrderProcess == '')">不受理复核中</span>
+						<span v-else>不受理</span>
+					</template>
+					<span v-else>{{returnStatus(row.status,row.subStatus)}}</span>
+
 				</template>
 			</el-table-column>
 			<el-table-column prop="createTime" label="提交时间" width="190px"></el-table-column>
@@ -195,7 +199,8 @@
 		font-size: 16px;
 		color: #666;
 	}
-	::v-deep .el-form--inline .el-form-item{
+
+	::v-deep .el-form--inline .el-form-item {
 		margin-bottom: 0px;
 	}
 </style>

@@ -1,7 +1,7 @@
 <template>
 	<div style="display: flex; align-items: center;">
 		<input @change="handleFileChange" ref="fileInput" id="fileInput" class="vision-hide" type="file"
-			accept=".bmp,.jpg,.jpeg,.png,.tif,.gif,.mov,.avi,.mp4,.wmv,.rmvb,.docx,.pptx,.xlsx,.doc,.ppt,.xls,.pdf,.rar,.zip,.7z">
+			accept=".bmp,.jpg,.jpeg,.png,.tif,.gif,.mov,.avi,.mp4,.wmv,.rmvb,.docx,.pptx,.xlsx,.doc,.ppt,.xls,.pdf">
 		<el-button :loading="uploading" @click="handleUploadFile" type="primary" plain
 			style="font-size: 16px;cursor: pointer; height: 40px;text-align: center; line-height: 40px;border-radius: 4px;box-shadow: 0 2px 4px 0 rgba(9,78,197,.3); border: 1px solid #1b5284; font-weight: 600;">上传附件</el-button>
 		<p v-if="isShowTip" style="font-size: 14px;line-height: 20px;margin-left: 8px;"><span

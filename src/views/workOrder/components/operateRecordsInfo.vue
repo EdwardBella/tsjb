@@ -19,7 +19,7 @@
 				align="left"></el-table-column>
 			<el-table-column label="详情" width="100px" align="center">
 				<template slot-scope="scope">
-					<el-button type="primary" plain size="mini" @click="seeDetails(scope.row)">查看</el-button>
+					<el-button v-if="scope.row.operateType != '76'" type="primary" plain size="mini" @click="seeDetails(scope.row)">查看</el-button>
 				</template>
 			</el-table-column>
 		</el-table>

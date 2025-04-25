@@ -1,13 +1,13 @@
 <template>
 	<el-dialog append-to-body title="撤回于放弃" width="750px" :visible="visible" @close="handleClose">
-		<el-form ref="form" :model="form" :rules="rules" class="white-card" label-width="120px">
-			<el-form-item label="放弃类型：" prop="giveUpType">
+		<el-form ref="form" :model="form" :rules="rules" class="white-card" label-width="140px">
+			<el-form-item label="放弃类型:" prop="giveUpType">
 				<el-select v-model="form.giveUpType" style="width: 100%;" placeholder="请选择部门" clearable>
 					<el-option v-for="item in optionList" :key="item.code" :label="item.name" :value="item.code">
 					</el-option>
 				</el-select>
 			</el-form-item>
-			<el-form-item label="放弃原因：" prop="giveUpReason">
+			<el-form-item label="放弃原因:" prop="giveUpReason">
 				<el-input v-model="form.giveUpReason" show-word-limit maxlength="300" placeholder="请输入修改内容"
 					type="textarea" style="width: 100%; height: 100px"></el-input>
 			</el-form-item>

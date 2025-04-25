@@ -2,18 +2,18 @@
 
 <template>
 	<el-dialog append-to-body title="终止案件" width="640px" :visible="visible" @close="handleClose">
-		<el-form ref="form" :model="form" :rules="rules" class="white-card" label-width="110px">
-			<el-form-item label="终止备注：" prop="remark">
+		<el-form ref="form" :model="form" :rules="rules" class="white-card" label-width="140px">
+			<el-form-item label="终止备注:" prop="remark">
 				<el-input v-model="form.remark" show-word-limit maxlength="300" placeholder="请输入详细描述" type="textarea"
 					style="width: 100%; height: 150px"></el-input>
 			</el-form-item>
-			<el-form-item label="结案状态：" prop="finishStatus">
+			<el-form-item label="结案状态:" prop="finishStatus">
 				<el-select v-model="form.finishStatus" placeholder="请选择" style="width: 100%">
 					<el-option v-for="item in overStatusArr" :key="item.id" :label="item.name"
 						:value="item.name"></el-option>
 				</el-select>
 			</el-form-item>
-			<el-form-item label="案件类型：" prop="workOrderType">
+			<el-form-item label="案件类型:" prop="workOrderType">
 				<el-select v-model="form.workOrderType" placeholder="请选择" style="width: 100%">
 					<el-option v-for="item in caseTypeStatusArr" :key="item.id" :label="item.name"
 						:value="item.name"></el-option>

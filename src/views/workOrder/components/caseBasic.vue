@@ -1,19 +1,18 @@
 <template>
 	<div class="caseBasic">
 		<!-- 状态 -->
-		<caseStatus :detailsInfo="detailsInfo" :surpriseStatusInfo="surpriseStatusInfo" />
-
+		<caseStatus v-if="isShow" :detailsInfo="detailsInfo" :surpriseStatusInfo="surpriseStatusInfo" :audit="false" />
 
 		<!-- 督办内容-->
 		<superviseAndHandleInfo v-if="surpriseStatusInfo.id != '' && surpriseStatusInfo.superviseStatus == '1'"
 			:surpriseStatusInfo="surpriseStatusInfo" />
-
-
 		<div class="module-head" style="margin-top: 10px;">
 			<img src="@/assets/images/title-arrow.png" style="height: 20px;margin-right: 10px;" />
 			<span style="font-size: 18px;">投诉举报人基本信息</span>
 		</div>
+
 		<el-form class="key-value" label-width="130px" label-suffix="：">
+
 			<el-row>
 				<el-col :span="8">
 					<el-form-item label="联系人">{{detailsInfo.complainPersonMainInfo.createUsername || ''}}</el-form-item>
@@ -37,9 +36,12 @@
 						label="社会信用代码">{{detailsInfo.complainPersonMainInfo.socialCreditNumber || ''}}</el-form-item>
 				</el-col>
 			</el-row>
+
 			<el-row>
 				<el-col :span="8">
-					<el-form-item label="通讯地址">{{detailsInfo.companyAddress || ''}}</el-form-item>
+					<el-form-item label="通讯地址">
+						{{detailsInfo.companyAddress || ''}}
+					</el-form-item>
 				</el-col>
 				<el-col :span="16">
 					<el-form-item
@@ -133,7 +135,7 @@
 				<el-col :span="24">
 					<el-form-item label="反映事项">{{detailsInfo.itemDetailName || ''}}</el-form-item>
 				</el-col>
-				
+
 				<el-col :span="24">
 					<el-form-item label="系统领域">{{detailsInfo.systemDomain || ''}}</el-form-item>
 				</el-col>
@@ -271,7 +273,7 @@
 			:detailsInfo="detailsInfo" />
 
 		<!-- 终止信息-->
-		<terminationInfo v-if="detailsInfo.status == '8'" :detailsInfo="detailsInfo" />
+		<terminationInfo v-if="detailsInfo.status == '8' || detailsInfo.status == '15'" :detailsInfo="detailsInfo" />
 
 
 		<!-- 结案信息-->
@@ -294,7 +296,8 @@
 
 
 		<!-- 预览 -->
-		<previewDialog v-if="previewDialog.visible" :visible.sync="previewDialog.visible" :filePath="previewDialog.fileURL" width="900px">
+		<previewDialog v-if="previewDialog.visible" :visible.sync="previewDialog.visible"
+			:filePath="previewDialog.fileURL" width="900px">
 		</previewDialog>
 		<!-- 修改案件名称 -->
 		<caseTitleDialog :visible.sync="caseTitleDialog.visible" :title="detailsInfo.title"
@@ -382,6 +385,7 @@
 				times: "",
 				isOverTime: false,
 				itemResourceTrans: workOrderEventSourceDict,
+				isShow: false,
 			};
 		},
 		computed: {
@@ -391,7 +395,10 @@
 			detailsInfo: {
 				handler(val) {
 					if (val != null) {
-						
+						this.isShow = false
+						this.$nextTick(() => {
+							this.isShow = true
+						})
 
 					}
 				},
@@ -400,10 +407,10 @@
 			},
 		},
 		created() {
-			
+
 		},
 		mounted() {
-			
+
 		},
 		beforeDestroy() {
 			if (this.timer) {

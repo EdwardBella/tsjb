@@ -3,7 +3,7 @@
 		<div class="module-head" style="margin-top: 10px;">
 			<img src="@/assets/images/title-arrow.png" style="height: 20px;margin-right: 10px;" />
 			<span style="font-size: 18px;flex: 1;">结案回访</span>
-			<span class="isPlan-cn" @click="addFllowUp">添加</span>
+			<span class="isPlan-cn" @click="addFllowUp" v-if="userRoles.isLeaderDepartment">添加</span>
 		</div>
 		<div style="display: flex;flex-direction: column;">
 			<div class="content-cn" v-for="(item,index) in workOrderEvaluatesList" :key="item.id">
@@ -47,6 +47,9 @@
 	import * as templateApi from "@/api/template";
 	import * as fileApi from '@/api/file'
 	import addFlloeUpDialog from "./addFlloeUpDialog";
+	import {
+		mapState
+	} from 'vuex'
 
 	export default {
 		name: "overFllowUpInfo",
@@ -78,6 +81,9 @@
 				deep: true,
 				immediate: true
 			},
+		},
+		computed: {
+			...mapState(['userInfo', 'userRoles']),
 		},
 		methods: {
 			show() {

@@ -3,18 +3,19 @@
 <template>
 	<div>
 		<el-dialog append-to-body title="案件受理" width="750px" :visible="visible" @close="handleClose">
-			<el-form ref="form" :model="form" :rules="rules" label-width="130px" class="white-card">
-				<el-form-item label="案件名称" prop="title">
+			<el-form ref="form" :model="form" :rules="rules" label-width="140px" class="white-card">
+				<el-form-item label="案件名称:" prop="title">
 					<el-input v-model="form.title" placeholder="请输入" style="width: 100%" show-word-limit maxlength="40">
 					</el-input>
 				</el-form-item>
-				<el-form-item label="案件类型" prop="itemCode">
+				<el-form-item label="反映事项:" prop="itemCode">
 					<el-select v-model="form.itemCode" placeholder="请选择" clearable style="width: 100%">
 						<el-option-group v-for="group in itemdetailTree" :key="group.label" :label="group.label">
 							<el-option v-for="item in group.options" :key="item.value" :label="item.label"
 								:value="item.value">
 							</el-option>
 						</el-option-group>
+						
 					</el-select>
 				</el-form-item>
 				<el-form-item label="系统领域:" prop="systemDomain">
@@ -29,13 +30,13 @@
 							:value="item.name"></el-option>
 					</el-select>
 				</el-form-item>
-				<el-form-item label="受理备注" prop="comment">
+				<el-form-item label="受理备注:" prop="comment">
 					<el-input v-model="form.comment" show-word-limit maxlength="100" placeholder="请输入详细描述"
 						type="textarea" style="width: 100%; height: 150px"></el-input>
 				</el-form-item>
-				<el-form-item label="受理通知书" prop="receiveAttachments">
-					<FileUpload @fileDatas="fjFileList" :fileSizes="100" :isShowTip="true"
-						tips="* 支持图片、文档、压缩包格式文件，文件大小不大于 100M。" />
+				<el-form-item label="受理告知书:" prop="receiveAttachments">
+					<FileUpload @fileDatas="fjFileList" :fileSizes="100" :isShowTip="true" :limit="1"
+						tips="*支持图片、文档、压缩包格式文件，文件大小不大于 100M。" />
 					<el-table v-if="form.receiveAttachments.length > 0" :data="form.receiveAttachments" size="mini"
 						:show-header="false" style="margin-top: 10px;">
 						<el-table-column prop="fileName" label="文件名称"></el-table-column>
@@ -61,7 +62,8 @@
 			</div>
 		</el-dialog>
 
-		<previewDialog v-if="previewDialog.visible" :visible.sync="previewDialog.visible" :filePath="previewDialog.fileURL" width="900px">
+		<previewDialog v-if="previewDialog.visible" :visible.sync="previewDialog.visible"
+			:filePath="previewDialog.fileURL" width="900px">
 		</previewDialog>
 	</div>
 
@@ -72,6 +74,7 @@
 	import * as workOrderApi from "@/api/workOrder/index";
 	import * as templateApi from "@/api/template";
 	import * as dictApi from "@/api/dict";
+	import * as fileApi from "@/api/file";
 	import * as statisticsApi from "@/api/statistics";
 	import FileUpload from "@/views/portals/components/fileUpload"
 	import previewDialog from "@/views/workOrder/components/previewDialog";
@@ -148,7 +151,7 @@
 					}],
 					receiveAttachments: [{
 						required: true,
-						message: "请选择受理通知书"
+						message: "请选择受理告知书"
 					}]
 				},
 				submitting: false,

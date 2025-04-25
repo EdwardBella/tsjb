@@ -6,20 +6,20 @@
 			<div class="search-content">
 				<el-form :model="queryParams" :inline="true" label-position="left" ref="queryForm" label-width="100px">
 					<el-form-item label="审批类型:" prop="type">
-						<el-select v-model="queryParams.type" filterable clearable placeholder="请选择"
+						<el-select v-model="queryParams.type" filterable placeholder="请选择"
 							style="width: 260px;" @change="handleQuery">
 							<el-option v-for="item in eventSourceArr" :key="item.value" :label="item.label"
 								:value="item.value"></el-option>
 						</el-select>
 					</el-form-item>
 					<el-form-item label="审批状态:" prop="status">
-						<el-select v-model="queryParams.status" filterable clearable placeholder="请选择"
+						<el-select v-model="queryParams.status" filterable placeholder="请选择"
 							style="width: 260px;" @change="handleQuery">
 							<el-option v-for="item in statusArr" :key="item.value" :label="item.label"
 								:value="item.value"></el-option>
 						</el-select>
 					</el-form-item>
-					<el-form-item label="提交时间:" prop="time">
+					<el-form-item label="创建时间:" prop="time">
 						<el-date-picker v-model="queryParams.time" type="daterange" range-separator="至"
 							start-placeholder="开始日期" end-placeholder="结束日期" value-format="yyyy-MM-dd"
 							style="width: 260px;" @change="handleQuery">
@@ -74,7 +74,7 @@
 					<el-table-column label="审批剩余时限" prop="auditDeadLine" width="140px" header-align="left" align="left">
 						<template slot-scope="scope">
 							<span v-if="scope.row.auditDeadLine != ''"
-								:style="{color: getEndeTime(scope.row.auditDeadLine) == ''?'#e44831':'#666'}">{{getEndeTime(item.auditDeadLine)==''?'0小时0分钟':getEndeTime(item.auditDeadLine)}}</span>
+								:style="{color: getEndeTime(scope.row.auditDeadLine) == ''?'#e44831':'#666'}">{{getEndeTime(scope.row.auditDeadLine)==''?'0小时0分钟':getEndeTime(scope.row.auditDeadLine)}}</span>
 						</template>
 					</el-table-column>
 					<el-table-column label="操作" align="center" width="100">
@@ -186,7 +186,7 @@
 			},
 			resetQuery() {
 				this.queryParams.type = ''
-				this.queryParams.status = ''
+				this.queryParams.status = this.statusArr[0].value
 				this.queryParams.time = []
 				this.queryParams.createTimeStart = ''
 				this.queryParams.createTimeEnd = ''

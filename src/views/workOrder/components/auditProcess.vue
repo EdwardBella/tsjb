@@ -34,12 +34,18 @@
 				<el-col v-if="detailsInfo.workOrderAudit.type == 21" :span="24">
 					<el-form-item label="退回补正内容">{{detailsInfo.workOrderAudit.applyReason || ''}}</el-form-item>
 				</el-col>
-				<el-col v-if="['32','24'].includes(detailsInfo.workOrderAudit.type)" :span="24">
-					<el-form-item label="申请理由">{{detailsInfo.workOrderAudit.applyReason || ''}}</el-form-item>
+				<el-col v-if="['32','33'].includes(detailsInfo.workOrderAudit.type)" :span="24">
+					<el-form-item label="申请理由">{{detailsInfo.workOrderAudit.applyComment || ''}}</el-form-item>
 				</el-col>
-				<el-col v-if="['24'].includes(detailsInfo.workOrderAudit.type)" :span="24">
-					<el-form-item label="申请备注">{{detailsInfo.workOrderAudit.applyComment || ''}}</el-form-item>
-				</el-col>
+				<template v-if="detailsInfo.workOrderAudit.type == '24'">
+					<el-col :span="24">
+						<el-form-item label="申请理由">{{detailsInfo.workOrderAudit.applyReason || ''}}</el-form-item>
+					</el-col>
+					<el-col :span="24">
+						<el-form-item label="申请备注">{{detailsInfo.workOrderAudit.applyComment || ''}}</el-form-item>
+					</el-col>
+				</template>
+
 				<el-col v-if="['23'].includes(detailsInfo.workOrderAudit.type)" :span="24">
 					<el-form-item label="复核理由">{{detailsInfo.workOrderAudit.applyComment || ''}}</el-form-item>
 				</el-col>
@@ -62,7 +68,8 @@
 					<el-form-item label="延期原因">{{detailsInfo.workOrderAudit.applyReason || ''}}</el-form-item>
 				</el-col>
 				<el-col v-if="detailsInfo.workOrderAudit.type == '00'" :span="24">
-					<el-form-item label="延期天数">{{detailsInfo.workOrderAudit.applyOther || ''}}天</el-form-item>
+					<el-form-item
+						label="延期天数">{{detailsInfo.workOrderAudit.applyOther != ''?(detailsInfo.workOrderAudit.applyOther + '天'):''}}</el-form-item>
 				</el-col>
 				<el-col v-if="detailsInfo.workOrderAudit.type == '00'" :span="24">
 					<el-form-item label="延期备注">{{detailsInfo.workOrderAudit.applyComment || ''}}</el-form-item>
@@ -95,9 +102,8 @@
 					<el-form-item label="不受理备注">{{detailsInfo.workOrderAudit.applyComment || ''}}</el-form-item>
 				</el-col>
 				<el-col v-if="detailsInfo.workOrderAudit.type == '03'" :span="24">
-					<el-form-item label="不受理通知书">
-						<el-table
-							v-if="detailsInfo.workOrderAudit.rejectFile != ''"
+					<el-form-item label="不受理告知书">
+						<el-table v-if="detailsInfo.workOrderAudit.rejectFile != ''"
 							:data="[detailsInfo.workOrderAudit.rejectFile]" size="mini" :show-header="false">
 							<el-table-column prop="fileName" label="文件名称"></el-table-column>
 							<el-table-column label="操作" align="left">
@@ -109,7 +115,7 @@
 								</template>
 							</el-table-column>
 						</el-table>
-				
+
 					</el-form-item>
 				</el-col>
 
@@ -134,16 +140,19 @@
 					v-if="(detailsInfo.workOrderAudit.type == 25 || detailsInfo.workOrderAudit.type == '07') && detailsInfo.questionMainInfo.isArrear">
 					<el-col :span="8">
 						<el-form-item
-							label="投诉欠款">{{detailsInfo.questionMainInfo.govArrears.contractAmount}}万元</el-form-item>
+							label="投诉欠款">{{detailsInfo.questionMainInfo.govArrears.contractAmount != ''?(detailsInfo.questionMainInfo.govArrears.contractAmount +'万元'):""}}</el-form-item>
 					</el-col>
 					<el-col :span="16">
-						<el-form-item label="确认欠款">{{detailsInfo.confirmUnPayAmount}}万元</el-form-item>
+						<el-form-item
+							label="确认欠款">{{detailsInfo.confirmUnPayAmount != ''?(detailsInfo.confirmUnPayAmount + '万元'):''}}</el-form-item>
 					</el-col>
 					<el-col :span="8">
-						<el-form-item label="已清欠款">{{detailsInfo.payedAmount}}万元</el-form-item>
+						<el-form-item
+							label="已清欠款">{{detailsInfo.payedAmount != ''?(detailsInfo.payedAmount + '万元'):""}}</el-form-item>
 					</el-col>
 					<el-col :span="16">
-						<el-form-item label="剩余欠款">{{detailsInfo.unPayAmount}}万元</el-form-item>
+						<el-form-item
+							label="剩余欠款">{{detailsInfo.unPayAmount != ''?(detailsInfo.unPayAmount + '万元'):""}}</el-form-item>
 					</el-col>
 					<el-col :span="24">
 						<el-form-item label="制定计划">{{ detailsInfo.makePayPlan == '1'?'是':'否'}}</el-form-item>
@@ -160,20 +169,20 @@
 						</el-form-item>
 					</el-col>
 					<el-col :span="8">
-						<el-form-item label="计划还款">{{detailsInfo.makePayPlanAmount}}万元</el-form-item>
+						<el-form-item
+							label="计划还款">{{detailsInfo.makePayPlanAmount != ''?(detailsInfo.makePayPlanAmount + '万元'):""}}</el-form-item>
 					</el-col>
 					<el-col :span="16">
-						<el-form-item label="其他还款">{{detailsInfo.otherAmount}}万元</el-form-item>
+						<el-form-item label="其他还款">{{detailsInfo.otherAmount != ''?(detailsInfo.otherAmount + '万元'):""}}</el-form-item>
 					</el-col>
 					<el-col :span="24">
 						<el-form-item label="支付备注">{{detailsInfo.payNote || '-'}}</el-form-item>
 					</el-col>
 				</el-row>
-				
+
 				<el-col v-if="detailsInfo.workOrderAudit.type == '00'" :span="24">
 					<el-form-item label="附件">
-						<el-table
-							v-if="detailsInfo.addTimeAttachment && detailsInfo.addTimeAttachment.length"
+						<el-table v-if="detailsInfo.addTimeAttachment && detailsInfo.addTimeAttachment.length"
 							:data="detailsInfo.addTimeAttachment" size="mini" :show-header="false">
 							<el-table-column prop="fileName" label="文件名称"></el-table-column>
 							<el-table-column label="操作" align="left">
@@ -185,19 +194,19 @@
 								</template>
 							</el-table-column>
 						</el-table>
-				
+
 					</el-form-item>
 				</el-col>
 
 
 
 
-				<el-col v-if="detailsInfo.workOrderAudit.type == 25" :span="24">
+				<el-col v-if="detailsInfo.workOrderAudit.type == '25'" :span="24">
 					<el-form-item label="终止审批单">
 						<el-table v-if="detailsInfo.overWorkOrderVo.completeFinishFile != ''"
 							:data="[detailsInfo.overWorkOrderVo.completeFinishFile]" size="mini" :show-header="false">
 							<el-table-column prop="fileName" label="文件名称"></el-table-column>
-							<el-table-column label="操作" width="160px" align="center">
+							<el-table-column label="操作" align="left">
 								<template slot-scope="{row}">
 									<span style="font-size: 14px;color: #2b65da; cursor: pointer;"
 										@click="handleDownload(row)">下载</span>
@@ -209,7 +218,7 @@
 
 					</el-form-item>
 				</el-col>
-				<el-col v-if="detailsInfo.workOrderAudit.type == 25" :span="24">
+				<el-col v-if="detailsInfo.workOrderAudit.type == '25'" :span="24">
 					<el-form-item label="终止意见书">
 						<el-table
 							v-if="detailsInfo.overWorkOrderVo.reportFile && detailsInfo.overWorkOrderVo.reportFile.length"
@@ -227,7 +236,7 @@
 
 					</el-form-item>
 				</el-col>
-				<el-col v-if="detailsInfo.workOrderAudit.type == 25" :span="24">
+				<el-col v-if="detailsInfo.workOrderAudit.type == '25'" :span="24">
 					<el-form-item label="终止通知书">
 						<el-table
 							v-if="detailsInfo.overWorkOrderVo.reportNoticeFile && detailsInfo.overWorkOrderVo.reportNoticeFile.length"
@@ -343,7 +352,8 @@
 				<el-col v-if="detailsInfo.workOrderAudit.type == '01'" :span="24">
 					<el-form-item label="中止调查告知单">
 						<el-table v-if="detailsInfo.workOrderAudit.attachmentFile != ''"
-							:data="JSON.parse(detailsInfo.workOrderAudit.attachmentFile)" size="mini" :show-header="false">
+							:data="JSON.parse(detailsInfo.workOrderAudit.attachmentFile)" size="mini"
+							:show-header="false">
 							<el-table-column prop="fileName" label="文件名称"></el-table-column>
 							<el-table-column label="操作" align="left">
 								<template slot-scope="{row}">
@@ -357,7 +367,7 @@
 					</el-form-item>
 				</el-col>
 				<el-col v-if="detailsInfo.workOrderAudit.type == 30" :span="24">
-					<el-form-item label="受理通知书">
+					<el-form-item label="受理告知书">
 						<el-table v-if="detailsInfo.receiveAttachments && detailsInfo.receiveAttachments.length"
 							:data="detailsInfo.receiveAttachments" size="mini" :show-header="false">
 							<el-table-column prop="fileName" label="文件名称"></el-table-column>
@@ -392,10 +402,27 @@
 
 					</el-form-item>
 				</el-col>
-				<el-col v-if="detailsInfo.workOrderAudit.type == 32" :span="24">
+				<el-col v-if="detailsInfo.workOrderAudit.type == '32'" :span="24">
 					<el-form-item label="附件">
 						<el-table v-if="detailsInfo.superviseAttachments && detailsInfo.superviseAttachments.length"
 							:data="detailsInfo.superviseAttachments" size="mini" :show-header="false">
+							<el-table-column prop="fileName" label="文件名称"></el-table-column>
+							<el-table-column label="操作" align="left">
+								<template slot-scope="{row}">
+									<span style="font-size: 14px;color: #2b65da; cursor: pointer;"
+										@click="handleDownload(row)">下载</span>
+									<span style="font-size: 14px;color: #2b65da;margin-left: 5px; cursor: pointer;"
+										@click="handlePreview(row)">预览</span>
+								</template>
+							</el-table-column>
+						</el-table>
+
+					</el-form-item>
+				</el-col>
+				<el-col v-if="detailsInfo.workOrderAudit.type == '33'" :span="24">
+					<el-form-item label="附件">
+						<el-table v-if="detailsInfo.exceptionAttachments && detailsInfo.exceptionAttachments.length"
+							:data="detailsInfo.exceptionAttachments" size="mini" :show-header="false">
 							<el-table-column prop="fileName" label="文件名称"></el-table-column>
 							<el-table-column label="操作" align="left">
 								<template slot-scope="{row}">
@@ -422,7 +449,8 @@
 			<auditProcessRecord :records="auditDatas" />
 		</div>
 		<!-- 预览 -->
-		<previewDialog  v-if="previewDialog.visible":visible.sync="previewDialog.visible" :filePath="previewDialog.fileURL" width="900px">
+		<previewDialog v-if="previewDialog.visible" :visible.sync="previewDialog.visible"
+			:filePath="previewDialog.fileURL" width="900px">
 		</previewDialog>
 
 	</div>

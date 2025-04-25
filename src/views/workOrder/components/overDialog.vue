@@ -2,31 +2,31 @@
 	<div>
 		<el-dialog append-to-body title="案件提交终止" width="780px" top="20px" :visible="visible" @close="handleClose">
 			<!-- <div class="tips color-danger">确认提交、审批通过后案件将进入终止状态，请谨慎使用该功能。</div> -->
-			<el-form :model="form" :rules="rules" ref="form" class="white-card" label-width="130px">
-				<el-form-item label="终止类型：" prop="reason">
+			<el-form :model="form" :rules="rules" ref="form" class="white-card" label-width="140px">
+				<el-form-item label="终止类型:" prop="reason">
 					<el-select v-model="form.reason" placeholder="请选择" style="width: 100%">
 						<el-option v-for="item in optionList" :key="item.id" :label="item.name"
 							:value="item.name"></el-option>
 					</el-select>
 				</el-form-item>
-				<el-form-item label="终止理由：" prop="comment">
+				<el-form-item label="终止理由:" prop="comment">
 					<el-input v-model="form.comment" show-word-limit maxlength="300" placeholder="请输入详细描述"
 						type="textarea" style="width: 100%; height: 150px"></el-input>
 				</el-form-item>
 				<template v-if="form.reason === isShowDeptPart && isDebt == true">
-					<el-form-item label="确认欠款：" prop="confirmUnPayAmount">
+					<el-form-item label="确认欠款:" prop="confirmUnPayAmount">
 						<el-input v-model="form.confirmUnPayAmount" @blur="confirmUnPayBlur"
 							onkeyup="value=value.replace(/[^\d{1,}\.\d{1,}|\d{1,}]/g,'')" style="width: 180px;"
 							placeholder="请输入金额"></el-input>
 						万元
 					</el-form-item>
-					<el-form-item label="已清欠款：" prop="payedAmount">
+					<el-form-item label="已清欠款:" prop="payedAmount">
 						<el-input v-model="form.payedAmount" @blur="payedAmountBlur"
 							onkeyup="value=value.replace(/[^\d{1,}\.\d{1,}|\d{1,}]/g,'')" style="width: 180px;"
 							placeholder="请输入金额"></el-input>
 						万元
 					</el-form-item>
-					<el-form-item label="已还全部欠款：" prop="payAllAmount">
+					<el-form-item label="已还全部欠款:" prop="payAllAmount">
 						<el-radio-group v-model="form.payAllAmount" :disabled="isClearAmount">
 							<el-radio :label="1">是</el-radio>
 							<el-radio :label="0">否</el-radio>
@@ -34,7 +34,7 @@
 					</el-form-item>
 
 					<template v-if="form.payAllAmount === 0">
-						<el-form-item label="剩余欠款：" prop="unPayAmount">
+						<el-form-item label="剩余欠款:" prop="unPayAmount">
 							<el-input v-model="form.unPayAmount" readonly style="width: 180px;"></el-input>
 							万元
 						</el-form-item>
@@ -45,7 +45,7 @@
 							<span style="margin-left: 40px;">其它还款：{{form.otherAmount}}万元</span>
 						</el-form-item>
 						<template v-if="form.makePayPlan === 1">
-							<el-form-item label="还款计划：" prop="payPlanList">
+							<el-form-item label="还款计划:" prop="payPlanList">
 								<el-table v-if="form.payPlanList.length" :data="form.payPlanList" size="mini" border
 									class="repayment-plan-table" style="width: 100%">
 									<el-table-column type="index" label="序号" width="60"
@@ -79,13 +79,13 @@
 						</template>
 
 					</template>
-					<el-form-item label="支付备注：" prop="payNote">
+					<el-form-item label="支付备注:" prop="payNote">
 						<el-input v-model="form.payNote" show-word-limit maxlength="300" placeholder="请输入支付备注"
 							type="textarea" style="width: 100%; height: 150px"></el-input>
 					</el-form-item>
 				</template>
 
-				<el-form-item label="结案反馈：" prop="satisfactionLevel">
+				<el-form-item label="结案反馈:" prop="satisfactionLevel">
 					<el-radio-group v-model="form.satisfactionLevel">
 						<el-radio label="satisfaction">满意</el-radio>
 						<el-radio label="common">基本满意</el-radio>
@@ -93,7 +93,7 @@
 					</el-radio-group>
 				</el-form-item>
 
-				<el-form-item label="终止审批单" prop="completedFile">
+				<el-form-item label="终止审批单:" prop="completedFile">
 					<FileUpload @fileDatas="zzspdFileList" :fileSizes="100" :limit="1" :isShowTip="true"
 						tips="*支持图片、文档、压缩包格式文件，文件不大于 100M。" />
 					<el-table v-if="form.completedFile.length > 0" :data="form.completedFile" size="mini"
@@ -112,7 +112,7 @@
 					</el-table>
 				</el-form-item>
 
-				<el-form-item label="终止意见书" prop="reportFile">
+				<el-form-item label="终止意见书:" prop="reportFile">
 					<FileUpload @fileDatas="jayjFileList" :fileSizes="100" :limit="1" :isShowTip="true"
 						tips="*需要盖章后上传，仅办理端可见，支持图片、文档、压缩包格式文件，文件不大于 100M。" />
 					<el-table v-if="form.reportFile.length > 0" :data="form.reportFile" size="mini" :show-header="false"
@@ -130,9 +130,9 @@
 						</el-table-column>
 					</el-table>
 				</el-form-item>
-				<el-form-item label="终止通知书" prop="reportNoticeFile">
+				<el-form-item label="终止通知书:" prop="reportNoticeFile">
 					<FileUpload @fileDatas="jatzsFileList" :fileSizes="100" :limit="1" :isShowTip="true"
-						tips="*办理端与投诉人均可见，支持图片、文档、压缩包格式文件，文件不大于 100M。" />
+						tips="*支持图片、文档、压缩包格式文件，文件不大于 100M。" />
 					<el-table v-if="form.reportNoticeFile.length > 0" :data="form.reportNoticeFile" size="mini"
 						:show-header="false" style="margin-top: 10px;">
 						<el-table-column prop="fileName" label="文件名称"></el-table-column>
@@ -149,9 +149,9 @@
 					</el-table>
 				</el-form-item>
 
-				<el-form-item label="附件" prop="attachmentFile">
+				<el-form-item label="附件:" prop="attachmentFile">
 					<FileUpload @fileDatas="fjFileList" :fileSizes="100" :isShowTip="true"
-						tips="*如需，可上传还款协议、以物抵债等附件，支持图片、文档、压缩包格式文件，文件不大于 100M。" />
+						tips="*支持图片、文档、压缩包格式文件，文件不大于 100M。" />
 					<el-table v-if="form.attachmentFile.length > 0" :data="form.attachmentFile" size="mini"
 						:show-header="false" style="margin-top: 10px;">
 						<el-table-column prop="fileName" label="文件名称"></el-table-column>

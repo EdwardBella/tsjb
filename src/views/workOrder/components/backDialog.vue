@@ -2,8 +2,8 @@
 
 <template>
 	<el-dialog append-to-body title="案件撤回" width="640px" :visible="visible" @close="handleClose">
-		<el-form ref="form" :model="form" :rules="rules" class="white-card">
-			<el-form-item label="撤回备注：" prop="comment">
+		<el-form ref="form" :model="form" :rules="rules" label-width="140px" class="white-card">
+			<el-form-item label="撤回备注:" prop="comment">
 				<el-input v-model="form.comment" show-word-limit maxlength="300" placeholder="请输入详细描述" type="textarea"
 					style="width: 100%; height: 150px"></el-input>
 			</el-form-item>

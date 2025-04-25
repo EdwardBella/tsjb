@@ -12,11 +12,11 @@
 							label="确认欠款">{{ detailsInfo.confirmUnPayAmount?(detailsInfo.confirmUnPayAmount+'万元'):''}}</el-form-item>
 					</el-col>
 					<el-col :span="8">
-						<el-form-item label="累计还款">{{addAmount}}万元</el-form-item>
+						<el-form-item label="累计还款">{{addAmount != ''?(addAmount + '万元'):''}}</el-form-item>
 					</el-col>
 					<el-col :span="8">
 						<el-form-item
-							label="投诉欠款">{{detailsInfo.questionMainInfo.govArrears.contractAmount}}万元</el-form-item>
+							label="投诉欠款">{{detailsInfo.questionMainInfo.govArrears.contractAmount != ''?(detailsInfo.questionMainInfo.govArrears.contractAmount + '万元'):''}}</el-form-item>
 					</el-col>
 				</el-row>
 			</template>
@@ -50,20 +50,21 @@
 				</el-row>
 				<el-row>
 					<el-col :span="8">
-						<el-form-item label="累计还款">{{addAmount}}万元</el-form-item>
+						<el-form-item label="累计还款">{{addAmount != ''?(addAmount + '万元'):''}}</el-form-item>
 					</el-col>
 					<el-col :span="8">
-						<el-form-item label="尚未还款">{{unAmount}}万元</el-form-item>
+						<el-form-item label="尚未还款">{{unAmount != ''?(unAmount + '万元'):''}}</el-form-item>
 					</el-col>
 					<el-col :span="8">
 						<el-form-item
-							label="投诉欠款">{{detailsInfo.questionMainInfo.govArrears.contractAmount}}万元</el-form-item>
+							label="投诉欠款">{{detailsInfo.questionMainInfo.govArrears.contractAmount != ''?(detailsInfo.questionMainInfo.govArrears.contractAmount + '万元'):''}}</el-form-item>
 					</el-col>
 				</el-row>
 				<el-row v-if="detailsInfo.makePayPlan == '1'">
 					<el-col :span="24">
 						<el-form-item label="" label-width="8px">
-							<span style="font-size: 16px; color: #323232;font-weight: bold;margin-top: 10px;">计划还款明细：</span>
+							<span
+								style="font-size: 16px; color: #323232;font-weight: bold;margin-top: 10px;">计划还款明细：</span>
 						</el-form-item>
 					</el-col>
 				</el-row>
@@ -72,7 +73,8 @@
 						<el-table :data="repaymentPlan" size="mini" border class="repayment-plan-table"
 							style="width: 100%;">
 							<el-table-column type="index" label="序号" width="60" align="center"></el-table-column>
-							<el-table-column prop="planPayTime" label="计划还款日期" width="170" align="center"></el-table-column>
+							<el-table-column prop="planPayTime" label="计划还款日期" width="170"
+								align="center"></el-table-column>
 							<el-table-column prop="amount" label="还款金额(万元)" width="90" align="center"></el-table-column>
 							<el-table-column prop="status" align="center" label="状态">
 								<template slot-scope="{row}">
@@ -109,8 +111,8 @@
 											v-if="row.actualPayTime =='' && userInfo.orgCode == detailsInfo.processDepartmentCode"
 											type="primary" plain size="mini" @click="submitButton(row)">提交
 										</el-button>
-										<el-button v-if="userRoles.isLeaderDepartment && row.actualPayTime" type="primary"
-											plain size="mini" @click="editButton(row)">修改
+										<el-button v-if="userRoles.isLeaderDepartment && row.actualPayTime"
+											type="primary" plain size="mini" @click="editButton(row)">修改
 										</el-button>
 									</template>
 								</template>
@@ -119,12 +121,12 @@
 					</el-col>
 					<el-col :span="24">
 						<el-form-item label="按计划总还款">
-							<span>{{planAllAmount}}万元</span>
+							<span>{{planAllAmount != ''?(planAllAmount + '万元'):''}}</span>
 						</el-form-item>
 					</el-col>
 				</el-row>
-				
-				
+
+
 				<el-row v-if="(detailsInfo.status == 5 || detailsInfo.status == 8) && detailsInfo.otherAmount>0">
 					<el-col :span="24">
 						<el-form-item label="" label-width="8px">
@@ -135,7 +137,7 @@
 									v-if="userInfo != null && userInfo.orgCode == detailsInfo.processDepartmentCode"
 									@click="addPlan">添加</el-button>
 							</div>
-				
+
 						</el-form-item>
 					</el-col>
 				</el-row>
@@ -176,12 +178,8 @@
 										<el-button v-if="row.actualPayTime" type="primary" plain size="mini"
 											@click="previewFile(row)">附件
 										</el-button>
-										<el-button
-											v-if="row.actualPayTime =='' && userInfo.orgCode == detailsInfo.processDepartmentCode"
-											type="primary" plain size="mini" @click="otherSubmitButton(row)">提交
-										</el-button>
-										<el-button v-if="userRoles.isLeaderDepartment && row.actualPayTime" type="primary"
-											plain size="mini" @click="editOtherButton(row)">修改
+										<el-button v-if="userRoles.isLeaderDepartment && row.actualPayTime"
+											type="primary" plain size="mini" @click="editOtherButton(row)">修改
 										</el-button>
 									</template>
 								</template>
@@ -191,14 +189,14 @@
 					<el-col :span="24"
 						v-if="(detailsInfo.status == 5 || detailsInfo.status == 8) && detailsInfo.otherAmount>0">
 						<el-form-item label="其他总还款">
-							<span>{{otherPlanAllAmount}}万元</span>
+							<span>{{otherPlanAllAmount != ''?(otherPlanAllAmount + '万元'):''}}</span>
 						</el-form-item>
 					</el-col>
 				</el-row>
 			</template>
 
 
-			
+
 		</el-form>
 
 		<!-- 上传还款计划 -->
@@ -347,13 +345,14 @@
 			},
 			/* 新增其他还款金额计划 */
 			addPlan() {
-				this.otherRepaymentPlan.push({
-					amount: '',
-					status: 'NO_PAY',
-					actualPayTime: '',
-					operateTime: '',
-					operateUser: '',
-				});
+				// this.otherRepaymentPlan.push({
+				// 	amount: '',
+				// 	status: 'NO_PAY',
+				// 	actualPayTime: '',
+				// 	operateTime: '',
+				// 	operateUser: '',
+				// });
+				this.otherSubmitButton()
 			},
 			previewFile(row) {
 				this.attachmentFile = row.attachmentFile || []

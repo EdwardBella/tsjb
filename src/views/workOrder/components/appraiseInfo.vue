@@ -4,7 +4,7 @@
 			<img src="@/assets/images/title-arrow.png" style="height: 20px;margin-right: 10px;" />
 			<span style="font-size: 18px;">经营主体评价</span>
 		</div>
-		<el-form class="key-value" label-width="130px" label-suffix="：">
+		<el-form class="key-value" label-width="150px" label-suffix="：">
 			<el-row>
 				<el-col :span="24">
 					<el-form-item label="整体满意度">

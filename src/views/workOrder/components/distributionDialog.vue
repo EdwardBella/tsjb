@@ -1,7 +1,7 @@
 <template>
 	<el-dialog append-to-body title="案件派发" width="750px" :visible="visible" @close="handleClose">
 		<el-form ref="form" :model="form" :rules="rules" class="white-card" label-width="150px">
-			<el-form-item label="承办类型：" prop="type">
+			<el-form-item label="承办类型:" prop="type">
 				<el-radio-group v-model="form.type" @change="typeChanged">
 					<el-radio :label="0">直办</el-radio>
 					<el-radio :label="1">转办</el-radio>
@@ -9,23 +9,23 @@
 					<el-radio :label="3">指定办理</el-radio>
 				</el-radio-group>
 			</el-form-item>
-			<el-form-item v-if="form.type == 0" label="直办备注：" prop="comment">
+			<el-form-item v-if="form.type == 0" label="直办备注:" prop="comment">
 				<el-input v-model="form.comment" show-word-limit maxlength="300" placeholder="请输入修改内容" type="textarea"
 					style="width: 100%; height: 100px"></el-input>
 			</el-form-item>
 
-			<el-form-item v-if="form.type == 1" label="转办部门：" prop="processDepartmentCode">
+			<el-form-item v-if="form.type == 1" label="转办部门:" prop="processDepartmentCode">
 				<el-select v-model="form.processDepartmentCode" style="width: 100%;" placeholder="请选择部门" clearable>
 					<el-option v-for="item in departmentTree3" :key="item.code" :label="item.label" :value="item.code">
 					</el-option>
 				</el-select>
 			</el-form-item>
-			<el-form-item v-if="form.type == 1" label="转办备注：" prop="comment">
+			<el-form-item v-if="form.type == 1" label="转办备注:" prop="comment">
 				<el-input v-model="form.comment" show-word-limit maxlength="300" placeholder="请输入修改内容" type="textarea"
 					style="width: 100%; height: 100px"></el-input>
 			</el-form-item>
 
-			<el-form-item v-if="form.type == 2" label="交办部门：" prop="processDepartmentCode">
+			<el-form-item v-if="form.type == 2" label="交办部门:" prop="processDepartmentCode">
 				<div style="display: flex;align-items: center;">
 					<el-cascader v-model="complainAddressId2" :show-all-levels="false" ref="complainAddressId2"
 						style="flex: 1;" :options="areas2"
@@ -40,7 +40,7 @@
 					</el-select>
 				</div>
 			</el-form-item>
-			<el-form-item v-if="form.type == 3" label="指定办理部门：" prop="processDepartmentCode">
+			<el-form-item v-if="form.type == 3" label="指定办理部门:" prop="processDepartmentCode">
 				<div style="display: flex;align-items: center;">
 					<el-cascader v-model="complainAddressId3" :show-all-levels="false" ref="complainAddressId3"
 						style="flex: 1;" :options="areas"
@@ -56,7 +56,7 @@
 				</div>
 			</el-form-item>
 			<el-form-item v-if="form.type == 2 || form.type == 3"
-				:label="form.type == 2?'交办备注：':form.type == 3?'指定办理备注：':''" prop="comment">
+				:label="form.type == 2?'交办备注:':form.type == 3?'指定办理备注:':''" prop="comment">
 				<el-input v-model="form.comment" show-word-limit maxlength="300" placeholder="请输入修改内容" type="textarea"
 					style="width: 100%; height: 100px"></el-input>
 			</el-form-item>
@@ -67,10 +67,10 @@
 					</el-option>
 				</el-select>
 			</el-form-item> -->
-			<el-form-item key="1" v-if="form.type == 1" label="案件抄送：" prop="departmentDtoList">
+			<el-form-item key="1" v-if="form.type == 1" label="案件抄送:" prop="departmentDtoList">
 				<el-checkbox v-model="form.auth" @change="authChanged">案件抄送以下单位:</el-checkbox>
 			</el-form-item>
-			<el-form-item key="2" v-else label="案件抄送：">
+			<el-form-item key="2" v-else label="案件抄送:">
 				<el-checkbox v-model="form.auth" @change="authChanged">案件抄送以下单位:</el-checkbox>
 			</el-form-item>
 			<el-form-item v-if="form.auth == true" label="">
@@ -319,23 +319,28 @@
 			handleSubmit() {
 				this.validateAndConfirm("form", "确定提交吗？")
 					.then(res => {
-						this.submitting = true;
 						if (this.form.type == 1) {
 							let obj = this.departmentTree3.find(item => item.code == this.form.processDepartmentCode)
 							if(obj.label.substr(0,1) == '*'){
 								this.form.processDepartmentName = obj.label.substring(1,(obj.label.length))
+							}else{
+								this.form.processDepartmentName = obj.label
 							}
 						}
 						if (this.form.type == 2) {
 							let obj = this.departmentTree2.find(item => item.code == this.form.processDepartmentCode)
 							if(obj.label.substr(0,1) == '*'){
 								this.form.processDepartmentName = obj.label.substring(1,(obj.label.length))
+							}else{
+								this.form.processDepartmentName = obj.label
 							}
 						}
 						if (this.form.type == 3) {
 							let obj = this.departmentTree4.find(item => item.code == this.form.processDepartmentCode)
 							if(obj.label.substr(0,1) == '*'){
 								this.form.processDepartmentName = obj.label.substring(1,(obj.label.length))
+							}else{
+								this.form.processDepartmentName = obj.label
 							}
 						}
 						return workOrderApi.distribute.acceptance({

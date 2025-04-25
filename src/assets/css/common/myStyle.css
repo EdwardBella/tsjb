@@ -129,15 +129,23 @@
 	background-color: #1b5284;
 
 }
-.el-button--primary i.img, .el-button--primary span{
+
+.el-button--primary i.img,
+.el-button--primary span {
 	vertical-align: bottom;
 }
-.el-dialog__body{
-	.el-form-item__label{
+
+.el-dialog__body {
+	.el-form-item__label {
 		font-size: 16px;
 		line-height: 42px;
 	}
-	.el-input__inner{
+
+	.el-input__inner {
 		font-size: 16px;
 	}
+}
+
+.el-form-item {
+	word-break: break-all !important;
 }

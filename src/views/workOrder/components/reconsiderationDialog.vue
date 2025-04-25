@@ -3,19 +3,19 @@
 <template>
 	<div>
 		<el-dialog append-to-body title="申请复核" width="750px" :visible="visible" @close="handleClose">
-			<el-form ref="form" :model="form" :rules="rules" class="white-card" label-width="120px">
-				<el-form-item label="申请理由：" prop="reason">
+			<el-form ref="form" :model="form" :rules="rules" class="white-card" label-width="140px">
+				<el-form-item label="申请理由:" prop="reason">
 					<el-select v-model="form.reason" style="width: 100%;" placeholder="请输入申请理由" clearable>
 						<el-option v-for="item in optionList" :key="item.code" :label="item.name" :value="item.name">
 						</el-option>
 					</el-select>
 				</el-form-item>
-				<el-form-item label="申请备注：" prop="comment">
+				<el-form-item label="申请备注:" prop="comment">
 					<el-input v-model="form.comment" show-word-limit maxlength="300" placeholder="请输入申请备注"
 						type="textarea" style="width: 100%; height: 150px"></el-input>
 				</el-form-item>
-				<el-form-item label="审批单" prop="wordAttachmentList">
-					<FileUpload @fileDatas="zzclFileList" :fileSizes="100" :isShowTip="false"
+				<el-form-item label="审批单:" prop="wordAttachmentList">
+					<FileUpload @fileDatas="zzclFileList" :fileSizes="100" :limit="1" :isShowTip="false"
 						:downLoadUrl="downLoadUrl" />
 					<el-table v-if="form.wordAttachmentList.length > 0" :data="form.wordAttachmentList" size="mini"
 						:show-header="false" style="margin-top: 10px;">

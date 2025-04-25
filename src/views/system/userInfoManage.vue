@@ -2,7 +2,7 @@
   <div v-loading="loading" class="userInfoManage">
     <div class="userInfoBox">
       <div class="boxHeader">
-        <p class="boxTitle">个人基本信息</p>
+        <p class="boxTitle">个人信息</p>
         <el-button type="primary" @click="setUserInfo" :loading="submitting">更新</el-button>
       </div>
       <div style="margin:20px 0;">

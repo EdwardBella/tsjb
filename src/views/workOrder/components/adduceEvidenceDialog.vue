@@ -1,10 +1,10 @@
 <template>
 	<el-dialog append-to-body title="发起材料举证" width="680px" top="20px" :visible="visible" @close="handleClose">
-		<el-form :model="form" :rules="rules" ref="form" class="white-card" label-width="110px">
-			<el-form-item label="举证时限：" prop="limitDay">
+		<el-form :model="form" :rules="rules" ref="form" class="white-card" label-width="140px">
+			<el-form-item label="举证时限:" prop="limitDay">
 				<el-input type="number" v-model.number="form.limitDay" placeholder="请输入举证时限"></el-input>
 			</el-form-item>
-			<el-form-item label="举证内容：" prop="correctRequirement">
+			<el-form-item label="举证内容:" prop="correctRequirement">
 				<el-input v-model="form.correctRequirement" show-word-limit maxlength="300" placeholder="请输入举证内容" type="textarea"
 					style="width: 100%; height: 150px"></el-input>
 			</el-form-item>

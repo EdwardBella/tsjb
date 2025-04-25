@@ -2,20 +2,20 @@
 
 <template>
 	<div>
-		<el-dialog append-to-body title="案件中止" width="750px" :visible="visible" @close="handleClose">
-			<el-form ref="form" :model="form" :rules="rules" class="white-card" label-width="140px">
-				<el-form-item label="中止原因：" prop="reason">
-					<el-select v-model="form.reason" style="width: 100%;" placeholder="请输入申请理由" clearable>
-						<el-option v-for="item in optionList" :key="item.code" :label="item.name" :value="item.name">
+		<el-dialog append-to-body title="案件中止" width="750px" :visible="visible" :lock-scroll="true" @close="handleClose">
+			<el-form ref="form" :model="form" :rules="rules" class="white-card" label-width="160px">
+				<el-form-item label="中止原因:" prop="reason">
+					<el-select v-model="form.reason" style="width: 100%;" placeholder="请选择中止原因" clearable>
+						<el-option v-for="item in optionList" :key="item.id" :label="item.name" :value="item.name">
 						</el-option>
 					</el-select>
 				</el-form-item>
-				<el-form-item label="中止备注：" prop="comment">
-					<el-input v-model="form.comment" show-word-limit maxlength="300" placeholder="请输入申请备注"
+				<el-form-item label="中止备注:" prop="comment">
+					<el-input v-model="form.comment" show-word-limit maxlength="300" placeholder="请输入中止备注"
 						type="textarea" style="width: 100%; height: 150px"></el-input>
 				</el-form-item>
-				<el-form-item label="中止调查告知单" prop="attachmentFile">
-					<FileUpload @fileDatas="zzclFileList" :fileSizes="100" :isShowTip="false"
+				<el-form-item label="中止调查告知单:" prop="attachmentFile">
+					<FileUpload @fileDatas="zzclFileList" :fileSizes="100" :limit="1" :isShowTip="false"
 						:downLoadUrl="downLoadUrl" />
 					<el-table v-if="form.attachmentFile.length > 0" :data="form.attachmentFile" size="mini"
 						:show-header="false" style="margin-top: 10px;">

@@ -1,13 +1,13 @@
 <template>
 	<div>
-		<el-form ref="form" :model="form" :rules="rules" class="white-card" label-width="120px">
-			<el-form-item label="举证要求：" prop="correctionComment">
+		<el-form ref="form" :model="form" :rules="rules" class="white-card" label-width="140px">
+			<el-form-item label="举证要求:" prop="correctionComment">
 				<el-input v-model="correctionComment" disabled show-word-limit maxlength="300" placeholder=""
 					type="textarea" style="width: 100%; height: 100px"></el-input>
 			</el-form-item>
-			<el-form-item label="举证材料：" prop="attachmentList">
-				<FileUpload @fileDatas="jatzsFileList" :fileSizes="100" :limit="1" :isShowTip="true"
-					tips="*请按照补证要求提供与投诉举报事项相关的资料，上传的附件大小不能超过100M，附件类型支持图片、文档、视频等格式文件。" />
+			<el-form-item label="举证材料:" prop="attachmentList">
+				<FileUpload @fileDatas="jatzsFileList" :fileSizes="100" :limit="10" :isShowTip="true"
+					tips="*请按照举证要求提供与投诉举报事项相关的资料，上传的附件大小不能超过100M，附件类型支持图片、文档、视频等格式文件。" />
 				<el-table v-if="form.attachmentList.length > 0" :data="form.attachmentList" size="mini"
 					:show-header="false" style="margin-top: 10px;">
 					<el-table-column prop="fileName" label="文件名称"></el-table-column>
@@ -43,6 +43,7 @@
 	import * as mixins from '@/utils/mixins'
 	import * as workOrderApi from '@/api/workOrder/index'
 	import * as templateApi from "@/api/template";
+	import * as fileApi from '@/api/file'
 	import {
 		updateMaterial
 	} from '@/api/workOrder/distribute'

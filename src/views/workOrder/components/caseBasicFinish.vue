@@ -1,7 +1,7 @@
 <template>
 	<div class="caseBasic">
 		<!-- 状态 -->
-		<caseStatus :detailsInfo="detailsInfo" :surpriseStatusInfo="surpriseStatusInfo" />
+		<caseStatus v-if="isShow" :detailsInfo="detailsInfo" :surpriseStatusInfo="surpriseStatusInfo" :audit="false" />
 
 		<!-- 督办内容-->
 		<superviseAndHandleInfo v-if="surpriseStatusInfo.id != '' && surpriseStatusInfo.superviseStatus == '1'"
@@ -123,7 +123,7 @@
 		</div>
 		<el-form class="key-value" label-width="130px" label-suffix="：">
 			<el-row>
-				
+
 				<el-col :span="24">
 					<el-form-item label="案件名称">{{detailsInfo.title || ''}}
 						<span v-if="detailsInfo.title && userRoles.isLeaderDepartment"
@@ -220,7 +220,8 @@
 			</el-row>
 			<el-row>
 				<el-col :span="8">
-					<el-form-item label="受理单位">{{detailsInfo.workOrderHandleInfo.acceptDepartmentName || ''}}</el-form-item>
+					<el-form-item
+						label="受理单位">{{detailsInfo.workOrderHandleInfo.acceptDepartmentName || ''}}</el-form-item>
 				</el-col>
 				<el-col :span="8">
 					<el-form-item label="承办单位">{{detailsInfo.processDepartment || ''}}</el-form-item>
@@ -270,7 +271,7 @@
 			:detailsInfo="detailsInfo" />
 
 		<!-- 终止信息-->
-		<terminationInfo v-if="detailsInfo.status == '8'" :detailsInfo="detailsInfo" />
+		<terminationInfo v-if="detailsInfo.status == '8' || detailsInfo.status == '15'" :detailsInfo="detailsInfo" />
 
 
 		<!-- 结案信息-->
@@ -290,11 +291,12 @@
 
 
 		<!-- 预览 -->
-		<previewDialog v-if="previewDialog.visible" :visible.sync="previewDialog.visible" :filePath="previewDialog.fileURL" width="900px">
+		<previewDialog v-if="previewDialog.visible" :visible.sync="previewDialog.visible"
+			:filePath="previewDialog.fileURL" width="900px">
 		</previewDialog>
 		<!-- 修改案件名称 -->
 		<caseTitleDialog :visible.sync="caseTitleDialog.visible" :workOrderId="detailsInfo.id"
-			@success="caseTitleSuccess">
+			:title="detailsInfo.title" @success="caseTitleSuccess">
 		</caseTitleDialog>
 
 	</div>
@@ -377,6 +379,7 @@
 				times: "",
 				isOverTime: false,
 				itemResourceTrans: workOrderEventSourceDict,
+				isShow: false,
 			};
 		},
 		computed: {
@@ -386,7 +389,10 @@
 			detailsInfo: {
 				handler(val) {
 					if (val != null) {
-
+						this.isShow = false
+						this.$nextTick(() => {
+							this.isShow = true
+						})
 					}
 				},
 				deep: true,
