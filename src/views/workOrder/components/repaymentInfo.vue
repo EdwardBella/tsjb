@@ -16,7 +16,7 @@
 					</el-col>
 					<el-col :span="8">
 						<el-form-item
-							label="投诉欠款">{{detailsInfo.questionMainInfo.govArrears.contractAmount != ''?(detailsInfo.questionMainInfo.govArrears.contractAmount + '万元'):''}}</el-form-item>
+							label="投诉欠款">{{detailsInfo.questionMainInfo.govArrears.arrearsAmount != ''?(detailsInfo.questionMainInfo.govArrears.arrearsAmount + '万元'):''}}</el-form-item>
 					</el-col>
 				</el-row>
 			</template>
@@ -57,7 +57,7 @@
 					</el-col>
 					<el-col :span="8">
 						<el-form-item
-							label="投诉欠款">{{detailsInfo.questionMainInfo.govArrears.contractAmount != ''?(detailsInfo.questionMainInfo.govArrears.contractAmount + '万元'):''}}</el-form-item>
+							label="投诉欠款">{{detailsInfo.questionMainInfo.govArrears.arrearsAmount != ''?(detailsInfo.questionMainInfo.govArrears.arrearsAmount + '万元'):''}}</el-form-item>
 					</el-col>
 				</el-row>
 				<el-row v-if="detailsInfo.makePayPlan == '1'">

@@ -1,11 +1,14 @@
 <template>
-	<!-- <div v-loading="loading" ref="chart" class="chart" style="width: 100%; height: 100%"></div> -->
+	<div v-loading="loading" ref="chart" class="chart" style="width: 100%; height: 100%"></div>
 </template>
 
 <script>
 	import card from '@/components/card'
 	import * as echarts from 'echarts'
 	import * as statisticsAPI from '@/api/statistics'
+	import {
+		henan
+	} from './HeNan'
 	export default {
 		name: 'mapChart',
 		components: {
@@ -47,73 +50,150 @@
 				if (!this.chart) {
 					this.chart = echarts.init(this.$refs.chart)
 				}
+				
+				// var timeFn = null;
+				
+				// //单击切换到省级地图，当mapCode有值,说明可以切换到下级地图
+				// this.chart.on("click", function (params) {
+				//   clearTimeout(timeFn);
+				//   //由于单击事件和双击事件冲突，故单击的响应事件延迟250毫秒执行
+				//   timeFn = setTimeout(function () {
+				//     var name = params.name; //地区name
+				//     var mapCode = provinces[name]; //地区的json数据
+				//     if (!mapCode) {
+				//       alert("无此区域地图显示");
+				//       return;
+				//     }
+				
+				//     loadMap(mapCode, name);
+				//   }, 250);
+				// });
+				
+				// // 绑定双击事件，返回全国地图
+				// this.chart.on("dblclick", function (params) {
+				//   //当双击事件发生时，清除单击事件，仅响应双击事件
+				//   clearTimeout(timeFn);
+				
+				//   //返回全国地图
+				//   loadMap("/asset/get/s/data-1527045631990-r1dZ0IM1X.json", "china");
+				// });
 
-				let option = {
+				//各省份的数据
+				var allData = [{
+						name: "郑州市",
+						value: 100,
+					},
+					{
+						name: "开封市",
+						value: 100,
+					},
+					{
+						name: "洛阳市",
+						value: 100,
+					},
+					{
+						name: "平顶山市",
+						value: 100,
+					},
+					{
+						name: "安阳市",
+						value: 100,
+					},
+					{
+						name: "鹤壁市",
+						value: 100,
+					},
+					{
+						name: "新乡市",
+						value: 100,
+					},
+					{
+						name: "焦作市",
+						value: 100,
+					},
+					{
+						name: "濮阳市",
+						value: 100,
+					},
+					{
+						name: "许昌市",
+						value: 100,
+					},
+					{
+						name: "漯河市",
+						value: 100,
+					},
+					{
+						name: "三门峡市",
+						value: 100,
+					},
+					{
+						name: "南阳市",
+						value: 100,
+					},
+					{
+						name: "商丘市",
+						value: 100,
+					},
+					{
+						name: "信阳市",
+						value: 100,
+					},
+					{
+						name: "周口市",
+						value: 100,
+					},
+					{
+						name: "驻马店市",
+						value: 100,
+					},
+					{
+						name: "济源市",
+						value: 100,
+					}
+
+				];
+				
+				console.log(henan,'======================')
+				echarts.registerMap('henan', henan);
+				var option = {
 					tooltip: {
-						trigger: "axis",
-						axisPointer: {
-							type: "shadow",
+						show: true,
+						formatter: function(params) {
+							if (params.data) return params.name + "：" + params.data["value"];
 						},
 					},
-					grid: {
-						left: "2%",
-						right: "2%",
-						bottom: "5%",
-						containLabel: true,
+					visualMap: {
+						type: "continuous",
+						text: ["", ""],
+						showLabel: true,
+						left: "50",
+						min: 0,
+						max: 100,
+						inRange: {
+							color: ["#edfbfb", "#b7d6f3", "#40a9ed", "#3598c1", "#215096"],
+						},
+						splitNumber: 0,
 					},
-					xAxis: {
-						type: "category",
-						data: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
-						axisLine: {
-							lineStyle: {
-								color: "#d2e0f4",
-							},
-						},
-						axisTick: {
-							show: false,
-						},
-						axisLabel: {
-							color: "#333",
-						},
-					},
-					yAxis: {
-						type: "value",
-						name: "单位(件)",
-						nameTextStyle: {
-							color: "#333"
-						},
-						splitLine: {
-							show: false,
-							lineStyle: {
-								color: "#e6effc",
-							},
-						},
-						axisLine: {
-							show: true,
-							lineStyle: {
-								color: "#d2e0f4",
-							},
-						},
-						axisLabel: {
-							color: "#333",
-						},
-					},
-					barWidth: 30,
 					series: [{
-						data: [120, 200, 150, 80, 70, 110, 130],
-						type: "bar",
+						name: "河南",
+						type: "map",
+						mapType: 'henan',
+						selectedMode: "false", //是否允许选中多个区域
 						label: {
-							show: true,
-							position: "top"
+							normal: {
+								show: true,
+							},
+							emphasis: {
+								show: true,
+							},
 						},
-						itemStyle: {
-							color: '#2C65DA',
-							borderRadius: [4, 4, 0, 0],
-						},
+						data: allData,
 					}, ],
 				};
+				this.chart.setOption(option);
 
-				this.chart.setOption(option)
+				
 			}
 		},
 

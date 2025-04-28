@@ -360,6 +360,12 @@
 		font-weight: 600 !important;
 		line-height: 22px;
 	}
+	.special-pdd{
+		padding: 20px 10px 20px 20px;
+	}
+	.normal-pdd{
+		padding: 20px 10px 90px 20px;
+	}
 
 	.closeBut {
 		display: flex;

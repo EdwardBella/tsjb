@@ -1,5 +1,5 @@
 <template>
-	<el-dialog append-to-body title="撤回于放弃" width="750px" :visible="visible" @close="handleClose">
+	<el-dialog append-to-body v-dialogDrags title="撤回于放弃" width="750px" :visible="visible" @close="handleClose">
 		<el-form ref="form" :model="form" :rules="rules" class="white-card" label-width="140px">
 			<el-form-item label="放弃类型:" prop="giveUpType">
 				<el-select v-model="form.giveUpType" style="width: 100%;" placeholder="请选择部门" clearable>

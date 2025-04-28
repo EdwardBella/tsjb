@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<el-dialog append-to-body title="创建案件" width="65%" top="20px" :visible="visible" @close="handleClose">
+		<el-dialog append-to-body v-dialogDrags title="创建案件" width="65%" top="20px" :visible="visible" @close="handleClose">
 			<el-scrollbar wrap-style="overflow-x:hidden;" style="height:calc(100vh - 130px); ">
 				<el-form ref="form" :model="form" :rules="rules" label-width="160px" label-suffix="："
 					class="white-card">
@@ -132,10 +132,10 @@
 						<el-col :span="24">
 							<el-form-item label="授权委托书" prop="attachmentList">
 								<FileUpload @fileDatas="sqwtsFileList" :datas="attachmentDatas" :fileSizes="50"
-									tips="请按照填报要求提供签字盖章的授权委托书资料，上传的附件大小不能超过50M，附件类型支持图片，视频，文档，压缩包等格式文件。" />
+									tips="请按照填报要求提供签字盖章的授权委托书资料，上传的附件大小不能超过50M，附件类型支持图片，视频，文档等格式文件。" />
 								<el-table v-if="form.attachmentList.length > 0" :data="form.attachmentList" size="mini"
 									:show-header="false"
-									style="margin-top: 10px">请按照填报要求提供签字盖章的授权委托书资料，上传的附件大小不能超过50M，附件类型支持图片，视频，文档，压缩包等格式文件。
+									style="margin-top: 10px">请按照填报要求提供签字盖章的授权委托书资料，上传的附件大小不能超过50M，附件类型支持图片，视频，文档等格式文件。
 									<el-table-column prop="fileName" label="文件名称"></el-table-column>
 									<el-table-column label="操作" align="left">
 										<template slot-scope="{row, $index}">
@@ -247,7 +247,7 @@
 						<el-col :span="24">
 							<el-form-item label="佐证材料" prop="supportAttachmentList">
 								<FileUpload @fileDatas="zzclFileList" :datas="supportAttachmentDatas" :fileSizes="100"
-									tips="请按照填报要求提供与投诉举报事项相关的资料，上传的附件大小不能超过100M，附件类型支持图片，视频，文档，压缩包等格式文件。" />
+									tips="请按照填报要求提供与投诉举报事项相关的资料，上传的附件大小不能超过100M，附件类型支持图片，视频，文档等格式文件。" />
 								<el-table v-if="form.supportAttachmentList.length > 0"
 									:data="form.supportAttachmentList" size="mini" :show-header="false"
 									style="margin-top: 10px">

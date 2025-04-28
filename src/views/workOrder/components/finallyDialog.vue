@@ -1,7 +1,7 @@
 <!--不受理案件弹窗-->
 
 <template>
-	<el-dialog append-to-body title="案件办结" width="640px" :visible="visible" @close="handleClose">
+	<el-dialog append-to-body v-dialogDrags title="案件办结" width="640px" :visible="visible" @close="handleClose">
 		<el-form ref="form" :model="form" :rules="rules" class="white-card" label-width="140px">
 			<el-form-item label="办结备注:" prop="result">
 				<el-input v-model="form.result" show-word-limit maxlength="300" placeholder="请输入详细描述" type="textarea"

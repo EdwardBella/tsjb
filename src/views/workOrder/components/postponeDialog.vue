@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<el-dialog append-to-body title="案件延期" width="680px" top="20px" :visible="visible" @close="handleClose">
+		<el-dialog append-to-body v-dialogDrags title="案件延期" width="680px" top="20px" :visible="visible" @close="handleClose">
 			<el-form :model="form" :rules="rules" ref="form" class="white-card" label-width="140px">
 				<el-form-item label="延期次数:">
 					<span style="font-size: 16px;line-height: 42px;">第{{(addTimeNum+1)}}次延期</span>
@@ -21,7 +21,7 @@
 				</el-form-item>
 				<el-form-item label="附件:" prop="attachmentList">
 					<FileUpload @fileDatas="fjFileList" :fileSizes="100" :isShowTip="true"
-						tips="*支持图片、文档、压缩包格式文件，文件不大于 100M。" />
+						tips="*支持图片、文档，文件不大于 100M。" />
 					<el-table v-if="form.attachmentList.length > 0" :data="form.attachmentList" size="mini"
 						:show-header="false" style="margin-top: 10px;">
 						<el-table-column prop="fileName" label="文件名称"></el-table-column>

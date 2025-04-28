@@ -1,5 +1,5 @@
 <template>
-	<el-dialog append-to-body title="发起材料举证" width="680px" top="20px" :visible="visible" @close="handleClose">
+	<el-dialog append-to-body v-dialogDrags title="发起材料举证" width="680px" top="20px" :visible="visible" @close="handleClose">
 		<el-form :model="form" :rules="rules" ref="form" class="white-card" label-width="140px">
 			<el-form-item label="举证时限:" prop="limitDay">
 				<el-input type="number" v-model.number="form.limitDay" placeholder="请输入举证时限"></el-input>

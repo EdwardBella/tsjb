@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<el-dialog append-to-body title="请选择上传" :visible.sync="visible" width="600px" :before-close="handleClose">
+		<el-dialog append-to-body v-dialogDrags title="请选择上传" :visible.sync="visible" width="600px" :before-close="handleClose">
 			<el-form :model="form" :rules="rules" label-position="left" ref="form" class="white-card"
 				label-width="80px">
 				<el-form-item label="类型" prop="code">
@@ -10,7 +10,7 @@
 				</el-form-item>
 				<el-form-item label="文件" prop="attachmentList">
 					<FileUpload @fileDatas="jayjFileList" :fileSizes="100" :limit="5" :isShowTip="true"
-						tips="*支持图片、文档、压缩包格式文件，文件不大于 100M。" />
+						tips="*支持图片、文档，文件不大于 100M。" />
 					<el-table v-if="form.attachmentList.length > 0" :data="form.attachmentList" size="mini"
 						:show-header="false" style="margin-top: 10px;">
 						<el-table-column prop="fileName" label="文件名称"></el-table-column>

@@ -218,7 +218,7 @@
 			}
 
 			.tag {
-				width: 50px;
+				width: 65px;
 				height: 22px !important;
 			}
 		}

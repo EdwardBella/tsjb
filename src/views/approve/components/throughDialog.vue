@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<el-dialog append-to-body title="通过" width="640px" :visible="visible" @close="handleClose">
+		<el-dialog append-to-body v-dialogDrags title="通过" width="640px" :visible="visible" @close="handleClose">
 			<el-form :model="form" :rules="rules" ref="form" label-width="140px" class="white-card">
 				<el-form-item label="通过备注:" prop="comment">
 					<el-input v-model="form.comment" show-word-limit maxlength="300" placeholder="请输入详细描述"
@@ -8,7 +8,7 @@
 				</el-form-item>
 				<el-form-item label="附件:" prop="attachmentList">
 					<FileUpload @fileDatas="fjFileList" :fileSizes="100" :isShowTip="true" :limit="1"
-						tips="*支持图片、文档、压缩包格式文件，文件不大于 100M。" />
+						tips="*支持图片、文档，文件不大于 100M。" />
 					<el-table v-if="form.attachmentList.length > 0" :data="form.attachmentList" size="mini"
 						:show-header="false" style="margin-top: 10px;">
 						<el-table-column prop="fileName" label="文件名称"></el-table-column>

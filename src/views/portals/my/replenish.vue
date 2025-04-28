@@ -13,7 +13,7 @@
         <el-form-item label="补正材料">
           <upload @success="handleUploadSuccess" v-slot:default="{uploading}">
             <el-button :loading="uploading" type="primary" plain size="mini">上传</el-button>
-            <span class="color-danger" style="margin-left: 20px">* 支持图片，视频，文档，压缩包格式文件，文件大小不大于100M</span>
+            <span class="color-danger" style="margin-left: 20px">* 支持图片，文档，文件大小不大于100M</span>
           </upload>
         </el-form-item>
 

@@ -1,5 +1,5 @@
 <template>
-	<el-dialog append-to-body title="发起督办" width="750px" :visible="visible" @close="handleClose">
+	<el-dialog append-to-body v-dialogDrags title="发起督办" width="750px" :visible="visible" @close="handleClose">
 		<el-form ref="form" :model="form" :rules="rules" class="white-card" label-width="140px">
 			<el-form-item label="督办类型:" prop="superviseType">
 				<el-radio-group v-model="form.superviseType">

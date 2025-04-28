@@ -5,7 +5,7 @@
 				style="min-width: 100px;text-align: center;">{{returnMainStatus(detailsInfo.status)}}</span>
 			<span v-if="returnAssistantStatus(detailsInfo.status,detailsInfo.subStatus)" class="ls"
 				style="min-width: 100px;text-align: center;">{{returnAssistantStatus(detailsInfo.status,detailsInfo.subStatus)}}</span>
-			<div v-if="detailsInfo.workOrderAudit != '' && detailsInfo.workOrderAudit.auditStatus != '审批通过' && detailsInfo.workOrderAudit.auditStatus != '审批不通过'"
+			<div v-if="detailsInfo.auditFlag == 'Y' && detailsInfo.workOrderAudit != '' && detailsInfo.workOrderAudit.auditStatus != '审批通过' && detailsInfo.workOrderAudit.auditStatus != '审批不通过'"
 				class="repeat"
 				style="min-width: 100px;padding: 0px 10px;display: flex;justify-content: center;background-color: #138a43;">
 				<span style="margin: 0px;">{{detailsInfo.workOrderAudit.auditStatus}}</span>

@@ -1,9 +1,9 @@
 <template>
-	<el-dialog append-to-body title="发起材料补正" width="750px" :visible="visible" @close="handleClose">
+	<el-dialog append-to-body v-dialogDrags title="发起材料补正" width="750px" :visible="visible" @close="handleClose">
 		<el-form ref="form" :model="form" :rules="rules" class="white-card" label-width="140px">
 			<el-form-item label="补正时限:" prop="limitDay">
 				<div style="display: flex;align-items: center;">
-					<el-input type="number" placeholder="最大时限不超过30日" v-model="form.limitDay"></el-input>
+					<el-input type="number" placeholder="最大时限不超过30日" v-model.trim="form.limitDay"></el-input>
 					<span style="font-size: 16px;color: #323232;">日</span>
 				</div>
 
@@ -48,6 +48,24 @@
 					limitDay: [{
 						required: true,
 						message: '请输入补正时限'
+					}, {
+						validator: (rule, value, callback) => {
+							if (!(/^[0-9]*$/.test(value))) {
+								callback(new Error("请输入正整数"));
+								return
+							}
+
+							if (value < 1) {
+								callback(new Error("请输入大于0的整数"));
+								return true;
+							}
+							if (value > 30) {
+								callback(new Error("要求补正时限最多30个自然日，请重新确认"));
+								return true;
+							}
+							callback();
+
+						}
 					}]
 				},
 				submitting: false,

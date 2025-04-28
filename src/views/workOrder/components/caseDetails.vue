@@ -206,8 +206,16 @@
 				<div v-if="basicType == 'approve' || (basicType == 'todo' && isAudit)" class="buttons-cn">
 					<template
 						v-if="details.workOrderAudit && details.workOrderAudit.status != '1' && details.workOrderAudit.status != '2'">
-						<el-button v-if="details.auditFlag == 'Y'" type="primary" @click="throughButton">通过</el-button>
-						<el-button v-if="details.auditFlag == 'Y'" type="primary" @click="rebutButton">驳回</el-button>
+						<template v-if="details.workOrderAudit.type == '32' || details.workOrderAudit.type == '33'">
+							<el-button type="primary" @click="throughButton">通过</el-button>
+							<el-button type="primary" @click="rebutButton">驳回</el-button>
+						</template>
+						<template v-else>
+							<el-button v-if="details.auditFlag == 'Y'" type="primary"
+								@click="throughButton">通过</el-button>
+							<el-button v-if="details.auditFlag == 'Y'" type="primary"
+								@click="rebutButton">驳回</el-button>
+						</template>
 					</template>
 
 					<el-button plain @click="closeDrawer">关闭</el-button>
@@ -215,7 +223,7 @@
 				</div>
 				<div v-else-if="basicType == 'appraise'">
 					<div class="appraise-cn" v-if="details.appraiseStatus == 'N'">
-						<el-form :model="formAppraise" ref="formAppraise" label-width="120px">
+						<el-form :model="formAppraise" ref="formAppraise" :rules="rules" label-width="120px">
 							<el-form-item label="整体满意度" prop="satisfiedScore">
 								<el-rate v-model="formAppraise.satisfiedScore"></el-rate>
 							</el-form-item>
@@ -320,8 +328,7 @@
 						<template v-else>
 							<el-button v-if="details.status == 0 && sameCurrentRole(details.pushDepartmentList)"
 								type="primary" @click="preReviewFeedbackButton">预审反馈</el-button>
-							<template
-								v-if="[2,3,4,15,5,8].includes(details.status) && userRoles.isLeaderDepartment">
+							<template v-if="[2,3,4,15,5,8].includes(details.status) && userRoles.isLeaderDepartment">
 								<el-button v-if="surpriseStatusInfo.superviseStatus == '0'" type="primary"
 									@click="superviseAndHandleButton">发起督办</el-button>
 								<el-button v-if="surpriseStatusInfo.superviseStatus == '1'" type="primary"
@@ -364,128 +371,125 @@
 			</div>
 		</div>
 		<!-- 文书/文件上传-->
-		<uploadFileTypeDialog v-if="isVisible" :visible.sync="isVisible" v-dialogDrags :workOrderId="details.id"
+		<uploadFileTypeDialog v-if="isVisible" :visible.sync="isVisible" :workOrderId="details.id"
 			@success="changeModel">
 		</uploadFileTypeDialog>
 
 		<!-- 预审反馈 -->
 		<preReviewFeedbackDialog v-if="preReviewFeedbackDialog.visible" :visible.sync="preReviewFeedbackDialog.visible"
-			v-dialogDrags :id="id" :workOrderNo="details.workOrderNo" @success="preReviewFeedbackSuccess">
+			:id="id" :workOrderNo="details.workOrderNo" @success="preReviewFeedbackSuccess">
 		</preReviewFeedbackDialog>
 
 		<!-- 案件受理 -->
-		<acceptAndTransferDialog v-if="acceptDialog.visible" :visible.sync="acceptDialog.visible" v-dialogDrags
-			:title="details.title" :workOrderNo="details.workOrderNo" @success="successBack">
+		<acceptAndTransferDialog v-if="acceptDialog.visible" :visible.sync="acceptDialog.visible" :title="details.title"
+			:workOrderNo="details.workOrderNo" @success="successBack">
 		</acceptAndTransferDialog>
 		<!-- 不受理 -->
-		<notAcceptDialog v-if="notAcceptDialog.visible" :visible.sync="notAcceptDialog.visible" v-dialogDrags
+		<notAcceptDialog v-if="notAcceptDialog.visible" :visible.sync="notAcceptDialog.visible"
 			:workOrderNo="details.workOrderNo" @success="notAcceptLoadData"></notAcceptDialog>
 		<!-- 发起材料补正 -->
-		<replenishDialog :visible.sync="replenishDialog.visible" v-dialogDrags :workOrderNo="details.workOrderNo"
+		<replenishDialog :visible.sync="replenishDialog.visible" :workOrderNo="details.workOrderNo"
 			@success="successBack">
 		</replenishDialog>
 		<!-- 撤回与放弃 -->
-		<giveUpDialog :visible.sync="giveUpDialog.visible" v-dialogDrags :workOrderNo="details.workOrderNo"
-			@success="giveUpSuccess">
+		<giveUpDialog :visible.sync="giveUpDialog.visible" :workOrderNo="details.workOrderNo" @success="giveUpSuccess">
 		</giveUpDialog>
 
 		<!-- 案件派发 -->
-		<distributionDialog v-if="distributionDialog.visible" :visible.sync="distributionDialog.visible" v-dialogDrags
+		<distributionDialog v-if="distributionDialog.visible" :visible.sync="distributionDialog.visible"
 			:workOrderNo="details.workOrderNo" @success="successBack">
 		</distributionDialog>
 
 		<!-- 线索推送 -->
-		<cluePushDialog :visible.sync="cluePushDialog.visible" v-dialogDrags
-			:pushDepartmentList="details.pushDepartmentList" :workOrderNo="details.workOrderNo" @success="successBack">
+		<cluePushDialog :visible.sync="cluePushDialog.visible" :pushDepartmentList="details.pushDepartmentList"
+			:workOrderNo="details.workOrderNo" @success="successBack">
 		</cluePushDialog>
 
 		<!-- 申请复核 -->
 		<reconsiderationDialog v-if="reconsiderationDialog.visible" :visible.sync="reconsiderationDialog.visible"
-			v-dialogDrags :workOrderNo="details.workOrderNo" @success="successBack">
+			:workOrderNo="details.workOrderNo" @success="successBack">
 		</reconsiderationDialog>
 
 
 		<!-- 撤回 -->
-		<backDialog v-if="backDialog.visible" :visible.sync="backDialog.visible" v-dialogDrags
-			:workOrderNo="details.workOrderNo" @success="successBack">
+		<backDialog v-if="backDialog.visible" :visible.sync="backDialog.visible" :workOrderNo="details.workOrderNo"
+			@success="successBack">
 		</backDialog>
 
 		<!-- 驳回 -->
-		<rebutDialog v-if="rebutDialog.visible" :visible.sync="rebutDialog.visible" v-dialogDrags
-			:type="details.workOrderAudit.type" :id="id" @success="rebutLoadData"></rebutDialog>
+		<rebutDialog v-if="rebutDialog.visible" :visible.sync="rebutDialog.visible" :type="details.workOrderAudit.type"
+			:id="id" @success="rebutLoadData"></rebutDialog>
 		<!-- 通过 -->
-		<throughDialog v-if="throughDialog.visible" :visible.sync="throughDialog.visible" v-dialogDrags
+		<throughDialog v-if="throughDialog.visible" :visible.sync="throughDialog.visible"
 			:type="details.workOrderAudit.type" :id="id" @success="throughLoadData"></throughDialog>
 
 
 
 
 		<!-- 中止 -->
-		<discontinueDialog v-if="discontinueDialog.visible" :visible.sync="discontinueDialog.visible" v-dialogDrags
+		<discontinueDialog v-if="discontinueDialog.visible" :visible.sync="discontinueDialog.visible"
 			:workOrderNo="details.workOrderNo" :hasDebtAmount="details.questionMainInfo.isArrear"
 			@success="successBack"></discontinueDialog>
 
 		<!-- 延期 -->
-		<postponeDialog v-if="postponeDialog.visible" :visible.sync="postponeDialog.visible" v-dialogDrags
+		<postponeDialog v-if="postponeDialog.visible" :visible.sync="postponeDialog.visible"
 			:workOrderNo="details.workOrderNo" :addTimeNum="details.addTimeNum" @success="successBack"></postponeDialog>
 
 
 		<!-- 发起举证材料 -->
-		<adduceEvidenceDialog :visible.sync="adduceEvidenceDialog.visible" v-dialogDrags :workOrderNo="details.id"
+		<adduceEvidenceDialog :visible.sync="adduceEvidenceDialog.visible" :workOrderNo="details.id"
 			@success="successBack"></adduceEvidenceDialog>
 
 		<!-- 退回重办 -->
-		<returnDialog :visible.sync="returnDialog.visible" v-dialogDrags :workOrderNo="details.workOrderNo"
-			@success="successBack">
+		<returnDialog :visible.sync="returnDialog.visible" :workOrderNo="details.workOrderNo" @success="successBack">
 		</returnDialog>
 
 
 		<!-- 提交办结 -->
-		<completeDialog v-if="completeDialog.visible" :visible.sync="completeDialog.visible"
-			:workOrderId="details.id" :workOrderNo="details.workOrderNo"
-			:hasDebtAmount="details.questionMainInfo.isArrear" @success="successBack"></completeDialog>
+		<completeDialog v-if="completeDialog.visible" :visible.sync="completeDialog.visible" :workOrderId="details.id"
+			:workOrderNo="details.workOrderNo" :hasDebtAmount="details.questionMainInfo.isArrear"
+			@success="successBack"></completeDialog>
 
 		<!-- 提交终止 -->
-		<overDialog v-if="overDialog.visible" :visible.sync="overDialog.visible" v-dialogDrags :workOrderId="details.id"
+		<overDialog v-if="overDialog.visible" :visible.sync="overDialog.visible" :workOrderId="details.id"
 			:workOrderNo="details.workOrderNo" :isDebt="details.questionMainInfo.isArrear" @success="successBack">
 		</overDialog>
 
 		<!-- 确认办结 -->
-		<finallyDialog :visible.sync="finallyDialog.visible" v-dialogDrags :workOrderNo="details.workOrderNo"
-			@success="successBack">
+		<finallyDialog :visible.sync="finallyDialog.visible" :workOrderNo="details.workOrderNo" @success="successBack">
 		</finallyDialog>
 
 		<!-- 确认终止 -->
-		<confirmOverDialog :visible.sync="confirmOverDialog.visible" v-dialogDrags :workOrderNo="details.workOrderNo"
+		<confirmOverDialog :visible.sync="confirmOverDialog.visible" :workOrderNo="details.workOrderNo"
 			@success="successBack">
 		</confirmOverDialog>
 
 		<!-- 回访核实 -->
-		<fllowUpNodeDialog :visible.sync="fllowUpNodeDialog.visible" v-dialogDrags :workOrderNo="details.workOrderNo"
+		<fllowUpNodeDialog :visible.sync="fllowUpNodeDialog.visible" :workOrderNo="details.workOrderNo"
 			:workOrderId="details.id" @success="fllowUpNodeSuccess">
 		</fllowUpNodeDialog>
 
 
 		<!-- 修改结案状态 -->
-		<editOverTitleStatusDialog :visible.sync="editOverTitleStatusDialog.visible" v-dialogDrags
-			:workOrderNo="details.workOrderNo" @success="successBack">
+		<editOverTitleStatusDialog :visible.sync="editOverTitleStatusDialog.visible" :workOrderNo="details.workOrderNo"
+			@success="successBack">
 		</editOverTitleStatusDialog>
 
 		<!-- 跟踪，异常 -->
-		<simpleDialog v-if="simpleDialog.visible" :visible.sync="simpleDialog.visible" v-dialogDrags
+		<simpleDialog v-if="simpleDialog.visible" :visible.sync="simpleDialog.visible"
 			:workOrderNo="details.workOrderNo" :simpleType="simpleType" @success="successBack">
 		</simpleDialog>
 
 
 		<!-- 发起督办 -->
-		<superviseAndHandleDialog :visible.sync="superviseAndHandleDialog.visible" v-dialogDrags
-			:workOrderNo="details.workOrderNo" @success="superviseAndHandleSuccess">
+		<superviseAndHandleDialog :visible.sync="superviseAndHandleDialog.visible" :workOrderNo="details.workOrderNo"
+			@success="successBack">
 		</superviseAndHandleDialog>
 
 
 
 		<!-- 预览 -->
-		<previewDialog v-if="previewDialog.visible" :visible.sync="previewDialog.visible" v-dialogDrags
+		<previewDialog v-if="previewDialog.visible" :visible.sync="previewDialog.visible"
 			:filePath="previewDialog.fileURL" width="900px">
 		</previewDialog>
 
@@ -525,6 +529,7 @@
 	import preReviewFeedbackDialog from "./preReviewFeedbackDialog";
 	import * as workOrderApi from "@/api/workOrder/index";
 	import * as dictApi from "@/api/dict";
+	import * as mixins from "@/utils/mixins";
 	import {
 		mapState
 	} from 'vuex'
@@ -565,6 +570,7 @@
 			remarkDrawer,
 			caseBasicApprove
 		},
+		mixins: [mixins.dialog, mixins.form],
 		props: {
 			workOrderId: {
 				type: String,
@@ -590,8 +596,23 @@
 		data() {
 			return {
 				formAppraise: {
-					satisfiedScore: "",
+					satisfiedScore: 0,
 					comment: "",
+				},
+				rules: {
+					satisfiedScore: [{
+						required: true,
+						message: "请选择整体满意度"
+					}, {
+						validator: (rule, value, callback) => {
+							if (value == 0) {
+								callback(new Error("请选择整体满意度"));
+								return true;
+							}
+							callback();
+
+						}
+					}],
 				},
 				documentCode: '',
 				preReviewFeedbackDialog: {
@@ -797,17 +818,6 @@
 				}
 				return true
 			},
-			/* 提交评价 */
-			submitApprise() {
-				this.confirm("确认评价吗？")
-					.then(() => workOrderApi.appraise.appraise({
-						...this.formAppraise,
-						workOrderNo: this.workOrderNo
-					}))
-					.then(() => {
-						this.init()
-					});
-			},
 			successBack(res) {
 				this.init()
 				this.$emit("success");
@@ -973,6 +983,21 @@
 					cancelButtonText: "取消",
 					type: "warning"
 				});
+			},
+			/* 提交评价 */
+			submitApprise() {
+				this
+					.validate('formAppraise')
+					.then(() => this.confirm('确认提价评价吗？'))
+					.then(() => {
+						return workOrderApi.appraise.appraise({
+							...this.formAppraise,
+							workOrderNo: this.workOrderNo
+						});
+					})
+					.then(res => {
+						this.init()
+					});
 			},
 			/* 撤回材料补正 */
 			handleRevoke() {
@@ -1152,8 +1177,9 @@
 
 	.caseDetails {
 		width: 100%;
-        display: flex;
+		display: flex;
 		flex-direction: column;
+
 		.content {
 			display: flex;
 			align-items: center;

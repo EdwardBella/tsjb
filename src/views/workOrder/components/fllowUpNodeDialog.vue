@@ -1,7 +1,7 @@
 <!--不受理案件弹窗-->
 
 <template>
-	<el-dialog append-to-body title="回访核实记录" width="640px" :visible="visible" @close="handleClose">
+	<el-dialog append-to-body v-dialogDrags title="回访核实记录" width="640px" :visible="visible" @close="handleClose">
 		<el-form ref="form" :model="form" :rules="rules" class="white-card">
 			<el-form-item label="">
 				<el-checkbox v-model="checked1">投诉人回访记录</el-checkbox>

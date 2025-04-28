@@ -2,7 +2,7 @@
 
 <template>
 	<div>
-		<el-dialog append-to-body title="案件中止" width="750px" :visible="visible" :lock-scroll="true" @close="handleClose">
+		<el-dialog append-to-body v-dialogDrags title="案件中止" width="750px" :visible="visible" :lock-scroll="true" @close="handleClose">
 			<el-form ref="form" :model="form" :rules="rules" class="white-card" label-width="160px">
 				<el-form-item label="中止原因:" prop="reason">
 					<el-select v-model="form.reason" style="width: 100%;" placeholder="请选择中止原因" clearable>

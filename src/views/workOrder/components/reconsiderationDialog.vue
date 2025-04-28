@@ -2,7 +2,7 @@
 
 <template>
 	<div>
-		<el-dialog append-to-body title="申请复核" width="750px" :visible="visible" @close="handleClose">
+		<el-dialog append-to-body v-dialogDrags title="申请复核" width="750px" :visible="visible" @close="handleClose">
 			<el-form ref="form" :model="form" :rules="rules" class="white-card" label-width="140px">
 				<el-form-item label="申请理由:" prop="reason">
 					<el-select v-model="form.reason" style="width: 100%;" placeholder="请输入申请理由" clearable>

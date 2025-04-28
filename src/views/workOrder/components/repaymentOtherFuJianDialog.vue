@@ -16,7 +16,7 @@
 				</el-form-item>
 				<el-form-item label="附件:" prop="attachmentFile">
 					<FileUpload @fileDatas="jaspdFileList" :datas="attachmentFile" :fileSizes="100" :limit="10"
-						:isShowTip="true" tips="*支持图片、文档、压缩包格式文件，文件不大于 100M。" />
+						:isShowTip="true" tips="*支持图片、文档，文件不大于 100M。" />
 					<el-table v-if="form.attachmentFile.length > 0" :data="form.attachmentFile" size="mini"
 						:show-header="false" style="margin-top: 10px;">
 						<el-table-column prop="fileName" label="文件名称"></el-table-column>

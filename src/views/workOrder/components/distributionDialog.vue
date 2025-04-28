@@ -1,5 +1,5 @@
 <template>
-	<el-dialog append-to-body title="案件派发" width="750px" :visible="visible" @close="handleClose">
+	<el-dialog append-to-body v-dialogDrags title="案件派发" width="750px" :visible="visible" @close="handleClose">
 		<el-form ref="form" :model="form" :rules="rules" class="white-card" label-width="150px">
 			<el-form-item label="承办类型:" prop="type">
 				<el-radio-group v-model="form.type" @change="typeChanged">

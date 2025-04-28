@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<el-dialog append-to-body title="案件提交终止" width="780px" top="20px" :visible="visible" @close="handleClose">
+		<el-dialog append-to-body v-dialogDrags title="案件提交终止" width="780px" top="20px" :visible="visible" @close="handleClose">
 			<!-- <div class="tips color-danger">确认提交、审批通过后案件将进入终止状态，请谨慎使用该功能。</div> -->
 			<el-form :model="form" :rules="rules" ref="form" class="white-card" label-width="140px">
 				<el-form-item label="终止类型:" prop="reason">
@@ -95,7 +95,7 @@
 
 				<el-form-item label="终止审批单:" prop="completedFile">
 					<FileUpload @fileDatas="zzspdFileList" :fileSizes="100" :limit="1" :isShowTip="true"
-						tips="*支持图片、文档、压缩包格式文件，文件不大于 100M。" />
+						tips="*支持图片、文档，文件不大于 100M。" />
 					<el-table v-if="form.completedFile.length > 0" :data="form.completedFile" size="mini"
 						:show-header="false" style="margin-top: 10px;">
 						<el-table-column prop="fileName" label="文件名称"></el-table-column>
@@ -114,7 +114,7 @@
 
 				<el-form-item label="终止意见书:" prop="reportFile">
 					<FileUpload @fileDatas="jayjFileList" :fileSizes="100" :limit="1" :isShowTip="true"
-						tips="*需要盖章后上传，仅办理端可见，支持图片、文档、压缩包格式文件，文件不大于 100M。" />
+						tips="*需要盖章后上传，仅办理端可见，支持图片、文档，文件不大于 100M。" />
 					<el-table v-if="form.reportFile.length > 0" :data="form.reportFile" size="mini" :show-header="false"
 						style="margin-top: 10px;">
 						<el-table-column prop="fileName" label="文件名称"></el-table-column>
@@ -132,7 +132,7 @@
 				</el-form-item>
 				<el-form-item label="终止通知书:" prop="reportNoticeFile">
 					<FileUpload @fileDatas="jatzsFileList" :fileSizes="100" :limit="1" :isShowTip="true"
-						tips="*支持图片、文档、压缩包格式文件，文件不大于 100M。" />
+						tips="*支持图片、文档，文件不大于 100M。" />
 					<el-table v-if="form.reportNoticeFile.length > 0" :data="form.reportNoticeFile" size="mini"
 						:show-header="false" style="margin-top: 10px;">
 						<el-table-column prop="fileName" label="文件名称"></el-table-column>
@@ -151,7 +151,7 @@
 
 				<el-form-item label="附件:" prop="attachmentFile">
 					<FileUpload @fileDatas="fjFileList" :fileSizes="100" :isShowTip="true"
-						tips="*支持图片、文档、压缩包格式文件，文件不大于 100M。" />
+						tips="*支持图片、文档，文件不大于 100M。" />
 					<el-table v-if="form.attachmentFile.length > 0" :data="form.attachmentFile" size="mini"
 						:show-header="false" style="margin-top: 10px;">
 						<el-table-column prop="fileName" label="文件名称"></el-table-column>

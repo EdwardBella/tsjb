@@ -1,5 +1,5 @@
 <template>
-	<el-dialog append-to-body title="预览" top="20px" :width="width" :visible="visible" @close="handleClose">
+	<el-dialog append-to-body v-dialogDrags title="预览" top="20px" :width="width" :visible="visible" @close="handleClose">
 		<div v-loading="loading">
 			<iframe :src="previewURL" width="100%" style="height:calc(100vh - 134px);" allowfullscreen></iframe>
 		</div>

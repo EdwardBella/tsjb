@@ -1,7 +1,7 @@
 <!--不受理案件弹窗-->
 <template>
 	<div>
-		<el-dialog append-to-body :title="simpleType" width="640px" :visible="visible" @close="handleClose">
+		<el-dialog append-to-body v-dialogDrags :title="simpleType" width="640px" :visible="visible" @close="handleClose">
 			<el-form ref="form" :model="form" :rules="rules" class="white-card" label-width="130px">
 				<el-form-item :label="labelName" prop="comment">
 					<el-input v-model="form.comment" show-word-limit maxlength="300" placeholder="请输入详细描述"
@@ -9,7 +9,7 @@
 				</el-form-item>
 				<el-form-item v-if="simpleType == '申请解除跟踪' || simpleType == '申请解除异常'" label="附件" prop="attachmentFile">
 					<FileUpload @fileDatas="fjFileList" :fileSizes="100" :isShowTip="true"
-						tips="*支持图片、文档、压缩包格式文件，文件不大于 100M。" />
+						tips="*支持图片、文档，文件不大于 100M。" />
 					<el-table v-if="form.attachmentList.length > 0" :data="form.attachmentList" size="mini"
 						:show-header="false" style="margin-top: 10px;">
 						<el-table-column prop="fileName" label="文件名称"></el-table-column>

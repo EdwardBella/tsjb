@@ -1,7 +1,7 @@
 <!--不受理案件弹窗-->
 <template>
 	<div>
-		<el-dialog append-to-body title="不受理案件" width="750px" :visible="visible" @close="handleClose">
+		<el-dialog append-to-body v-dialogDrags title="不受理案件" width="750px" :visible="visible" @close="handleClose">
 			<el-form ref="form" :model="form" :rules="rules" label-width="140px" class="white-card">
 				<el-form-item label="不受理原因:" prop="notAcceptReason">
 					<el-select v-model="form.notAcceptReason" placeholder="请选择" style="width: 100%">
@@ -15,7 +15,7 @@
 				</el-form-item>
 				<el-form-item label="不受理告知书:" prop="rejectAttachments">
 					<FileUpload @fileDatas="zzclFileList" :fileSizes="100" :isShowTip="true"
-						tips="*支持图片、文档、压缩包格式文件，文件不大于 100M。" />
+						tips="*支持图片、文档，文件不大于 100M。" />
 					<el-table v-if="form.rejectAttachments.length > 0" :data="form.rejectAttachments" size="mini"
 						:show-header="false" style="margin-top: 10px;">
 						<el-table-column prop="fileName" label="文件名称"></el-table-column>

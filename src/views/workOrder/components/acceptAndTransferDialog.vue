@@ -2,7 +2,7 @@
 
 <template>
 	<div>
-		<el-dialog append-to-body title="案件受理" width="750px" :visible="visible" @close="handleClose">
+		<el-dialog append-to-body v-dialogDrags title="案件受理" width="750px" :visible="visible" @close="handleClose">
 			<el-form ref="form" :model="form" :rules="rules" label-width="140px" class="white-card">
 				<el-form-item label="案件名称:" prop="title">
 					<el-input v-model="form.title" placeholder="请输入" style="width: 100%" show-word-limit maxlength="40">
@@ -36,7 +36,7 @@
 				</el-form-item>
 				<el-form-item label="受理告知书:" prop="receiveAttachments">
 					<FileUpload @fileDatas="fjFileList" :fileSizes="100" :isShowTip="true" :limit="1"
-						tips="*支持图片、文档、压缩包格式文件，文件大小不大于 100M。" />
+						tips="*支持图片、文档，文件大小不大于 100M。" />
 					<el-table v-if="form.receiveAttachments.length > 0" :data="form.receiveAttachments" size="mini"
 						:show-header="false" style="margin-top: 10px;">
 						<el-table-column prop="fileName" label="文件名称"></el-table-column>

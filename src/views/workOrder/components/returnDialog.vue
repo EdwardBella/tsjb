@@ -1,5 +1,5 @@
 <template>
-	<el-dialog append-to-body title="案件退回重办" width="680px" :visible="visible" @close="handleClose">
+	<el-dialog append-to-body v-dialogDrags title="案件退回重办" width="680px" :visible="visible" @close="handleClose">
 		<el-form :model="form" :rules="rules" ref="form" class="white-card" label-width="140px">
 			<el-form-item label="重办备注:" prop="comment">
 				<el-input v-model="form.comment" show-word-limit maxlength="300" placeholder="请输入重办备注" type="textarea"

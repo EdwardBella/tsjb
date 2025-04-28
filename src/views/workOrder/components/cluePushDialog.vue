@@ -1,5 +1,5 @@
 <template>
-	<el-dialog append-to-body title="案件推送" width="680px" :visible="visible" @close="handleClose">
+	<el-dialog append-to-body v-dialogDrags title="案件推送" width="680px" :visible="visible" @close="handleClose">
 		<el-form ref="form" :model="form" :rules="rules" class="white-card" label-width="140px">
 			<el-form-item label="案件推送:" prop="addressDepartmentCode" :show-message="false">
 				<div style="display: flex;align-items: center;">

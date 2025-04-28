@@ -553,7 +553,7 @@
 
 			<div v-if="!((details.status == 5 ||  details.status == 8) && details.appraiseStatus == 'N')"
 				class="footer-btn" style="display: flex;align-items: center;justify-content: center;">
-				<el-button v-if="details.status == 6 && details.subStatus != 5 && details.rejectReview != 'Y'"
+				<el-button v-if="details.status == 6 && details.subStatus != 5 && details.rejectReview != 'Y' && judgeIsOverTime(details.rejectReviewDeadTime || '')"
 					@click="reviewApply" type="primary"
 					style="display: flex;align-items: center;justify-content: center; font-size: 20px; height: 42px;line-height: 42px;font-weight: 600;">申请复核</el-button>
 				<el-button @click="$router.back()" plain
@@ -563,7 +563,7 @@
 		</el-scrollbar>
 		<div v-if="(details.status == 5 ||  details.status == 8) && details.appraiseStatus == 'N'">
 			<div class="appraise-cn">
-				<el-form :model="formAppraise" ref="formAppraise" label-width="150px">
+				<el-form :model="formAppraise" ref="formAppraise" :rules="rules" label-width="150px">
 					<el-form-item label="整体满意度" prop="satisfiedScore">
 						<el-rate v-model="formAppraise.satisfiedScore"></el-rate>
 					</el-form-item>
@@ -593,6 +593,7 @@
 <script>
 	import * as portalsApi from '@/api/portals'
 	import * as workOrderApi from "@/api/workOrder/index";
+	import * as mixins from "@/utils/mixins";
 	import {
 		downloadFile,
 		getCMSUserInfo,
@@ -637,6 +638,7 @@
 			reconsiderationDialog,
 			evidenceDialog
 		},
+		mixins: [mixins.dialog, mixins.form],
 		data() {
 			return {
 				loading: false,
@@ -663,18 +665,42 @@
 					satisfiedScore: "",
 					comment: "",
 				},
+				rules: {
+					satisfiedScore: [{
+						required: true,
+						message: "请选择整体满意度"
+					}, {
+						validator: (rule, value, callback) => {
+							if (value == 0) {
+								callback(new Error("请选择整体满意度"));
+								return true;
+							}
+							callback();
+
+						}
+					}],
+				},
 			}
 		},
 		created() {
 			this.getDetails();
 		},
 		methods: {
+			judgeIsOverTime(targetTime) {
+				let current = new Date().getTime()
+				let targets = new Date(targetTime || '').getTime()
+				if (targets > current) {
+					return true
+				} else {
+					return false
+				}
+			},
 			processStatus(res) {
 				if (res.processList != '' && res.processList.length > 0) {
 					let bsl = res.processList.filter(item => item.operateType == '46')
 					if (bsl.length > 0) {
 						return true
-					}else{
+					} else {
 						return false
 					}
 				}
@@ -682,12 +708,17 @@
 			},
 			/* 提交评价 */
 			submitApprise() {
-				this.confirm("确认评价吗？")
-					.then(() => workOrderApi.appraise.appraise({
-						...this.formAppraise,
-						workOrderNo: this.details.workOrderNo
-					}))
+				this
+					.validate('formAppraise')
+					.then(() => this.confirm('确认提价评价吗？'))
 					.then(() => {
+						this.submitting = true;
+						return workOrderApi.appraise.appraise({
+							...this.formAppraise,
+							workOrderNo: this.details.workOrderNo
+						});
+					})
+					.then(res => {
 						this.getDetails()
 					});
 			},

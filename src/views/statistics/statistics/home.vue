@@ -32,7 +32,7 @@
 								</div>
 							</div>
 							<div style="flex: 1;">
-								<div ref="chart" style="width: 100%; height: 170px"></div>
+								<caseDays />
 							</div>
 
 						</div>
@@ -193,6 +193,7 @@
 </template>
 
 <script>
+	import caseDays from "./details/components/caseDays";
 	import bazxtj from "./details/components/bazxtj";
 	import qkaj from "./details/components/qkaj";
 	import jajdRight from "./details/components/jajdRight";
@@ -244,6 +245,7 @@
 			gzwx,
 			qkaj,
 			bazxtj,
+			caseDays,
 		},
 		data() {
 			return {
@@ -266,97 +268,8 @@
 
 		},
 		created() {},
-		mounted() {
-			this.initChart()
-		},
 		methods: {
-			initChart() {
-				if (!this.chart) {
-					this.chart = echarts.init(this.$refs.chart)
-				}
-
-				let option = {
-					tooltip: {
-						trigger: "axis",
-						axisPointer: {
-							type: "shadow",
-						},
-					},
-					grid: {
-						left: "6%",
-						right: "2%",
-						top: "3%",
-						bottom: "5%",
-						containLabel: true,
-					},
-					xAxis: {
-						type: "category",
-						data: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
-						axisLine: {
-							lineStyle: {
-								color: "#d2e0f4",
-							},
-						},
-						axisTick: {
-							show: false,
-						},
-						axisLabel: {
-							show: false,
-							color: "#333",
-						},
-					},
-					yAxis: {
-						type: "value",
-						splitLine: {
-							show: true,
-							lineStyle: {
-								type: 'dashed',
-								color: "#e6effc",
-							},
-						},
-						axisLine: {
-							show: true,
-							lineStyle: {
-								color: "#d2e0f4",
-							},
-						},
-						axisLabel: {
-							show: false,
-							color: "#333",
-						},
-					},
-					barWidth: 30,
-					series: [{
-						name: "今日",
-						type: "line",
-						smooth: true,
-						showSymbol: false,
-						symbol: "circle",
-						symbolSize: 6,
-						data: [
-							"1200",
-							"1400",
-							"1008",
-							"1411",
-							"1026",
-							"1288",
-							"1300",
-						],
-						itemStyle: {
-							normal: {
-								color: "#f7b851",
-							},
-						},
-						lineStyle: {
-							normal: {
-								width: 3,
-							},
-						},
-					}, ],
-				};
-
-				this.chart.setOption(option)
-			}
+			
 		}
 	};
 </script>
@@ -390,6 +303,7 @@
 
 
 		.one-left {
+			width:70px;
 			padding: 10px 0px;
 			display: flex;
 			flex-direction: column;
